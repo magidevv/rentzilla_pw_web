@@ -4,11 +4,17 @@
   "description": "Test Scripts for Rentzilla Project",
   "main": "index.js",
   "scripts": {},
-  "keywords": ["playwright", "typescript"],
+  "keywords": [
+    "playwright",
+    "typescript"
+  ],
   "author": "Anna Berezhna",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.41.1",
     "@types/node": "^20.11.5"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.2"
   }
 }
