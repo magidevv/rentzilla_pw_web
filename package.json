@@ -1,0 +1,14 @@
+{
+  "name": "rentzilla_pw_web",
+  "version": "1.0.0",
+  "description": "Test Scripts for Rentzilla Project",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": ["playwright", "typescript"],
+  "author": "Anna Berezhna",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.41.1",
+    "@types/node": "^20.11.5"
+  }
+}
