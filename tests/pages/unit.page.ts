@@ -25,9 +25,17 @@ class UnitPage extends BasePage {
     await this.isDisplayed(unitService);
   }
 
+  public async isUnitCategoryDisplayed(categoryName: string): Promise<void> {
+    let unitCategory = this.page.locator(
+      `//div[contains(@class, 'UnitCharacteristics_characteristics_info')]/span[contains(text(), '${categoryName}')]`
+    );
+
+    await this.isDisplayed(unitCategory);
+  }
+
   public async clickLogo(): Promise<void> {
-      await this.click(this.logo);
-      await this.waitForLoad();
+    await this.click(this.logo);
+    await this.waitForLoad();
   }
 }
 
