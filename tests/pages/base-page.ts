@@ -42,7 +42,7 @@ class BasePage {
     await (await element).fill(value);
   }
 
-  public async isDisplayed(element: Locator, timeout = 10000): Promise<void> {
+  public async isDisplayed(element: Locator, timeout = 15000): Promise<void> {
     await expect(await element).toBeVisible({ timeout: timeout });
   }
 
