@@ -1,15 +1,12 @@
-import { test } from "@playwright/test";
-import MainPage from "../pages/main.page";
-import ProductsPage from "../pages/products.page";
-import UnitPage from "../pages/unit.page";
+import { test } from "../../fixtures/fixtures";
 import data from "../../utils/test-data.json";
 
 test.describe("Sections checking", () => {
-  test("Services section checking", async ({ page }) => {
-    const mainPage = new MainPage(page);
-    const productsPage = new ProductsPage(page);
-    const unitPage = new UnitPage(page);
-
+  test("Services section checking", async ({
+    mainPage,
+    productsPage,
+    unitPage,
+  }) => {
     // Open the «Rentzila» main page
     await mainPage.openMainURL();
 
@@ -20,7 +17,7 @@ test.describe("Sections checking", () => {
 
     // Check the relevant filter is checked and the relevant units display
     const serviceType = data.Services.Type[0];
-    await mainPage.clickService(serviceType, data.Services[serviceType][0]);
+    await mainPage.clickService(0, 0);
     await productsPage.checkProductsURL();
     await productsPage.checkRelevantFilter(data.Services[serviceType][0]);
     await productsPage.areUnitItemsDisplayed();
@@ -45,7 +42,7 @@ test.describe("Sections checking", () => {
 
       for (let j = 0; j < data.Services[serviceType].length; j++) {
         // Check the relevant filter is checked and the relevant units display
-        await mainPage.clickService(serviceType, data.Services[serviceType][j]);
+        await mainPage.clickService(i, j);
         await productsPage.checkProductsURL();
         await productsPage.checkRelevantFilter(data.Services[serviceType][j]);
 
@@ -64,11 +61,11 @@ test.describe("Sections checking", () => {
     }
   });
 
-  test("Special machinery section checking", async ({ page }) => {
-    const mainPage = new MainPage(page);
-    const productsPage = new ProductsPage(page);
-    const unitPage = new UnitPage(page);
-
+  test("Special machinery section checking", async ({
+    mainPage,
+    productsPage,
+    unitPage,
+  }) => {
     // Open the «Rentzila» main page
     await mainPage.openMainURL();
 
@@ -79,10 +76,7 @@ test.describe("Sections checking", () => {
 
     // Check the relevant filter is checked and the relevant units display
     const specialMachineryType = data.SpecialMachinery.Type[0];
-    await mainPage.clickSpecialMachinery(
-      specialMachineryType,
-      data.SpecialMachinery[specialMachineryType][0].name
-    );
+    await mainPage.clickSpecialMachinery(0, 0);
     await productsPage.checkProductsURL();
     await productsPage.checkRelevantFilter(
       data.SpecialMachinery[specialMachineryType][0].filter
@@ -115,10 +109,7 @@ test.describe("Sections checking", () => {
         j++
       ) {
         // Check the relevant filter is checked and the relevant units display
-        await mainPage.clickSpecialMachinery(
-          specialMachineryType,
-          data.SpecialMachinery[specialMachineryType][j].name
-        );
+        await mainPage.clickSpecialMachinery(i, j);
         await productsPage.checkProductsURL();
         await productsPage.checkRelevantFilter(
           data.SpecialMachinery[specialMachineryType][j].filter
