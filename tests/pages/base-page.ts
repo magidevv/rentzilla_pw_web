@@ -33,6 +33,10 @@ class BasePage {
     await this.page.waitForLoadState("load");
   }
 
+  public async waitForModalAccept(): Promise<void> {
+    await (await this.page.waitForEvent("dialog")).accept();
+  }
+
   public async doesPageHaveURL(URL: string | RegExp): Promise<void> {
     await expect(this.page).toHaveURL(URL);
   }
@@ -83,6 +87,10 @@ class BasePage {
 
   public async setValue(element: string, value: string): Promise<void> {
     await (await this.getElement(element)).fill(value);
+  }
+
+  public async clearValue(element: string): Promise<void> {
+    await (await this.getElement(element)).clear();
   }
 
   public async toHaveValue(element: string, value: string): Promise<void> {
@@ -182,6 +190,24 @@ class BasePage {
       return input.getAttribute(attr);
     }, attribute);
     expect(attributeText).toBe(text);
+  }
+
+  async isFieldRedHighlighted(field: string) {
+    await expect(await this.getElement(field)).toHaveCSS(
+      "border-color",
+      "rgb(247, 56, 89)"
+    );
+  }
+
+  async isFieldNotRedHighlighted(field: string) {
+    await expect(await this.getElement(field)).not.toHaveCSS(
+      "border-color",
+      "rgb(247, 56, 89)"
+    );
+  }
+
+  async isNotNull(element: any) {
+    expect(element).not.toBeNull();
   }
 }
 
