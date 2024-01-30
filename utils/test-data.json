@@ -373,5 +373,11 @@
     "Послуги": {
       "Types": ["Будівельні", "Інші", "Сільськогосподарські"]
     }
-  }
+  },
+  "emptyFieldErrorMsg": "Поле не може бути порожнім",
+  "invalidPhoneNumberErrorMsg": "Телефон не пройшов валідацію",
+  "names": "Test",
+  "validPhones": "+380506743060",
+  "invalidPhones": ["+38063 111 111", "+1 1111111111111"],
+  "prefilledPhoneNumberPart": "+380"
 }
