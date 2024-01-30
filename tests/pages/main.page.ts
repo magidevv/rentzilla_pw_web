@@ -41,6 +41,12 @@ class MainPage extends BasePage {
   private readonly catalogServices: string;
   private readonly catalogItems: string;
   private readonly catalogSecondItems: string;
+  private readonly footerQuestionForm: string;
+  private readonly footerQuestionFormTitle: string;
+  private readonly footerQuestionFormNameField: string;
+  private readonly footerQuestionFormPhoneField: string;
+  private readonly footerQuestionFormSubmitBtn: string;
+  private readonly footerQuestionFormErrorLabels: string;
 
   constructor(page: Page) {
     super(page);
@@ -107,6 +113,18 @@ class MainPage extends BasePage {
       "//div[contains(@class, 'Catalog_container')]/div/div[contains(@class, 'CatalogItem_item')]";
     this.catalogSecondItems =
       "//div[contains(@class, 'Catalog_container')]/div[contains(@class, 'Catalog_listSecond')][1]/div[contains(@class, 'CatalogItem_item')]";
+    this.footerQuestionForm =
+      "//div[contains(@class, 'ConsultationForm_container')]";
+    this.footerQuestionFormTitle =
+      "//div[contains(@class, 'ConsultationForm_container')]/h2[contains(@class, 'ConsultationForm_title')]";
+    this.footerQuestionFormNameField =
+      "//div[contains(@class, 'ConsultationForm_container')]//input[@name='name']";
+    this.footerQuestionFormPhoneField =
+      "//div[contains(@class, 'ConsultationForm_container')]//input[@type='tel']";
+    this.footerQuestionFormSubmitBtn =
+      "//div[contains(@class, 'ConsultationForm_container')]//button[@type='submit']";
+    this.footerQuestionFormErrorLabels =
+      "//div[contains(@class, 'ConsultationForm_container')]//p[contains(@class, 'ConsultationForm_error_message')]";
   }
 
   public async openMainURL(): Promise<void> {
@@ -412,6 +430,90 @@ class MainPage extends BasePage {
 
   public async areCatalogServicesSecondItemsDisplayed(): Promise<void> {
     await this.areDisplayed(this.catalogSecondItems);
+  }
+
+  public async areFooterQuestionFormElementsDisplayed(): Promise<void> {
+    await this.isDisplayed(this.footerQuestionForm);
+    await this.isDisplayed(this.footerQuestionFormTitle);
+    await this.isDisplayed(this.footerQuestionFormNameField);
+    await this.isDisplayed(this.footerQuestionFormPhoneField);
+    await this.isDisplayed(this.footerQuestionFormSubmitBtn);
+  }
+
+  public async clickFooterQuestionFormSubmitBtn(): Promise<void> {
+    await this.click(this.footerQuestionFormSubmitBtn);
+  }
+
+  public async areFooterQuestionFormFieldsRedHighlighted(): Promise<void> {
+    await this.isFieldRedHighlighted(this.footerQuestionFormNameField);
+    await this.isFieldRedHighlighted(this.footerQuestionFormPhoneField);
+  }
+
+  public async areFooterQuestionFormErrorLabelsDisplayed(
+    errorMsg: string
+  ): Promise<void> {
+    await this.filteredDisplay(this.footerQuestionFormErrorLabels, errorMsg);
+  }
+
+  public async fillFooterQuestionFormNameField(name: string): Promise<void> {
+    await this.setValue(this.footerQuestionFormNameField, name);
+  }
+
+  public async fillFooterQuestionFormPhoneField(phone: string): Promise<void> {
+    await this.setValue(this.footerQuestionFormPhoneField, phone);
+  }
+
+  public async isFooterQuestionFormNameFieldNotRedHighlighted(): Promise<void> {
+    await this.isFieldNotRedHighlighted(this.footerQuestionFormNameField);
+  }
+
+  public async isFooterQuestionFormPhoneFieldRedHighlighted(): Promise<void> {
+    await this.isFieldRedHighlighted(this.footerQuestionFormPhoneField);
+  }
+
+  public async clickFooterQuestionFormPhoneField(): Promise<void> {
+    await this.click(this.footerQuestionFormPhoneField);
+  }
+
+  public async doesFooterQuestionFormPhoneHavePrefilledPart(
+    prefilledPart: string
+  ): Promise<void> {
+    await this.toHaveValue(this.footerQuestionFormPhoneField, prefilledPart);
+  }
+
+  public async clearFooterQuestionFormNameField(): Promise<void> {
+    await this.clearValue(this.footerQuestionFormNameField);
+  }
+
+  public async isFooterQuestionFormNameFieldRedHighlighted(): Promise<void> {
+    await this.isFieldRedHighlighted(this.footerQuestionFormNameField);
+  }
+
+  public async isFooterQuestionFormPhoneFieldNotRedHighlighted(): Promise<void> {
+    await this.isFieldNotRedHighlighted(this.footerQuestionFormPhoneField);
+  }
+
+  public async isFooterQuestionFormPhoneErrorLabelDisplayed(
+    errorMsg: string
+  ): Promise<void> {
+    await this.toHaveText(this.footerQuestionFormErrorLabels, errorMsg);
+  }
+
+  public async isFoundFeedbackPresent(
+    feedbackList: any,
+    name: string,
+    phone: string
+  ): Promise<void> {
+    let foundFeedback = null;
+    // Iterate over feedbackList to find the first matching feedback
+    for (const feedback of feedbackList) {
+      if (feedback.name === name && feedback.phone === phone) {
+        foundFeedback = feedback;
+        break; // Exit the loop once a match is found
+      }
+    }
+    // Assert that the feedback item is found
+    await this.isNotNull(foundFeedback);
   }
 }
 
