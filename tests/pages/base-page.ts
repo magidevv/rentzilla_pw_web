@@ -33,7 +33,7 @@ class BasePage {
     await this.page.waitForLoadState("load");
   }
 
-  public async doesPageHaveURL(URL: RegExp): Promise<void> {
+  public async doesPageHaveURL(URL: string | RegExp): Promise<void> {
     await expect(this.page).toHaveURL(URL);
   }
 
@@ -56,6 +56,10 @@ class BasePage {
 
   public async filteredClick(element: string, text: string): Promise<void> {
     await (await this.getElement(element)).filter({ hasText: text }).click();
+  }
+
+  public async hover(element: string): Promise<void> {
+    await (await this.getElement(element)).hover();
   }
 
   public async click(element: string): Promise<void> {
