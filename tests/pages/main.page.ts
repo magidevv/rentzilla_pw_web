@@ -35,6 +35,12 @@ class MainPage extends BasePage {
   private readonly mainSearchUnitItemsList: string;
   private readonly mainSearchUnitItems: string;
   private readonly mainSearchClearIcon: string;
+  private readonly catalogBtn: string;
+  private readonly catalogDropdown: string;
+  private readonly catalogSpecialMachinery: string;
+  private readonly catalogServices: string;
+  private readonly catalogItems: string;
+  private readonly catalogSecondItems: string;
 
   constructor(page: Page) {
     super(page);
@@ -91,6 +97,16 @@ class MainPage extends BasePage {
     this.mainSearchUnitItems = "//div[@data-testid='cardContainer']";
     this.mainSearchClearIcon =
       "//div[contains(@class, 'HeroSection_inputSearch')]//div[@data-testid='searchClear']";
+    this.catalogBtn = "//div[contains(@class, 'NavbarCatalog_wrapper')]";
+    this.catalogDropdown = "//div[contains(@class, 'Catalog_container')]";
+    this.catalogSpecialMachinery =
+      "//div[contains(@class, 'Catalog_container')]/div/div[contains(@class, 'Catalog_parent')][1]";
+    this.catalogServices =
+      "//div[contains(@class, 'Catalog_container')]/div/div[contains(@class, 'Catalog_parent')][2]";
+    this.catalogItems =
+      "//div[contains(@class, 'Catalog_container')]/div/div[contains(@class, 'CatalogItem_item')]";
+    this.catalogSecondItems =
+      "//div[contains(@class, 'Catalog_container')]/div[contains(@class, 'Catalog_listSecond')][1]/div[contains(@class, 'CatalogItem_item')]";
   }
 
   public async openMainURL(): Promise<void> {
@@ -312,6 +328,90 @@ class MainPage extends BasePage {
     for (const searchPrompt of searchPrompts) {
       await this.filteredDisplay(this.mainSearchHistoryItems, searchPrompt);
     }
+  }
+
+  public async isCatalogBtnDisplayed(): Promise<void> {
+    await this.isDisplayed(this.catalogBtn);
+  }
+
+  public async clickCatalogBtn(): Promise<void> {
+    await this.click(this.catalogBtn);
+  }
+
+  public async areCatalogElementsDisplayed(
+    specialMachineryLabel: string,
+    servicesLabel: string
+  ): Promise<void> {
+    await this.isDisplayed(this.catalogDropdown);
+    await this.isDisplayed(this.catalogSpecialMachinery);
+    await this.toHaveText(this.catalogSpecialMachinery, specialMachineryLabel);
+    await this.isDisplayed(this.catalogServices);
+    await this.toHaveText(this.catalogServices, servicesLabel);
+  }
+
+  public async hoverCatalogSpecialMachinery(): Promise<void> {
+    await this.hover(this.catalogSpecialMachinery);
+  }
+
+  public async areCatalogSpecialMachineryItemsDisplayed(
+    ...catalogItems: string[]
+  ): Promise<void> {
+    await this.areDisplayed(this.catalogItems);
+    for (const catalogItem of catalogItems) {
+      await this.filteredDisplay(this.catalogItems, catalogItem);
+    }
+  }
+
+  public async clickCatalogSpecialMachineryItem(
+    countItem: number
+  ): Promise<void> {
+    await this.click(this.catalogItems + `[${countItem + 1}]`);
+    await this.waitForLoad();
+  }
+
+  public async hoverCatalogSpecialMachineryItem(
+    countItem: number
+  ): Promise<void> {
+    await this.hover(this.catalogItems + `[${countItem + 1}]`);
+    await this.waitForLoad();
+  }
+
+  public async areCatalogSpecialMachinerySecondItemsDisplayed(
+    ...catalogSecondItems: string[]
+  ): Promise<void> {
+    await this.areDisplayed(this.catalogSecondItems);
+    for (const catalogSecondItem of catalogSecondItems) {
+      await this.filteredDisplay(this.catalogSecondItems, catalogSecondItem);
+    }
+  }
+
+  public async clickCatalogSpecialMachinerySecondItem(
+    countItem: number
+  ): Promise<void> {
+    await this.click(this.catalogSecondItems + `[${countItem + 1}]`);
+    await this.waitForLoad();
+  }
+
+  public async hoverCatalogServices(): Promise<void> {
+    await this.hover(this.catalogServices);
+  }
+
+  public async areCatalogServicesItemsDisplayed(
+    ...catalogItems: string[]
+  ): Promise<void> {
+    await this.areDisplayed(this.catalogItems);
+    for (const catalogItem of catalogItems) {
+      await this.filteredDisplay(this.catalogItems, catalogItem);
+    }
+  }
+
+  public async hoverCatalogServicesItem(countItem: number): Promise<void> {
+    await this.hover(this.catalogItems + `[${countItem + 1}]`);
+    await this.waitForLoad();
+  }
+
+  public async areCatalogServicesSecondItemsDisplayed(): Promise<void> {
+    await this.areDisplayed(this.catalogSecondItems);
   }
 }
 

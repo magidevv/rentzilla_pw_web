@@ -112,8 +112,7 @@ class ProductsPage extends BasePage {
   }
 
   public async isSearchResultByTeritoryDisplayed(): Promise<void> {
-    const searchResult =
-      /Знайдено (\d+) оголошення?  на видимій території /
+    const searchResult = /Знайдено (\d+) оголошення?  на видимій території /;
     await this.toHaveText(this.unitCount, searchResult);
   }
 
