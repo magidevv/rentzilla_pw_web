@@ -47,9 +47,9 @@ test("C530: Verify search Input", async ({
   await mainPage.isHistoryUnitAdded(data.searchPrompts[1]);
 
   // Check the "Ремонт" search prompt results
-  await productsPage.previousPage();
   await mainPage.fillSearchInput(data.searchPrompts[2]);
   await mainPage.areSearchUnitItemsDisplayed(data.searchPrompts[2]);
+  await mainPage.clickFirstUnitItem();
   await unitPage.checkUnitURL();
   await unitPage.doesUnitTitleHaveText(data.searchPrompts[2]);
 
