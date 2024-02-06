@@ -70,6 +70,15 @@ class BasePage {
     await (await this.getElement(element)).click();
   }
 
+  public async clickByCoordinates(element: string): Promise<void> {
+    const boundingBox = await (await this.getElement(element)).boundingBox();
+    if (boundingBox) {
+      const x: number = boundingBox.x + boundingBox.width / 5.5;
+      const y: number = boundingBox.y + boundingBox.height / 2; // Center Y coordinate
+      await this.page.mouse.click(x, y);
+    }
+  }
+
   public async press(element: string, key: string): Promise<void> {
     await (await this.getElement(element)).press(key);
   }
