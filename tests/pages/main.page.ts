@@ -340,6 +340,24 @@ class MainPage extends BasePage {
     await super.hover(catalogSpecialMachinery);
   }
 
+  public async areCatalogSpecialMachineryItemsDisplayed(
+    ...items: string[]
+  ): Promise<void> {
+    await this.areDisplayed(catalogItems);
+    for (const catalogItem of items) {
+      await this.filteredDisplay(catalogItems, catalogItem);
+    }
+  }
+
+  public async areCatalogSpecialMachinerySecondItemsDisplayed(
+    ...items: string[]
+  ): Promise<void> {
+    await this.areDisplayed(catalogSecondItems);
+    for (const catalogSecondItem of items) {
+      await this.filteredDisplay(catalogSecondItems, catalogSecondItem);
+    }
+  }
+
   public async clickCatalogSpecialMachineryItem(
     countItem: number
   ): Promise<void> {
@@ -363,6 +381,15 @@ class MainPage extends BasePage {
 
   public async hoverCatalogServices(): Promise<void> {
     await super.hover(catalogServices);
+  }
+
+  public async areCatalogServicesItemsDisplayed(
+    ...items: string[]
+  ): Promise<void> {
+    await this.areDisplayed(catalogItems);
+    for (const catalogItem of items) {
+      await this.filteredDisplay(catalogItems, catalogItem);
+    }
   }
 
   public async hoverCatalogServicesItem(countItem: number): Promise<void> {
