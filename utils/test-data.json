@@ -379,5 +379,10 @@
   "names": "Test",
   "validPhones": "+380506743060",
   "invalidPhones": ["+38063 111 111", "+1 1111111111111"],
-  "prefilledPhoneNumberPart": "+380"
+  "prefilledPhoneNumberPart": "+380",
+  "existingEmails": "testuserrentzila@gmail.com",
+  "nonExistingEmails": "testuserrentzila99@gmail.com",
+  "invalidEmails": ["testuser rentzila@gmail.com", "еуіегіуккутеяшдф", "testuserrentzilagmail.com", "testuserrentzila@gmailcom", "testuserrentzila@gmail", "testuserrentzila@.com", "testuserrentzila", "testuserrentzila@@gmail.com", "  testuserrentzila@gmail.com", "testuserrentzila@gmail.com  "],
+  "invalidEmailErrorMsg": "Неправильний формат email",
+  "nonExistingEmailErrorMsg": "Користувач з таким емейлом або номером телефону не верифікований в системі"
 }
