@@ -89,7 +89,7 @@ const recaptchaCheckbox: string = "//iframe[@title='reCAPTCHA']";
 const submitRestorePasswordBtn: string =
   "//form[contains(@class, 'RestorePasswordPopup_form')]//button[@type='submit']";
 const fieldErrorMsg: string =
-  "//div[contains(@class, 'CustomReactHookInput_error_message')]";
+  "//p[contains(@class, 'CustomReactHookInput_error_message')]";
 const restorePasswordEmailField: string =
   "//form[contains(@class, 'RestorePasswordPopup_form')]//input[@data-testid='reactHookInput']";
 const restorePasswordCrossIcon: string =
@@ -503,6 +503,10 @@ class MainPage extends BasePage {
   public async isRestoreErrorMsgDisplayed(errorMsg: string): Promise<void> {
     await super.isDisplayed(restoreErrorMsg);
     await super.toHaveText(restoreErrorMsg, errorMsg);
+  }
+
+  public async pressRestorePasswordEmailFieldEnter(): Promise<void> {
+    await super.press(restorePasswordEmailField, "Enter");
   }
 }
 
