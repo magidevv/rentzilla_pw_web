@@ -1,13 +1,12 @@
 import { Page } from "@playwright/test";
 import BasePage from "./base-page";
 
+const privacyPolicyTitle: string =
+  "//h1[contains(@class, 'PrivacyPolicy_title')]";
+  
 class PrivacyPolicyPage extends BasePage {
-  private readonly privacyPolicyTitle: string;
-
   constructor(page: Page) {
     super(page);
-
-    this.privacyPolicyTitle = "//h1[contains(@class, 'PrivacyPolicy_title')]";
   }
 
   public async checkPrivacyPolicyURL(): Promise<void> {
@@ -15,7 +14,7 @@ class PrivacyPolicyPage extends BasePage {
   }
 
   public async isPrivacyPolicyTitleDisplayed(): Promise<void> {
-    await this.isDisplayed(this.privacyPolicyTitle);
+    await super.isDisplayed(privacyPolicyTitle);
   }
 }
 

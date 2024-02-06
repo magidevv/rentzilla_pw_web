@@ -1,13 +1,11 @@
 import { Page } from "@playwright/test";
 import BasePage from "./base-page";
 
-class TendersPage extends BasePage {
-  private readonly searchInputPlaceholder: string;
+const searchInputPlaceholder: string = "//input[@data-testid='search']";
 
+class TendersPage extends BasePage {
   constructor(page: Page) {
     super(page);
-
-    this.searchInputPlaceholder = "//input[@data-testid='search']";
   }
 
   public async checkTendersURL(): Promise<void> {
@@ -15,13 +13,13 @@ class TendersPage extends BasePage {
   }
 
   public async isPlaceholderDisplayed(): Promise<void> {
-    await this.isDisplayed(this.searchInputPlaceholder);
-    await this.doesElementHaveAttr(this.searchInputPlaceholder, "placeholder");
+    await super.isDisplayed(searchInputPlaceholder);
+    await super.doesElementHaveAttr(searchInputPlaceholder, "placeholder");
   }
 
   public async doesPlaceholderHaveText(text: string): Promise<void> {
-    await this.doesElementAttrHaveText(
-      this.searchInputPlaceholder,
+    await super.doesElementAttrHaveText(
+      searchInputPlaceholder,
       "placeholder",
       text
     );

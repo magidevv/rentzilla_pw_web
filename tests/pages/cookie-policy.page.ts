@@ -1,13 +1,11 @@
 import { Page } from "@playwright/test";
 import BasePage from "./base-page";
 
-class CookiePolicyPage extends BasePage {
-  private readonly cookiePolicyTitle: string;
+const cookiePolicyTitle: string = "//h1[contains(@class, 'Cookies_title')]";
 
+class CookiePolicyPage extends BasePage {
   constructor(page: Page) {
     super(page);
-
-    this.cookiePolicyTitle = "//h1[contains(@class, 'Cookies_title')]";
   }
 
   public async checkCookiePolicyURL(): Promise<void> {
@@ -15,7 +13,7 @@ class CookiePolicyPage extends BasePage {
   }
 
   public async isCookiePolicyTitleDisplayed(): Promise<void> {
-    await this.isDisplayed(this.cookiePolicyTitle);
+    await super.isDisplayed(cookiePolicyTitle);
   }
 }
 

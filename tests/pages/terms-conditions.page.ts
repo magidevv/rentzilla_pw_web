@@ -1,14 +1,11 @@
 import { Page } from "@playwright/test";
 import BasePage from "./base-page";
 
+const termsConditionsTitle: string =
+  "//h1[contains(@class, 'TermsConditions_title')]";
 class TermsConditionsPage extends BasePage {
-  private readonly termsConditionsTitle: string;
-
   constructor(page: Page) {
     super(page);
-
-    this.termsConditionsTitle =
-      "//h1[contains(@class, 'TermsConditions_title')]";
   }
 
   public async checkTermsConditionsURL(): Promise<void> {
@@ -16,7 +13,7 @@ class TermsConditionsPage extends BasePage {
   }
 
   public async isTermsConditionsTitleDisplayed(): Promise<void> {
-    await this.isDisplayed(this.termsConditionsTitle);
+    await super.isDisplayed(termsConditionsTitle);
   }
 }
 
