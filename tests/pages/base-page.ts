@@ -147,6 +147,16 @@ class BasePage {
     await expect(await this.getElement(element)).toHaveText(text);
   }
 
+  public async elementsToHaveText(
+    element: string,
+    text: string | RegExp
+  ): Promise<void> {
+    const items = await (await this.getElement(element)).all();
+    for (const item of items) {
+      await expect(item).toHaveText(text);
+    }
+  }
+
   public async elementsToContainText(
     element: string,
     text: string
