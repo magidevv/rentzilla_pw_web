@@ -381,13 +381,36 @@
   "profilePhone": "+380 50 674 3060",
   "invalidPhones": ["+38063 111 111", "+1 1111111111111"],
   "prefilledPhoneNumberPart": "+380",
-  "existingEmails": ["testuserrentzila@gmail.com", "TESTUSERRENTZILA@GMAIL.COM"],
+  "existingEmails": [
+    "testuserrentzila@gmail.com",
+    "TESTUSERRENTZILA@GMAIL.COM"
+  ],
   "nonExistingEmails": "testuserrentzila99@gmail.com",
-  "invalidEmails": ["testuser rentzila@gmail.com", "еуіегіуккутеяшдф", "testuserrentzilagmail.com", "testuserrentzila@gmailcom", "testuserrentzila@gmail", "testuserrentzila@.com", "testuserrentzila", "testuserrentzila@@gmail.com", "  testuserrentzila@gmail.com", "testuserrentzila@gmail.com  "],
+  "invalidEmails": [
+    "testuser rentzila@gmail.com",
+    "еуіегіуккутеяшдф",
+    "testuserrentzilagmail.com",
+    "testuserrentzila@gmailcom",
+    "testuserrentzila@gmail",
+    "testuserrentzila@.com",
+    "testuserrentzila",
+    "testuserrentzila@@gmail.com",
+    "  testuserrentzila@gmail.com",
+    "testuserrentzila@gmail.com  "
+  ],
   "invalidEmailErrorMsg": "Неправильний формат email",
   "invalidEmailOrPhoneErrorMsg": "Неправильний формат email або номера телефону",
   "invalidEmailOrPasswordErrorMsg": "Невірний e-mail або пароль",
   "nonExistingEmailErrorMsg": "Користувач з таким емейлом або номером телефону не верифікований в системі",
   "validPassword": "Testuser10",
+  "invalidPasswords": [
+    "Testuser10  ",
+    "  Testuser10",
+    "testuser10",
+    "TESTUSER10",
+    "Еуіегіук10"
+  ],
+  "nonExistingPassword": "Testuser13",
+  "invalidPasswordErrorMsg": "Пароль повинен містити як мінімум 1 цифру, 1 велику літеру і 1 малу літеру, також не повинен містити кирилицю та пробіли",
   "verificationMsg": "Успішно верифіковано"
 }
