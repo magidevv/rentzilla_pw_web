@@ -1,8 +1,10 @@
 import { test } from "../../fixtures/fixtures";
 import data from "../../utils/test-data.json";
-import ApiHelper from "../../utils/API.helper";
 
-test("C226: Verify 'У Вас залишилися питання?' form", async ({ mainPage }) => {
+test("C226: Verify 'У Вас залишилися питання?' form", async ({
+  mainPage,
+  apiHelper,
+}) => {
   // Open the «Rentzila» main page
   await mainPage.openMainURL();
 
@@ -52,13 +54,11 @@ test("C226: Verify 'У Вас залишилися питання?' form", async
   await mainPage.clickFooterQuestionFormSubmitBtn();
   await mainPage.waitForModalAccept();
 
-  //Check the feedback is present on the Feedbacks page
-  // Fetch the feedback list from the API
-  const apiHelper = new ApiHelper();
-  const feedbackList = await apiHelper.getFeedbackList();
-  await mainPage.isFoundFeedbackPresent(
-    feedbackList,
-    data.names,
-    data.validPhones
+  // Check the feedback is present (then delete)
+  await mainPage.toBeTrue(
+    await apiHelper.checkResponseResults(data.names, data.validPhones)
   );
+  if (await apiHelper.checkResponseResults(data.names, data.validPhones)) {
+    await apiHelper.deleteFeedback(data.names, data.validPhones);
+  }
 });

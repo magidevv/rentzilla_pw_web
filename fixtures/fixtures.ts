@@ -1,4 +1,5 @@
 import { test as base } from "@playwright/test";
+import ApiHelper from "../utils/API.helper";
 import MainPage from "../tests/pages/main.page";
 import ProductsPage from "../tests/pages/products.page";
 import UnitPage from "../tests/pages/unit.page";
@@ -8,6 +9,7 @@ import TermsConditionsPage from "../tests/pages/terms-conditions.page";
 import TendersPage from "../tests/pages/tenders.page";
 
 type MyFixtures = {
+  apiHelper: ApiHelper;
   mainPage: MainPage;
   productsPage: ProductsPage;
   unitPage: UnitPage;
@@ -38,5 +40,8 @@ export const test = base.extend<MyFixtures>({
   },
   tendersPage: async ({ page }, use) => {
     await use(new TendersPage(page));
+  },
+  apiHelper: async ({ request }, use) => {
+    await use(new ApiHelper(request));
   },
 });
