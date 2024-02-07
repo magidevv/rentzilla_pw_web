@@ -377,7 +377,8 @@
   "emptyFieldErrorMsg": "Поле не може бути порожнім",
   "invalidPhoneNumberErrorMsg": "Телефон не пройшов валідацію",
   "names": "TestAVBer",
-  "validPhones": "+380506743060",
+  "validPhones": ["+380506743060", "380506743060", "0506743060"],
+  "profilePhone": "+380 50 674 3060",
   "invalidPhones": ["+38063 111 111", "+1 1111111111111"],
   "prefilledPhoneNumberPart": "+380",
   "existingEmails": ["testuserrentzila@gmail.com", "TESTUSERRENTZILA@GMAIL.COM"],
@@ -385,5 +386,6 @@
   "invalidEmails": ["testuser rentzila@gmail.com", "еуіегіуккутеяшдф", "testuserrentzilagmail.com", "testuserrentzila@gmailcom", "testuserrentzila@gmail", "testuserrentzila@.com", "testuserrentzila", "testuserrentzila@@gmail.com", "  testuserrentzila@gmail.com", "testuserrentzila@gmail.com  "],
   "invalidEmailErrorMsg": "Неправильний формат email",
   "nonExistingEmailErrorMsg": "Користувач з таким емейлом або номером телефону не верифікований в системі",
-  "validPassword": "Testuser10"
+  "validPassword": "Testuser10",
+  "verificationMsg": "Успішно верифіковано"
 }
