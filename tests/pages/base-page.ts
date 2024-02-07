@@ -211,22 +211,22 @@ class BasePage {
     expect(attributeText).toBe(text);
   }
 
-  async isFieldRedHighlighted(field: string) {
+  async isFieldRedHighlighted(field: string): Promise<void> {
     await expect(await this.getElement(field)).toHaveCSS(
       "border-color",
       "rgb(247, 56, 89)"
     );
   }
 
-  async isFieldNotRedHighlighted(field: string) {
+  async isFieldNotRedHighlighted(field: string): Promise<void> {
     await expect(await this.getElement(field)).not.toHaveCSS(
       "border-color",
       "rgb(247, 56, 89)"
     );
   }
 
-  async isNotNull(element: any) {
-    expect(element).not.toBeNull();
+  async toBeTrue(element: any): Promise<void> {
+    expect(element).toBeTruthy();
   }
 }
 
