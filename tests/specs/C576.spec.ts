@@ -23,7 +23,7 @@ test("C576: Authorization with invalid email", async ({ mainPage }) => {
     await mainPage.isFieldErrorMsgDisplayed(data.invalidEmailOrPhoneErrorMsg);
   }
 
-  // Check the authorization with non-existent emails
+  // Check the authorization with non-existent email
   for (let i = 0; i < 2; i++) {
     await mainPage.fillLoginEmailField(data.nonExistingEmails);
     await mainPage.fillLoginPasswordField(data.validPassword);
