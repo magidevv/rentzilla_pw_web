@@ -95,6 +95,10 @@ const restorePasswordEmailField: string =
 const restorePasswordCrossIcon: string =
   "//div[@data-testid='restorePasswordCross']";
 const restoreErrorMsg: string = "//div[@data-testid='restoreError']";
+const loginBtn: string =
+  "//div[@data-testid='authorizationContainer']//button[@type='submit']";
+const loginEmailField: string = "#email";
+const loginPasswordField: string = "#password";
 
 class MainPage extends BasePage {
   constructor(page: Page) {
@@ -515,6 +519,11 @@ class MainPage extends BasePage {
     await super.toHaveText(fieldErrorMsg, errorMsg);
   }
 
+  public async areFieldErrorMsgsDisplayed(errorMsg: string): Promise<void> {
+    await super.areDisplayed(fieldErrorMsg);
+    await super.elementsToHaveText(fieldErrorMsg, errorMsg);
+  }
+
   public async fillRestorePasswordEmailField(email: string): Promise<void> {
     await super.setValue(restorePasswordEmailField, email);
   }
@@ -534,6 +543,38 @@ class MainPage extends BasePage {
 
   public async pressRestorePasswordEmailFieldEnter(): Promise<void> {
     await super.press(restorePasswordEmailField, "Enter");
+  }
+
+  public async clickLoginBtn(): Promise<void> {
+    await super.click(loginBtn);
+  }
+
+  public async fillLoginEmailField(email: string): Promise<void> {
+    await super.setValue(loginEmailField, email);
+  }
+
+  public async fillLoginPasswordField(password: string): Promise<void> {
+    await super.setValue(loginPasswordField, password);
+  }
+
+  public async isEmailFieldRedHighlighted(): Promise<void> {
+    await super.isFieldRedHighlighted(loginEmailField);
+  }
+
+  public async isEmailFieldNotRedHighlighted(): Promise<void> {
+    await super.isFieldNotRedHighlighted(loginEmailField);
+  }
+
+  public async isPasswordFieldRedHighlighted(): Promise<void> {
+    await super.isFieldRedHighlighted(loginPasswordField);
+  }
+
+  public async isPasswordFieldNotRedHighlighted(): Promise<void> {
+    await super.isFieldNotRedHighlighted(loginPasswordField);
+  }
+
+  public async clearLoginEmailField(): Promise<void> {
+    await super.clearValue(loginEmailField);
   }
 }
 
