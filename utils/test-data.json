@@ -385,6 +385,8 @@
   "nonExistingEmails": "testuserrentzila99@gmail.com",
   "invalidEmails": ["testuser rentzila@gmail.com", "еуіегіуккутеяшдф", "testuserrentzilagmail.com", "testuserrentzila@gmailcom", "testuserrentzila@gmail", "testuserrentzila@.com", "testuserrentzila", "testuserrentzila@@gmail.com", "  testuserrentzila@gmail.com", "testuserrentzila@gmail.com  "],
   "invalidEmailErrorMsg": "Неправильний формат email",
+  "invalidEmailOrPhoneErrorMsg": "Неправильний формат email або номера телефону",
+  "invalidEmailOrPasswordErrorMsg": "Невірний e-mail або пароль",
   "nonExistingEmailErrorMsg": "Користувач з таким емейлом або номером телефону не верифікований в системі",
   "validPassword": "Testuser10",
   "verificationMsg": "Успішно верифіковано"
