@@ -11,7 +11,7 @@ test("C201: Authorization with valid email and password", async ({
     // Click on the "Вхід" button
     await mainPage.clickHeaderLoginBtn();
 
-    // Check the authorization with valid credentials
+    // Check the authorization with valid email and password
     await mainPage.isAuthorizationPopupDisplayed();
     await mainPage.fillLoginEmailField(data.existingEmails[i]);
     await mainPage.fillLoginPasswordField(data.validPassword);

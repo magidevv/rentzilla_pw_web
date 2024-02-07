@@ -17,7 +17,7 @@ test("C199: Reset the password with invalid email", async ({ mainPage }) => {
   await mainPage.isFieldErrorMsgDisplayed(data.emptyFieldErrorMsg);
 
   // Check the password reset closing
-  await mainPage.fillRestorePasswordEmailField(data.existingEmails);
+  await mainPage.fillRestorePasswordEmailField(data.existingEmails[0]);
   await mainPage.clickRestorePasswordCrossIcon();
   await mainPage.isRestorePasswordPopupNotDisplayed();
 
