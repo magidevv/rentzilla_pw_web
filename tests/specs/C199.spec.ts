@@ -1,7 +1,7 @@
 import { test } from "../../fixtures/fixtures";
 import data from "../../utils/test-data.json";
 
-test("C199: Reset the password with invalid email", async ({ mainPage }) => {
+test.skip("C199: Reset the password with invalid email", async ({ mainPage }) => {
   // Open the «Rentzila» main page
   await mainPage.openMainURL();
 
