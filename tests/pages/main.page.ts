@@ -104,7 +104,8 @@ const navbarUserIcon: string = "//div[@data-testid='avatarBlock']";
 const profileDropdownMenu: string =
   "//div[contains(@class, 'ProfileDropdownMenu_container')]";
 const profileDropdownMenuUserEmail: string = "//div[@data-testid='email']";
-const profileDropdownMenuLogoutBtn: string = "//div[@data-testid='logout']";
+const profileDropdownMenuLogoutLink: string = "//div[@data-testid='logout']";
+const profileDropdownMenuProfileLink: string = "//div[@data-testid='profile']";
 
 class MainPage extends BasePage {
   constructor(page: Page) {
@@ -589,12 +590,16 @@ class MainPage extends BasePage {
     await super.toHaveText(profileDropdownMenuUserEmail, email);
   }
 
-  public async clickLogoutBtn(): Promise<void> {
-    await super.click(profileDropdownMenuLogoutBtn);
+  public async clickLogoutLink(): Promise<void> {
+    await super.click(profileDropdownMenuLogoutLink);
   }
 
   public async pressPasswordFieldEnter(): Promise<void> {
     await super.press(loginPasswordField, "Enter");
+  }
+
+  public async clickProfileLink(): Promise<void> {
+    await super.click(profileDropdownMenuProfileLink);
   }
 }
 
