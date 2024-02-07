@@ -99,6 +99,12 @@ const loginBtn: string =
   "//div[@data-testid='authorizationContainer']//button[@type='submit']";
 const loginEmailField: string = "#email";
 const loginPasswordField: string = "#password";
+const hiddenPasswordBtn: string = "//div[@data-testid='reactHookButton']";
+const navbarUserIcon: string = "//div[@data-testid='avatarBlock']";
+const profileDropdownMenu: string =
+  "//div[contains(@class, 'ProfileDropdownMenu_container')]";
+const profileDropdownMenuUserEmail: string = "//div[@data-testid='email']";
+const profileDropdownMenuLogoutBtn: string = "//div[@data-testid='logout']";
 
 class MainPage extends BasePage {
   constructor(page: Page) {
@@ -472,23 +478,6 @@ class MainPage extends BasePage {
     await super.toHaveText(footerQuestionFormErrorLabels, errorMsg);
   }
 
-  public async isFoundFeedbackPresent(
-    feedbackList: any,
-    name: string,
-    phone: string
-  ): Promise<void> {
-    let foundFeedback = null;
-    // Iterate over feedbackList to find the first matching feedback
-    for (const feedback of feedbackList) {
-      if (feedback.name === name && feedback.phone === phone) {
-        foundFeedback = feedback;
-        break; // Exit the loop once a match is found
-      }
-    }
-    // Assert that the feedback item is found
-    await super.isNotNull(foundFeedback);
-  }
-
   public async clickHeaderLoginBtn(): Promise<void> {
     await super.click(headerLoginBtn);
   }
@@ -575,6 +564,37 @@ class MainPage extends BasePage {
 
   public async clearLoginEmailField(): Promise<void> {
     await super.clearValue(loginEmailField);
+  }
+
+  public async clickHiddenPasswordBtn(): Promise<void> {
+    await super.click(hiddenPasswordBtn);
+  }
+
+  public async isPasswordHidden(): Promise<void> {
+    await super.doesElementAttrHaveText(loginPasswordField, "type", "password");
+  }
+
+  public async isPasswordNotHidden(): Promise<void> {
+    await super.doesElementAttrHaveText(loginPasswordField, "type", "text");
+  }
+
+  public async clickUserIcon(): Promise<void> {
+    await super.isDisplayed(navbarUserIcon);
+    await super.click(navbarUserIcon);
+  }
+
+  public async isUserEmailDisplayed(email: string): Promise<void> {
+    await super.isDisplayed(profileDropdownMenu);
+    await super.isDisplayed(profileDropdownMenuUserEmail);
+    await super.toHaveText(profileDropdownMenuUserEmail, email);
+  }
+
+  public async clickLogoutBtn(): Promise<void> {
+    await super.click(profileDropdownMenuLogoutBtn);
+  }
+
+  public async pressPasswordFieldEnter(): Promise<void> {
+    await super.press(loginPasswordField, "Enter");
   }
 }
 
