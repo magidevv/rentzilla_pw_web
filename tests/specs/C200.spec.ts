@@ -17,7 +17,7 @@ test("C200: Authorization with empty fields", async ({ mainPage }) => {
   await mainPage.isPasswordFieldRedHighlighted();
 
   // Check the authorization with empty password field
-  await mainPage.fillLoginEmailField(data.existingEmails);
+  await mainPage.fillLoginEmailField(data.existingEmails[0]);
   await mainPage.clickLoginBtn();
   await mainPage.isAuthorizationPopupDisplayed();
   await mainPage.isEmailFieldNotRedHighlighted();
