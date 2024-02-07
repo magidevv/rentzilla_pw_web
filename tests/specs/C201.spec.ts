@@ -28,6 +28,6 @@ test("C201: Authorization with valid email and password", async ({
     await mainPage.isUserEmailDisplayed(data.existingEmails[i].toLowerCase());
 
     // Check logout
-    await mainPage.clickLogoutBtn();
+    await mainPage.clickLogoutLink();
   }
 });

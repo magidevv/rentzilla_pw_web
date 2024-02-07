@@ -31,7 +31,7 @@ test("C226: Verify 'У Вас залишилися питання?' form", async
   );
 
   // Check the form submit with empty phone number field
-  await mainPage.fillFooterQuestionFormPhoneField(data.validPhones);
+  await mainPage.fillFooterQuestionFormPhoneField(data.validPhones[0]);
   await mainPage.clearFooterQuestionFormNameField();
   await mainPage.clickFooterQuestionFormSubmitBtn();
   await mainPage.isFooterQuestionFormNameFieldRedHighlighted();
@@ -50,15 +50,15 @@ test("C226: Verify 'У Вас залишилися питання?' form", async
   }
 
   // Check the successful form submit with valid data
-  await mainPage.fillFooterQuestionFormPhoneField(data.validPhones);
+  await mainPage.fillFooterQuestionFormPhoneField(data.validPhones[0]);
   await mainPage.clickFooterQuestionFormSubmitBtn();
   await mainPage.waitForModalAccept();
 
   // Check the feedback is present (then delete)
   await mainPage.toBeTrue(
-    await apiHelper.checkResponseResults(data.names, data.validPhones)
+    await apiHelper.checkResponseResults(data.names, data.validPhones[0])
   );
-  if (await apiHelper.checkResponseResults(data.names, data.validPhones)) {
-    await apiHelper.deleteFeedback(data.names, data.validPhones);
+  if (await apiHelper.checkResponseResults(data.names, data.validPhones[0])) {
+    await apiHelper.deleteFeedback(data.names, data.validPhones[0]);
   }
 });
