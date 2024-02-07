@@ -106,6 +106,7 @@ const profileDropdownMenu: string =
 const profileDropdownMenuUserEmail: string = "//div[@data-testid='email']";
 const profileDropdownMenuLogoutLink: string = "//div[@data-testid='logout']";
 const profileDropdownMenuProfileLink: string = "//div[@data-testid='profile']";
+const loginErrorMsg: string = "//div[@data-testid='errorMessage']";
 
 class MainPage extends BasePage {
   constructor(page: Page) {
@@ -600,6 +601,11 @@ class MainPage extends BasePage {
 
   public async clickProfileLink(): Promise<void> {
     await super.click(profileDropdownMenuProfileLink);
+  }
+
+  public async isLoginErrorMsgDisplayed(errorMsg: string): Promise<void> {
+    await super.isDisplayed(loginErrorMsg);
+    await super.toHaveText(loginErrorMsg, errorMsg);
   }
 }
 
