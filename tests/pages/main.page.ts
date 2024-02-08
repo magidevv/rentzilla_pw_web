@@ -13,26 +13,6 @@ const specialMachineryTypeLabel: string =
   "//section[@data-testid='specialEquipment']//h3[contains(@class, 'RentzilaProposes_service')]";
 const proposesSpecialMachineryItems: string =
   "//section[@data-testid='specialEquipment']//div[contains(@class, 'RentzilaProposes_proposes_item')]";
-const footer: string = "//div[contains(@class, 'Footer_footer')]";
-const footerLogo: string =
-  "//div[contains(@class, 'Footer_footer')]//div[@data-testid='logo']";
-const aboutUsLabel: string = "//div[@data-testid='content']";
-const privacyPolicyLabel: string =
-  "//div[@data-testid='politika-konfidenciinosti']/a";
-const cookiePolicyLabel: string =
-  "//div[@data-testid='pravila-vikoristannya-failiv-cookie']/a";
-const termsConditionsLabel: string =
-  "//div[@data-testid='umovi-dostupu-ta-koristuvannya']/a";
-const toUsersLabel: string =
-  "//div[contains(@class, 'RentzilaForBuyers_title')]";
-const advertismentLabel: string = "//div[@data-testid='ogoloshennya']/a";
-const tendersLabel: string = "//div[@data-testid='tenderi']/a";
-const requestsForWorkLabel: string = "//div[@data-testid='zapiti-na-robotu']/a";
-const contactsLabel: string =
-  "//div[contains(@class, 'RentzilaContacts_title')]";
-const footerEmail: string = "//a[contains(@class, 'RentzilaContacts_email')]";
-const copyrightLabel: string = "//div[@data-testid='copyright']";
-const logo: string = "//div[@data-testid='Navbar']//div[@data-testid='logo']";
 const mainSearchInput: string =
   "//div[contains(@class, 'HeroSection_inputSearch')]//input[@data-testid='searchInput']";
 const mainSearchDropdown: string = "//div[@data-testid='searchDropdown']";
@@ -55,30 +35,6 @@ const mainSearchUnitItemsList: string = "//div[@data-testid='rightsideUnits']";
 const mainSearchUnitItems: string = "//div[@data-testid='cardContainer']";
 const mainSearchClearIcon: string =
   "//div[contains(@class, 'HeroSection_inputSearch')]//div[@data-testid='searchClear']";
-const catalogBtn: string = "//div[contains(@class, 'NavbarCatalog_wrapper')]";
-const catalogDropdown: string = "//div[contains(@class, 'Catalog_container')]";
-const catalogSpecialMachinery: string =
-  "//div[contains(@class, 'Catalog_container')]/div/div[contains(@class, 'Catalog_parent')][1]";
-const catalogServices: string =
-  "//div[contains(@class, 'Catalog_container')]/div/div[contains(@class, 'Catalog_parent')][2]";
-const catalogItems: string =
-  "//div[contains(@class, 'Catalog_container')]/div/div[contains(@class, 'CatalogItem_item')]";
-const catalogSecondItems: string =
-  "//div[contains(@class, 'Catalog_container')]/div[contains(@class, 'Catalog_listSecond')][1]/div[contains(@class, 'CatalogItem_item')]";
-const footerQuestionForm: string =
-  "//div[contains(@class, 'ConsultationForm_container')]";
-const footerQuestionFormTitle: string =
-  "//div[contains(@class, 'ConsultationForm_container')]/h2[contains(@class, 'ConsultationForm_title')]";
-const footerQuestionFormNameField: string =
-  "//div[contains(@class, 'ConsultationForm_container')]//input[@name='name']";
-const footerQuestionFormPhoneField: string =
-  "//div[contains(@class, 'ConsultationForm_container')]//input[@type='tel']";
-const footerQuestionFormSubmitBtn: string =
-  "//div[contains(@class, 'ConsultationForm_container')]//button[@type='submit']";
-const footerQuestionFormErrorLabels: string =
-  "//div[contains(@class, 'ConsultationForm_container')]//p[contains(@class, 'ConsultationForm_error_message')]";
-const headerLoginBtn: string =
-  "//div[contains(@class, 'NavbarAuthBlock_buttonEnter')]";
 const authorizationPopup: string =
   "//div[@data-testid='authorizationContainer']";
 const forgotPasswordLink: string =
@@ -100,12 +56,6 @@ const loginBtn: string =
 const loginEmailField: string = "#email";
 const loginPasswordField: string = "#password";
 const hiddenPasswordBtn: string = "//div[@data-testid='reactHookButton']";
-const navbarUserIcon: string = "//div[@data-testid='avatarBlock']";
-const profileDropdownMenu: string =
-  "//div[contains(@class, 'ProfileDropdownMenu_container')]";
-const profileDropdownMenuUserEmail: string = "//div[@data-testid='email']";
-const profileDropdownMenuLogoutLink: string = "//div[@data-testid='logout']";
-const profileDropdownMenuProfileLink: string = "//div[@data-testid='profile']";
 const loginErrorMsg: string = "//div[@data-testid='errorMessage']";
 
 class MainPage extends BasePage {
@@ -159,58 +109,6 @@ class MainPage extends BasePage {
     await super.click(specialMachineryTypeLabel + `[${countType + 1}]`);
     await super.click(proposesSpecialMachineryItems + `[${countCategory + 1}]`);
     await super.waitForLoad();
-  }
-
-  public async isFooterDisplayed(): Promise<void> {
-    await super.isDisplayed(footer);
-  }
-
-  public async isFooterLogoClickable(): Promise<void> {
-    await super.isDisplayed(footerLogo);
-    await super.isNotClickable(footerLogo);
-  }
-
-  public async areFootersElementsDisplayed(): Promise<void> {
-    await super.isDisplayed(aboutUsLabel);
-    await super.isDisplayed(privacyPolicyLabel);
-    await super.isDisplayed(cookiePolicyLabel);
-    await super.isDisplayed(termsConditionsLabel);
-    await super.isDisplayed(toUsersLabel);
-    await super.isDisplayed(advertismentLabel);
-    await super.isDisplayed(tendersLabel);
-    await super.isDisplayed(requestsForWorkLabel);
-    await super.isDisplayed(contactsLabel);
-    await super.isDisplayed(footerEmail);
-    await super.isDisplayed(copyrightLabel);
-  }
-
-  public async clickPrivacyPolicy(): Promise<void> {
-    await super.click(privacyPolicyLabel);
-  }
-
-  public async clickCookiePolicy(): Promise<void> {
-    await super.click(cookiePolicyLabel);
-  }
-
-  public async clickTermsConditions(): Promise<void> {
-    await super.click(termsConditionsLabel);
-  }
-
-  public async clickAdvertisment(): Promise<void> {
-    await super.click(advertismentLabel);
-  }
-
-  public async clickLogo(): Promise<void> {
-    await super.click(logo);
-    await super.waitForLoad();
-  }
-
-  public async clickTenders(): Promise<void> {
-    await super.click(tendersLabel);
-  }
-
-  public async isEmailClickable(): Promise<void> {
-    await super.isClickable(footerEmail);
   }
 
   public async clickMainSearchInput(): Promise<void> {
@@ -329,161 +227,6 @@ class MainPage extends BasePage {
     }
   }
 
-  public async isCatalogBtnDisplayed(): Promise<void> {
-    await super.isDisplayed(catalogBtn);
-  }
-
-  public async clickCatalogBtn(): Promise<void> {
-    await super.click(catalogBtn);
-  }
-
-  public async areCatalogElementsDisplayed(
-    specialMachineryLabel: string,
-    servicesLabel: string
-  ): Promise<void> {
-    await super.isDisplayed(catalogDropdown);
-    await super.isDisplayed(catalogSpecialMachinery);
-    await super.toHaveText(catalogSpecialMachinery, specialMachineryLabel);
-    await super.isDisplayed(catalogServices);
-    await super.toHaveText(catalogServices, servicesLabel);
-  }
-
-  public async hoverCatalogSpecialMachinery(): Promise<void> {
-    await super.hover(catalogSpecialMachinery);
-  }
-
-  public async areCatalogSpecialMachineryItemsDisplayed(
-    ...items: string[]
-  ): Promise<void> {
-    await this.areDisplayed(catalogItems);
-    for (const catalogItem of items) {
-      await this.filteredDisplay(catalogItems, catalogItem);
-    }
-  }
-
-  public async areCatalogSpecialMachinerySecondItemsDisplayed(
-    ...items: string[]
-  ): Promise<void> {
-    await this.areDisplayed(catalogSecondItems);
-    for (const catalogSecondItem of items) {
-      await this.filteredDisplay(catalogSecondItems, catalogSecondItem);
-    }
-  }
-
-  public async clickCatalogSpecialMachineryItem(
-    countItem: number
-  ): Promise<void> {
-    await super.click(catalogItems + `[${countItem + 1}]`);
-    await super.waitForLoad();
-  }
-
-  public async hoverCatalogSpecialMachineryItem(
-    countItem: number
-  ): Promise<void> {
-    await super.hover(catalogItems + `[${countItem + 1}]`);
-    await super.waitForLoad();
-  }
-
-  public async clickCatalogSpecialMachinerySecondItem(
-    countItem: number
-  ): Promise<void> {
-    await super.click(catalogSecondItems + `[${countItem + 1}]`);
-    await super.waitForLoad();
-  }
-
-  public async hoverCatalogServices(): Promise<void> {
-    await super.hover(catalogServices);
-  }
-
-  public async areCatalogServicesItemsDisplayed(
-    ...items: string[]
-  ): Promise<void> {
-    await this.areDisplayed(catalogItems);
-    for (const catalogItem of items) {
-      await this.filteredDisplay(catalogItems, catalogItem);
-    }
-  }
-
-  public async hoverCatalogServicesItem(countItem: number): Promise<void> {
-    await super.hover(catalogItems + `[${countItem + 1}]`);
-    await super.waitForLoad();
-  }
-
-  public async areCatalogServicesSecondItemsDisplayed(): Promise<void> {
-    await super.areDisplayed(catalogSecondItems);
-  }
-
-  public async areFooterQuestionFormElementsDisplayed(): Promise<void> {
-    await super.isDisplayed(footerQuestionForm);
-    await super.isDisplayed(footerQuestionFormTitle);
-    await super.isDisplayed(footerQuestionFormNameField);
-    await super.isDisplayed(footerQuestionFormPhoneField);
-    await super.isDisplayed(footerQuestionFormSubmitBtn);
-  }
-
-  public async clickFooterQuestionFormSubmitBtn(): Promise<void> {
-    await super.click(footerQuestionFormSubmitBtn);
-  }
-
-  public async areFooterQuestionFormFieldsRedHighlighted(): Promise<void> {
-    await super.isFieldRedHighlighted(footerQuestionFormNameField);
-    await super.isFieldRedHighlighted(footerQuestionFormPhoneField);
-  }
-
-  public async areFooterQuestionFormErrorLabelsDisplayed(
-    errorMsg: string
-  ): Promise<void> {
-    await super.filteredDisplay(footerQuestionFormErrorLabels, errorMsg);
-  }
-
-  public async fillFooterQuestionFormNameField(name: string): Promise<void> {
-    await super.setValue(footerQuestionFormNameField, name);
-  }
-
-  public async fillFooterQuestionFormPhoneField(phone: string): Promise<void> {
-    await super.setValue(footerQuestionFormPhoneField, phone);
-  }
-
-  public async isFooterQuestionFormNameFieldNotRedHighlighted(): Promise<void> {
-    await super.isFieldNotRedHighlighted(footerQuestionFormNameField);
-  }
-
-  public async isFooterQuestionFormPhoneFieldRedHighlighted(): Promise<void> {
-    await super.isFieldRedHighlighted(footerQuestionFormPhoneField);
-  }
-
-  public async clickFooterQuestionFormPhoneField(): Promise<void> {
-    await super.click(footerQuestionFormPhoneField);
-  }
-
-  public async doesFooterQuestionFormPhoneHavePrefilledPart(
-    prefilledPart: string
-  ): Promise<void> {
-    await super.toHaveValue(footerQuestionFormPhoneField, prefilledPart);
-  }
-
-  public async clearFooterQuestionFormNameField(): Promise<void> {
-    await super.clearValue(footerQuestionFormNameField);
-  }
-
-  public async isFooterQuestionFormNameFieldRedHighlighted(): Promise<void> {
-    await super.isFieldRedHighlighted(footerQuestionFormNameField);
-  }
-
-  public async isFooterQuestionFormPhoneFieldNotRedHighlighted(): Promise<void> {
-    await super.isFieldNotRedHighlighted(footerQuestionFormPhoneField);
-  }
-
-  public async isFooterQuestionFormPhoneErrorLabelDisplayed(
-    errorMsg: string
-  ): Promise<void> {
-    await super.toHaveText(footerQuestionFormErrorLabels, errorMsg);
-  }
-
-  public async clickHeaderLoginBtn(): Promise<void> {
-    await super.click(headerLoginBtn);
-  }
-
   public async isAuthorizationPopupDisplayed(): Promise<void> {
     await super.isDisplayed(authorizationPopup);
   }
@@ -580,27 +323,8 @@ class MainPage extends BasePage {
     await super.doesElementAttrHaveText(loginPasswordField, "type", "text");
   }
 
-  public async clickUserIcon(): Promise<void> {
-    await super.isDisplayed(navbarUserIcon);
-    await super.click(navbarUserIcon);
-  }
-
-  public async isUserEmailDisplayed(email: string): Promise<void> {
-    await super.isDisplayed(profileDropdownMenu);
-    await super.isDisplayed(profileDropdownMenuUserEmail);
-    await super.toHaveText(profileDropdownMenuUserEmail, email);
-  }
-
-  public async clickLogoutLink(): Promise<void> {
-    await super.click(profileDropdownMenuLogoutLink);
-  }
-
   public async pressPasswordFieldEnter(): Promise<void> {
     await super.press(loginPasswordField, "Enter");
-  }
-
-  public async clickProfileLink(): Promise<void> {
-    await super.click(profileDropdownMenuProfileLink);
   }
 
   public async isLoginErrorMsgDisplayed(errorMsg: string): Promise<void> {

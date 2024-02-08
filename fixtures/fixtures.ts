@@ -8,6 +8,8 @@ import CookiePolicyPage from "../tests/pages/cookie-policy.page";
 import TermsConditionsPage from "../tests/pages/terms-conditions.page";
 import TendersPage from "../tests/pages/tenders.page";
 import ProfilePage from "../tests/pages/profile.page";
+import HeaderPage from "../tests/pages/header.page";
+import FooterPage from "../tests/pages/footer.page";
 
 type MyFixtures = {
   apiHelper: ApiHelper;
@@ -19,11 +21,19 @@ type MyFixtures = {
   termsConditionsPage: TermsConditionsPage;
   tendersPage: TendersPage;
   profilePage: ProfilePage;
+  headerPage: HeaderPage;
+  footerPage: FooterPage;
 };
 
 export const test = base.extend<MyFixtures>({
   mainPage: async ({ page }, use) => {
     await use(new MainPage(page));
+  },
+  headerPage: async ({ page }, use) => {
+    await use(new HeaderPage(page));
+  },
+  footerPage: async ({ page }, use) => {
+    await use(new FooterPage(page));
   },
   productsPage: async ({ page }, use) => {
     await use(new ProductsPage(page));
