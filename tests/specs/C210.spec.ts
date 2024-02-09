@@ -27,10 +27,10 @@ test.describe("C210 Tests", () => {
       for (let j = 0; j < servicesData[serviceType].length; j++) {
         if (i !== 0) {
           await mainPage.clickServiceType(i);
-          // console.log("SERVICE TYPE " + i + serviceType);
+          console.log("SERVICE TYPE " + i + serviceType);
         }
         await mainPage.clickServiceItem(j);
-        // console.log("SERVICE ITEM " + j + servicesData[serviceType][j]);
+        console.log("SERVICE ITEM " + j + servicesData[serviceType][j]);
 
         // Check the relevant filter is checked and the relevant units display
         await productsPage.checkProductsURL();
