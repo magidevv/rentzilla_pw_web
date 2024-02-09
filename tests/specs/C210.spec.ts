@@ -13,6 +13,7 @@ test.describe("C210 Tests", () => {
     mainPage,
     productsPage,
     unitPage,
+    headerPage,
   }) => {
     // Repeat for all services on all tabs
     for (let i = 0; i < servicesData.Type.length; i++) {
@@ -26,7 +27,10 @@ test.describe("C210 Tests", () => {
 
       for (let j = 0; j < servicesData[serviceType].length; j++) {
         // Check the relevant filter is checked and the relevant units display
-        await mainPage.clickService(i, j);
+        if (i !== 0) {
+          await mainPage.clickServiceType(i);
+        }
+        await mainPage.clickServiceItem(j);
         await productsPage.checkProductsURL();
         await productsPage.checkRelevantFilter(servicesData[serviceType][j]);
 
@@ -39,7 +43,7 @@ test.describe("C210 Tests", () => {
           await unitPage.isUnitServiceDisplayed(servicesData[serviceType][j]);
 
           // Return to the main page
-          await unitPage.clickLogo();
+          await headerPage.clickLogo();
         }
       }
     }
@@ -49,6 +53,7 @@ test.describe("C210 Tests", () => {
     mainPage,
     productsPage,
     unitPage,
+    headerPage,
   }) => {
     // Repeat for all special machinery on all tabs
     for (let i = 0; i < specialMachineryData.Type.length; i++) {
@@ -66,7 +71,10 @@ test.describe("C210 Tests", () => {
         j++
       ) {
         // Check the relevant filter is checked and the relevant units display
-        await mainPage.clickSpecialMachinery(i, j);
+        if (i !== 0) {
+          await mainPage.clickSpecialMachineryType(i);
+        }
+        await mainPage.clickSpecialMachineryItem(j);
         await productsPage.checkProductsURL();
         await productsPage.checkRelevantFilter(
           specialMachineryData[specialMachineryType][j].filter
@@ -87,7 +95,7 @@ test.describe("C210 Tests", () => {
           }
 
           // Return to the main page
-          await unitPage.clickLogo();
+          await headerPage.clickLogo();
         }
       }
     }

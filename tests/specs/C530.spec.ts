@@ -11,6 +11,7 @@ test.describe("C530 Tests", () => {
     mainPage,
     productsPage,
     unitPage,
+    headerPage
   }) => {
     async function checkInputSearchPrompt(prompt: string) {
       await mainPage.fillSearchInput(prompt);
@@ -20,7 +21,7 @@ test.describe("C530 Tests", () => {
       await productsPage.areFoundUnitItemsDisplayed(prompt);
       await productsPage.clickFirstUnitItem();
       await unitPage.checkUnitURL();
-      await unitPage.clickLogo();
+      await headerPage.clickLogo();
       await mainPage.clickMainSearchInput();
       await mainPage.isMainSearchDropdownDisplayed();
       await mainPage.isHistoryUnitAdded(prompt);
@@ -50,7 +51,7 @@ test.describe("C530 Tests", () => {
     await unitPage.doesUnitTitleHaveText(inputData.Search.prompts[2]);
 
     // Check only spaces search prompt
-    await unitPage.clickLogo();
+    await headerPage.clickLogo();
     await mainPage.fillSearchInput(inputData.Search.prompts[3]);
     await mainPage.areSearchUnitItemsNotDisplayed();
     await mainPage.areHistoryItemsDisplayed(
@@ -113,7 +114,7 @@ test.describe("C530 Tests", () => {
     await productsPage.areUnitItemsDisplayed();
 
     // Check the non-existing keyword search prompt
-    await productsPage.clickLogo();
+    await headerPage.clickLogo();
     await mainPage.fillSearchInput(inputData.Search.prompts[5]);
     await mainPage.areSearchUnitItemsNotDisplayed();
     await mainPage.pressSearchInputEnter();

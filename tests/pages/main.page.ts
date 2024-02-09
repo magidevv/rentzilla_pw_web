@@ -93,23 +93,24 @@ class MainPage extends BasePage {
     await super.areDisplayed(proposesSpecialMachineryItems);
   }
 
-  public async clickService(
-    countType: number,
-    countService: number
-  ): Promise<void> {
+  public async clickServiceType(countType: number): Promise<void> {
     await super.click(servicesTypeLabel + `[${countType + 1}]`);
-    await super.waitForLoad();
-    await super.click(proposesServicesItems + `[${countService + 1}]`);
-    await super.waitForLoad();
+    await super.waitForTimeout(1000);
   }
 
-  public async clickSpecialMachinery(
-    countType: number,
-    countCategory: number
-  ): Promise<void> {
+  public async clickServiceItem(countService: number): Promise<void> {
+    await super.click(proposesServicesItems + `[${countService + 1}]`);
+    await super.waitForTimeout(500);
+  }
+
+  public async clickSpecialMachineryType(countType: number): Promise<void> {
     await super.click(specialMachineryTypeLabel + `[${countType + 1}]`);
+    await super.waitForTimeout(1000);
+  }
+
+  public async clickSpecialMachineryItem(countCategory: number): Promise<void> {
     await super.click(proposesSpecialMachineryItems + `[${countCategory + 1}]`);
-    await super.waitForLoad();
+    await super.waitForTimeout(500);
   }
 
   public async clickMainSearchInput(): Promise<void> {
