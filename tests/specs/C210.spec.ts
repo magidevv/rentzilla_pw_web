@@ -24,13 +24,15 @@ test.describe("C210 Tests", () => {
 
       // Iterate through the different service types
       const serviceType = servicesData.Type[i];
-
       for (let j = 0; j < servicesData[serviceType].length; j++) {
-        // Check the relevant filter is checked and the relevant units display
         if (i !== 0) {
           await mainPage.clickServiceType(i);
+          console.log("SERVICE TYPE " + i + serviceType);
         }
         await mainPage.clickServiceItem(j);
+        console.log("SERVICE ITEM " + j + servicesData[serviceType][j]);
+
+        // Check the relevant filter is checked and the relevant units display
         await productsPage.checkProductsURL();
         await productsPage.checkRelevantFilter(servicesData[serviceType][j]);
 
@@ -64,17 +66,20 @@ test.describe("C210 Tests", () => {
 
       // Iterate through the different SpecialMachinery types
       const specialMachineryType = specialMachineryData.Type[i];
-
       for (
         let j = 0;
         j < specialMachineryData[specialMachineryType].length;
         j++
       ) {
-        // Check the relevant filter is checked and the relevant units display
         if (i !== 0) {
           await mainPage.clickSpecialMachineryType(i);
+          console.log("MACHINERY TYPE " + i + specialMachineryType);
         }
         await mainPage.clickSpecialMachineryItem(j);
+        console.log(
+          "MACHINERY ITEM " + j + specialMachineryData[specialMachineryType][j].name
+        );
+        // Check the relevant filter is checked and the relevant units display
         await productsPage.checkProductsURL();
         await productsPage.checkRelevantFilter(
           specialMachineryData[specialMachineryType][j].filter
