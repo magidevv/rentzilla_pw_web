@@ -98,6 +98,7 @@ class MainPage extends BasePage {
     countService: number
   ): Promise<void> {
     await super.click(servicesTypeLabel + `[${countType + 1}]`);
+    await super.waitForLoad();
     await super.click(proposesServicesItems + `[${countService + 1}]`);
     await super.waitForLoad();
   }
