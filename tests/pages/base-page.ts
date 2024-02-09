@@ -125,14 +125,15 @@ class BasePage {
     }
   }
 
-  public async areNotDisplayed(
-    element: string,
-    timeout = 5000
-  ): Promise<void> {
+  public async areNotDisplayed(element: string, timeout = 5000): Promise<void> {
     const items = await (await this.getElement(element)).all();
     for (const item of items) {
       await expect(item).not.toBeVisible({ timeout: timeout });
     }
+  }
+
+  public async isNotExist(element: string): Promise<void> {
+    expect((await this.getElement(element)).count()).toEqual(0);
   }
 
   public async getText(element: string): Promise<string> {
