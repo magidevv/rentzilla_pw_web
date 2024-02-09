@@ -17,17 +17,18 @@ test.describe("C210 Tests", () => {
   }) => {
     // Repeat for all services on all tabs
     for (let i = 0; i < servicesData.Type.length; i++) {
-      // Check the services display
-      await mainPage.isServicesLabelDisplayed();
-      await mainPage.areServiceTypeLabelsDisplayed();
-      await mainPage.areProposesServicesItemsDisplayed();
-
       // Iterate through the different service types
       const serviceType = servicesData.Type[i];
       for (let j = 0; j < servicesData[serviceType].length; j++) {
+        // Check the services display
+        await mainPage.isServicesLabelDisplayed();
+        await mainPage.areServiceTypeLabelsDisplayed();
+        await mainPage.areProposesServicesItemsDisplayed();
+
         if (i !== 0) {
           await mainPage.clickServiceType(i);
           console.log("SERVICE TYPE " + i + serviceType);
+          await mainPage.areProposesServicesItemsDisplayed();
         }
         await mainPage.clickServiceItem(j);
         console.log("SERVICE ITEM " + j + servicesData[serviceType][j]);
@@ -59,11 +60,6 @@ test.describe("C210 Tests", () => {
   }) => {
     // Repeat for all special machinery on all tabs
     for (let i = 0; i < specialMachineryData.Type.length; i++) {
-      // Check the special machinery display
-      await mainPage.isSpecialMachineryLabelDisplayed();
-      await mainPage.areSpecialMachineryTypeLabelsDisplayed();
-      await mainPage.areProposesSpecialMachineryItemsDisplayed();
-
       // Iterate through the different SpecialMachinery types
       const specialMachineryType = specialMachineryData.Type[i];
       for (
@@ -71,8 +67,14 @@ test.describe("C210 Tests", () => {
         j < specialMachineryData[specialMachineryType].length;
         j++
       ) {
+        // Check the special machinery display
+        await mainPage.isSpecialMachineryLabelDisplayed();
+        await mainPage.areSpecialMachineryTypeLabelsDisplayed();
+        await mainPage.areProposesSpecialMachineryItemsDisplayed();
+
         if (i !== 0) {
           await mainPage.clickSpecialMachineryType(i);
+          await mainPage.areProposesSpecialMachineryItemsDisplayed();
           // console.log("MACHINERY TYPE " + i + specialMachineryType);
         }
         await mainPage.clickSpecialMachineryItem(j);
