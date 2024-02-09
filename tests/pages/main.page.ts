@@ -253,6 +253,10 @@ class MainPage extends BasePage {
     await super.toHaveText(fieldErrorMsg, errorMsg);
   }
 
+  public async isFieldErrorMsgNotExist(): Promise<void> {
+    await super.isNotExist(fieldErrorMsg);
+  }
+
   public async areFieldErrorMsgsDisplayed(errorMsg: string): Promise<void> {
     await super.areDisplayed(fieldErrorMsg);
     await super.elementsToHaveText(fieldErrorMsg, errorMsg);
@@ -330,6 +334,10 @@ class MainPage extends BasePage {
   public async isLoginErrorMsgDisplayed(errorMsg: string): Promise<void> {
     await super.isDisplayed(loginErrorMsg);
     await super.toHaveText(loginErrorMsg, errorMsg);
+  }
+
+  public async isLoginErrorMsgNotExist(): Promise<void> {
+    await super.isNotExist(loginErrorMsg);
   }
 }
 

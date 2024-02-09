@@ -12,6 +12,19 @@ test.describe("C530 Tests", () => {
     productsPage,
     unitPage,
   }) => {
+    async function checkInputSearchPrompt(prompt: string) {
+      await mainPage.fillSearchInput(prompt);
+      await mainPage.pressSearchInputEnter();
+      await productsPage.checkProductsURL();
+      await productsPage.isMapDisplayed();
+      await productsPage.areFoundUnitItemsDisplayed(prompt);
+      await productsPage.clickFirstUnitItem();
+      await unitPage.checkUnitURL();
+      await unitPage.clickLogo();
+      await mainPage.clickMainSearchInput();
+      await mainPage.isMainSearchDropdownDisplayed();
+      await mainPage.isHistoryUnitAdded(prompt);
+    }
     // Check the search dropdown with elements
     await mainPage.clickMainSearchInput();
     await mainPage.areSearchDropdownElementsDisplayed();
@@ -24,30 +37,10 @@ test.describe("C530 Tests", () => {
 
     // Check the "Трактор" search prompt
     await productsPage.previousPage();
-    await mainPage.fillSearchInput(data.searchPrompts[0]);
-    await mainPage.pressSearchInputEnter();
-    await productsPage.checkProductsURL();
-    await productsPage.isMapDisplayed();
-    await productsPage.areFoundUnitItemsDisplayed(data.searchPrompts[0]);
-    await productsPage.clickFirstUnitItem();
-    await unitPage.checkUnitURL();
-    await unitPage.clickLogo();
-    await mainPage.clickMainSearchInput();
-    await mainPage.isMainSearchDropdownDisplayed();
-    await mainPage.isHistoryUnitAdded(data.searchPrompts[0]);
+    await checkInputSearchPrompt(data.searchPrompts[0]);
 
     // Check the "Ремонт гидравлики" search prompt
-    await mainPage.fillSearchInput(data.searchPrompts[1]);
-    await mainPage.pressSearchInputEnter();
-    await productsPage.checkProductsURL();
-    await productsPage.isMapDisplayed();
-    await productsPage.areFoundUnitItemsDisplayed(data.searchPrompts[1]);
-    await productsPage.clickFirstUnitItem();
-    await unitPage.checkUnitURL();
-    await unitPage.clickLogo();
-    await mainPage.clickMainSearchInput();
-    await mainPage.isMainSearchDropdownDisplayed();
-    await mainPage.isHistoryUnitAdded(data.searchPrompts[1]);
+    await checkInputSearchPrompt(data.searchPrompts[1]);
 
     // Check the "Ремонт" search prompt results
     await mainPage.fillSearchInput(data.searchPrompts[2]);
@@ -56,7 +49,7 @@ test.describe("C530 Tests", () => {
     await unitPage.checkUnitURL();
     await unitPage.doesUnitTitleHaveText(data.searchPrompts[2]);
 
-    // // Check only spaces search prompt
+    // Check only spaces search prompt
     await unitPage.clickLogo();
     await mainPage.fillSearchInput(data.searchPrompts[3]);
     await mainPage.areSearchUnitItemsNotDisplayed();

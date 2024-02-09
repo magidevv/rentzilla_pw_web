@@ -24,6 +24,7 @@ test.describe("C570 Tests", () => {
       }
       await mainPage.isAuthorizationPopupDisplayed();
       await mainPage.isFieldErrorMsgDisplayed(data.invalidEmailOrPhoneErrorMsg);
+      await mainPage.isLoginErrorMsgNotExist();
     }
 
     // Check the authorization with non-existent email
@@ -39,6 +40,7 @@ test.describe("C570 Tests", () => {
       await mainPage.isLoginErrorMsgDisplayed(
         data.invalidEmailOrPasswordErrorMsg
       );
+      await mainPage.isFieldErrorMsgNotExist();
     }
   });
 
@@ -54,6 +56,7 @@ test.describe("C570 Tests", () => {
       }
       await mainPage.isAuthorizationPopupDisplayed();
       await mainPage.isFieldErrorMsgDisplayed(data.invalidPasswordErrorMsg);
+      await mainPage.isLoginErrorMsgNotExist();
     }
 
     // Check the authorization with non-existent password
@@ -69,6 +72,7 @@ test.describe("C570 Tests", () => {
       await mainPage.isLoginErrorMsgDisplayed(
         data.invalidEmailOrPasswordErrorMsg
       );
+      await mainPage.isFieldErrorMsgNotExist();
     }
   });
 });

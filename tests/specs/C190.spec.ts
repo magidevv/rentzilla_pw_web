@@ -21,6 +21,7 @@ test.describe("C190 Tests", () => {
     await mainPage.clickRecaptchaCheckbox();
     await mainPage.clickSubmitRestorePasswordBtn();
     await mainPage.isFieldErrorMsgDisplayed(data.emptyFieldErrorMsg);
+    await mainPage.isLoginErrorMsgNotExist();
 
     // Check the password reset closing
     await mainPage.fillRestorePasswordEmailField(data.existingEmails[0]);
@@ -34,6 +35,7 @@ test.describe("C190 Tests", () => {
       await mainPage.clickRecaptchaCheckbox();
       await mainPage.clickSubmitRestorePasswordBtn();
       await mainPage.isFieldErrorMsgDisplayed(data.invalidEmailErrorMsg);
+      await mainPage.isLoginErrorMsgNotExist();
       await mainPage.isRestorePasswordPopupDisplayed();
     }
 
@@ -56,6 +58,7 @@ test.describe("C190 Tests", () => {
     await mainPage.clickLoginBtn();
     await mainPage.isAuthorizationPopupDisplayed();
     await mainPage.areFieldErrorMsgsDisplayed(data.emptyFieldErrorMsg);
+    await mainPage.isLoginErrorMsgNotExist();
     await mainPage.isEmailFieldRedHighlighted();
     await mainPage.isPasswordFieldRedHighlighted();
 
@@ -66,17 +69,22 @@ test.describe("C190 Tests", () => {
     await mainPage.isEmailFieldNotRedHighlighted();
     await mainPage.isPasswordFieldRedHighlighted();
     await mainPage.isFieldErrorMsgDisplayed(data.emptyFieldErrorMsg);
+    await mainPage.isLoginErrorMsgNotExist();
 
     // Check the authorization after clearing the field
     await mainPage.clearLoginEmailField();
     await mainPage.isEmailFieldRedHighlighted();
     await mainPage.areFieldErrorMsgsDisplayed(data.emptyFieldErrorMsg);
+    await mainPage.isLoginErrorMsgNotExist();
 
     // Check the authorization with empty email field
     await mainPage.fillLoginPasswordField(data.validPassword);
     await mainPage.clickLoginBtn();
     await mainPage.isAuthorizationPopupDisplayed();
     await mainPage.isPasswordFieldNotRedHighlighted();
+    await mainPage.isEmailFieldRedHighlighted();
+    await mainPage.isFieldErrorMsgDisplayed(data.emptyFieldErrorMsg);
+    await mainPage.isLoginErrorMsgNotExist();
   });
 
   test("C201: Authorization with valid email and password", async ({
