@@ -15,23 +15,23 @@ test.describe("C210 Tests", () => {
     unitPage,
     headerPage,
   }) => {
-    // Repeat for all services on all tabs
+    // Check the services display
+    await mainPage.isServicesLabelDisplayed();
+    await mainPage.areServiceTypeLabelsDisplayed();
+    await mainPage.areProposesServicesItemsDisplayed();
+
+    // Check all services on all tabs
     for (let i = 0; i < servicesData.Type.length; i++) {
       // Iterate through the different service types
       const serviceType = servicesData.Type[i];
       for (let j = 0; j < servicesData[serviceType].length; j++) {
-        // Check the services display
-        await mainPage.isServicesLabelDisplayed();
-        await mainPage.areServiceTypeLabelsDisplayed();
-        await mainPage.areProposesServicesItemsDisplayed();
-
         if (i !== 0) {
           await mainPage.clickServiceType(i);
-          console.log("SERVICE TYPE " + i + serviceType);
+          // console.log("SERVICE TYPE " + i + serviceType);
           await mainPage.areProposesServicesItemsDisplayed();
         }
         await mainPage.clickServiceItem(j);
-        console.log("SERVICE ITEM " + j + servicesData[serviceType][j]);
+        // console.log("SERVICE ITEM " + j + servicesData[serviceType][j]);
 
         // Check the relevant filter is checked and the relevant units display
         await productsPage.checkProductsURL();
@@ -47,6 +47,7 @@ test.describe("C210 Tests", () => {
 
           // Return to the main page
           await headerPage.clickLogo();
+          await mainPage.waitForTimeout(1000);
         }
       }
     }
@@ -58,7 +59,12 @@ test.describe("C210 Tests", () => {
     unitPage,
     headerPage,
   }) => {
-    // Repeat for all special machinery on all tabs
+    // Check the special machinery display
+    await mainPage.isSpecialMachineryLabelDisplayed();
+    await mainPage.areSpecialMachineryTypeLabelsDisplayed();
+    await mainPage.areProposesSpecialMachineryItemsDisplayed();
+
+    // Check all special machinery on all tabs
     for (let i = 0; i < specialMachineryData.Type.length; i++) {
       // Iterate through the different SpecialMachinery types
       const specialMachineryType = specialMachineryData.Type[i];
@@ -67,11 +73,6 @@ test.describe("C210 Tests", () => {
         j < specialMachineryData[specialMachineryType].length;
         j++
       ) {
-        // Check the special machinery display
-        await mainPage.isSpecialMachineryLabelDisplayed();
-        await mainPage.areSpecialMachineryTypeLabelsDisplayed();
-        await mainPage.areProposesSpecialMachineryItemsDisplayed();
-
         if (i !== 0) {
           await mainPage.clickSpecialMachineryType(i);
           await mainPage.areProposesSpecialMachineryItemsDisplayed();
@@ -103,6 +104,7 @@ test.describe("C210 Tests", () => {
 
           // Return to the main page
           await headerPage.clickLogo();
+          await mainPage.waitForTimeout(1000);
         }
       }
     }
