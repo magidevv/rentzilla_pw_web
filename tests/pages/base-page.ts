@@ -106,26 +106,26 @@ class BasePage {
     await expect(await this.getElement(element)).toHaveValue(value);
   }
 
-  public async isDisplayed(element: string, timeout = 5000): Promise<void> {
+  public async isDisplayed(element: string, timeout = 3000): Promise<void> {
     await expect(await this.getElement(element)).toBeVisible({
       timeout: timeout,
     });
   }
 
-  public async isNotDisplayed(element: string, timeout = 5000): Promise<void> {
+  public async isNotDisplayed(element: string, timeout = 3000): Promise<void> {
     await expect(await this.getElement(element)).not.toBeVisible({
       timeout: timeout,
     });
   }
 
-  public async areDisplayed(element: string, timeout = 5000): Promise<void> {
+  public async areDisplayed(element: string, timeout = 3000): Promise<void> {
     const items = await (await this.getElement(element)).all();
     for (const item of items) {
       await expect(item).toBeVisible({ timeout: timeout });
     }
   }
 
-  public async areNotDisplayed(element: string, timeout = 5000): Promise<void> {
+  public async areNotDisplayed(element: string, timeout = 3000): Promise<void> {
     const items = await (await this.getElement(element)).all();
     for (const item of items) {
       await expect(item).not.toBeVisible({ timeout: timeout });
