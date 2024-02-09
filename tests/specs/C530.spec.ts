@@ -1,5 +1,5 @@
 import { test } from "../../fixtures/fixtures";
-import data from "../../utils/test-data.json";
+import inputData from "../../utils/input-data.json";
 
 test.describe("C530 Tests", () => {
   test.beforeEach(async ({ mainPage }) => {
@@ -37,43 +37,47 @@ test.describe("C530 Tests", () => {
 
     // Check the "Трактор" search prompt
     await productsPage.previousPage();
-    await checkInputSearchPrompt(data.searchPrompts[0]);
+    await checkInputSearchPrompt(inputData.Search.prompts[0]);
 
     // Check the "Ремонт гидравлики" search prompt
-    await checkInputSearchPrompt(data.searchPrompts[1]);
+    await checkInputSearchPrompt(inputData.Search.prompts[1]);
 
     // Check the "Ремонт" search prompt results
-    await mainPage.fillSearchInput(data.searchPrompts[2]);
-    await mainPage.areSearchUnitItemsDisplayed(data.searchPrompts[2]);
+    await mainPage.fillSearchInput(inputData.Search.prompts[2]);
+    await mainPage.areSearchUnitItemsDisplayed(inputData.Search.prompts[2]);
     await mainPage.clickFirstUnitItem();
     await unitPage.checkUnitURL();
-    await unitPage.doesUnitTitleHaveText(data.searchPrompts[2]);
+    await unitPage.doesUnitTitleHaveText(inputData.Search.prompts[2]);
 
     // Check only spaces search prompt
     await unitPage.clickLogo();
-    await mainPage.fillSearchInput(data.searchPrompts[3]);
+    await mainPage.fillSearchInput(inputData.Search.prompts[3]);
     await mainPage.areSearchUnitItemsNotDisplayed();
-    await mainPage.areHistoryItemsDisplayed(...data.searchPrompts.slice(1, 3));
+    await mainPage.areHistoryItemsDisplayed(
+      ...inputData.Search.prompts.slice(1, 3)
+    );
     await mainPage.areServicesItemsNotDisplayed();
     await mainPage.areCategoryItemsNotDisplayed();
     await mainPage.pressSearchInputEnter();
     await productsPage.checkProductsURL();
-    await productsPage.isEmptySearchResultDisplayed(data.searchResult);
+    await productsPage.isEmptySearchResultDisplayed(inputData.Search.result);
 
     // Check the "123" search prompt
     await productsPage.previousPage();
-    await mainPage.fillSearchInput(data.searchPrompts[4]);
+    await mainPage.fillSearchInput(inputData.Search.prompts[4]);
     if (await mainPage.areSearchUnitItemsGreaterZero()) {
-      await mainPage.areSearchUnitItemsDisplayed(data.searchPrompts[4]);
+      await mainPage.areSearchUnitItemsDisplayed(inputData.Search.prompts[4]);
       await mainPage.pressSearchInputEnter();
-      await productsPage.isSearchResultDisplayed(data.searchPrompts[4]);
-      await productsPage.areFoundUnitItemsDisplayed(data.searchPrompts[4]);
+      await productsPage.isSearchResultDisplayed(inputData.Search.prompts[4]);
+      await productsPage.areFoundUnitItemsDisplayed(
+        inputData.Search.prompts[4]
+      );
       await productsPage.clickFirstUnitItem();
       await unitPage.checkUnitURL();
 
       // Check allowed specific symbols search prompts
       await unitPage.clickSearchInputField();
-      for (const allowedSpecificSymbol of data.allowedSpecificSymbols) {
+      for (const allowedSpecificSymbol of inputData.SpecificSymbols.allowed) {
         await unitPage.fillSearchInputField(allowedSpecificSymbol);
         await mainPage.isMainSearchDropdownDisplayed();
         if (await mainPage.areSearchUnitItemsGreaterZero()) {
@@ -94,12 +98,14 @@ test.describe("C530 Tests", () => {
     } else {
       await mainPage.areSearchUnitItemsNotDisplayed();
       await productsPage.pressSearchInputEnter();
-      await productsPage.isSearchResultDisplayed(data.searchPrompts[4]);
+      await productsPage.isSearchResultDisplayed(inputData.Search.prompts[4]);
     }
 
     // Check forbidden specific symbols search prompts (only first symbol because of bug)
     await productsPage.clickSearchInputField();
-    await productsPage.fillSearchInputField(data.forbiddenSpecificSymbols[0]);
+    await productsPage.fillSearchInputField(
+      inputData.SpecificSymbols.forbidden[0]
+    );
     await productsPage.isSearchInputEmpty();
     await productsPage.pressSearchInputEnter();
     await productsPage.checkProductsURL();
@@ -108,48 +114,50 @@ test.describe("C530 Tests", () => {
 
     // Check the non-existing keyword search prompt
     await productsPage.clickLogo();
-    await mainPage.fillSearchInput(data.searchPrompts[5]);
+    await mainPage.fillSearchInput(inputData.Search.prompts[5]);
     await mainPage.areSearchUnitItemsNotDisplayed();
     await mainPage.pressSearchInputEnter();
     await productsPage.checkProductsURL();
-    await productsPage.doesSearchFieldHaveValue(data.searchPrompts[5]);
-    await productsPage.isSearchResultDisplayed(data.searchPrompts[5]);
+    await productsPage.doesSearchFieldHaveValue(inputData.Search.prompts[5]);
+    await productsPage.isSearchResultDisplayed(inputData.Search.prompts[5]);
 
     // Check the service "Асфальтування" search prompt
     await productsPage.previousPage();
-    await mainPage.fillSearchInput(data.searchPrompts[6]);
+    await mainPage.fillSearchInput(inputData.Search.prompts[6]);
     await mainPage.isMainSearchDropdownDisplayed();
-    await mainPage.areSearchUnitItemsDisplayed(data.searchPrompts[6]);
-    await mainPage.isSearchServiceItemDisplayed(data.searchPrompts[6]);
-    await mainPage.clickSearchServiceItem(data.searchPrompts[6]);
+    await mainPage.areSearchUnitItemsDisplayed(inputData.Search.prompts[6]);
+    await mainPage.isSearchServiceItemDisplayed(inputData.Search.prompts[6]);
+    await mainPage.clickSearchServiceItem(inputData.Search.prompts[6]);
     await productsPage.checkProductsURL();
-    await productsPage.checkRelevantFilter(data.searchPrompts[6]);
+    await productsPage.checkRelevantFilter(inputData.Search.prompts[6]);
     await productsPage.isSearchResultByTeritoryDisplayed();
 
     // Check the category "Драглайн" search prompt
     await productsPage.previousPage();
     await mainPage.clickMainSearchInput();
-    await mainPage.fillSearchInput(data.searchPrompts[7]);
+    await mainPage.fillSearchInput(inputData.Search.prompts[7]);
     await mainPage.isMainSearchDropdownDisplayed();
     await mainPage.areSearchUnitItemsDisplayed(
-      data.searchPrompts[7].toLowerCase()
+      inputData.Search.prompts[7].toLowerCase()
     );
     await mainPage.isSearchCategoryItemDisplayed(
-      data.searchPrompts[7].toLowerCase()
+      inputData.Search.prompts[7].toLowerCase()
     );
-    await mainPage.clickSearchCategoryItem(data.searchPrompts[7].toLowerCase());
+    await mainPage.clickSearchCategoryItem(
+      inputData.Search.prompts[7].toLowerCase()
+    );
     await productsPage.checkProductsURL();
     await productsPage.checkRelevantFilter(
-      data.searchPrompts[7].toLowerCase() + "и"
+      inputData.Search.prompts[7].toLowerCase() + "и"
     );
     await productsPage.isSearchResultByTeritoryDisplayed();
 
     // Check the search field clearing functionality
     await productsPage.previousPage();
     await mainPage.clickMainSearchInput();
-    await mainPage.fillSearchInput(data.searchPrompts[2]);
+    await mainPage.fillSearchInput(inputData.Search.prompts[2]);
     await mainPage.isMainSearchDropdownDisplayed();
-    await mainPage.areSearchUnitItemsDisplayed(data.searchPrompts[2]);
+    await mainPage.areSearchUnitItemsDisplayed(inputData.Search.prompts[2]);
     await mainPage.clickMainSearchClearIcon();
     await mainPage.isMainSearchDropdownNotDisplayed();
     await mainPage.isSearchInputEmpty();
@@ -157,9 +165,9 @@ test.describe("C530 Tests", () => {
     // Check the search history prompts after refreshing the page
     await mainPage.refreshPage();
     await mainPage.areSearchHistoryItemsDisplayed(
-      data.searchPrompts[2],
-      data.searchPrompts[7],
-      data.searchPrompts[6]
+      inputData.Search.prompts[2],
+      inputData.Search.prompts[7],
+      inputData.Search.prompts[6]
     );
   });
 });

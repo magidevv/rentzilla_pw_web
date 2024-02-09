@@ -1,5 +1,6 @@
 import { test } from "../../fixtures/fixtures";
-import data from "../../utils/test-data.json";
+import authorizationData from "../../utils/authorization-data.json";
+import messagesData from "../../utils/messages-data.json";
 
 test.describe("C190 Tests", () => {
   test.beforeEach(async ({ mainPage }) => {
@@ -20,30 +21,36 @@ test.describe("C190 Tests", () => {
     await mainPage.isRestorePasswordPopupDisplayed();
     await mainPage.clickRecaptchaCheckbox();
     await mainPage.clickSubmitRestorePasswordBtn();
-    await mainPage.isFieldErrorMsgDisplayed(data.emptyFieldErrorMsg);
+    await mainPage.isFieldErrorMsgDisplayed(messagesData.Errors.emptyField);
     await mainPage.isLoginErrorMsgNotExist();
 
     // Check the password reset closing
-    await mainPage.fillRestorePasswordEmailField(data.existingEmails[0]);
+    await mainPage.fillRestorePasswordEmailField(
+      authorizationData.Existent.emails[0]
+    );
     await mainPage.clickRestorePasswordCrossIcon();
     await mainPage.isRestorePasswordPopupNotDisplayed();
 
     // Check the password reset with invalid email
     await mainPage.clickForgotPasswordLink();
-    for (const invalidEmail of data.invalidEmails) {
+    for (const invalidEmail of authorizationData.Invalid.emails) {
       await mainPage.fillRestorePasswordEmailField(invalidEmail);
       await mainPage.clickRecaptchaCheckbox();
       await mainPage.clickSubmitRestorePasswordBtn();
-      await mainPage.isFieldErrorMsgDisplayed(data.invalidEmailErrorMsg);
+      await mainPage.isFieldErrorMsgDisplayed(messagesData.Errors.invalidEmail);
       await mainPage.isLoginErrorMsgNotExist();
       await mainPage.isRestorePasswordPopupDisplayed();
     }
 
     // Check the password reset with non-existing email
-    await mainPage.fillRestorePasswordEmailField(data.nonExistingEmails);
+    await mainPage.fillRestorePasswordEmailField(
+      authorizationData.NonExistent.email
+    );
     await mainPage.clickRecaptchaCheckbox();
     await mainPage.pressRestorePasswordEmailFieldEnter();
-    await mainPage.isRestoreErrorMsgDisplayed(data.nonExistingEmailErrorMsg);
+    await mainPage.isRestoreErrorMsgDisplayed(
+      messagesData.Errors.nonExistingEmail
+    );
   });
 
   test("C200: Authorization with empty fields", async ({
@@ -57,33 +64,33 @@ test.describe("C190 Tests", () => {
     await mainPage.isAuthorizationPopupDisplayed();
     await mainPage.clickLoginBtn();
     await mainPage.isAuthorizationPopupDisplayed();
-    await mainPage.areFieldErrorMsgsDisplayed(data.emptyFieldErrorMsg);
+    await mainPage.areFieldErrorMsgsDisplayed(messagesData.Errors.emptyField);
     await mainPage.isLoginErrorMsgNotExist();
     await mainPage.isEmailFieldRedHighlighted();
     await mainPage.isPasswordFieldRedHighlighted();
 
     // Check the authorization with empty password field
-    await mainPage.fillLoginEmailField(data.existingEmails[0]);
+    await mainPage.fillLoginEmailField(authorizationData.Existent.emails[0]);
     await mainPage.clickLoginBtn();
     await mainPage.isAuthorizationPopupDisplayed();
     await mainPage.isEmailFieldNotRedHighlighted();
     await mainPage.isPasswordFieldRedHighlighted();
-    await mainPage.isFieldErrorMsgDisplayed(data.emptyFieldErrorMsg);
+    await mainPage.isFieldErrorMsgDisplayed(messagesData.Errors.emptyField);
     await mainPage.isLoginErrorMsgNotExist();
 
     // Check the authorization after clearing the field
     await mainPage.clearLoginEmailField();
     await mainPage.isEmailFieldRedHighlighted();
-    await mainPage.areFieldErrorMsgsDisplayed(data.emptyFieldErrorMsg);
+    await mainPage.areFieldErrorMsgsDisplayed(messagesData.Errors.emptyField);
     await mainPage.isLoginErrorMsgNotExist();
 
     // Check the authorization with empty email field
-    await mainPage.fillLoginPasswordField(data.validPassword);
+    await mainPage.fillLoginPasswordField(authorizationData.Valid.password);
     await mainPage.clickLoginBtn();
     await mainPage.isAuthorizationPopupDisplayed();
     await mainPage.isPasswordFieldNotRedHighlighted();
     await mainPage.isEmailFieldRedHighlighted();
-    await mainPage.isFieldErrorMsgDisplayed(data.emptyFieldErrorMsg);
+    await mainPage.isFieldErrorMsgDisplayed(messagesData.Errors.emptyField);
     await mainPage.isLoginErrorMsgNotExist();
   });
 
@@ -91,14 +98,14 @@ test.describe("C190 Tests", () => {
     mainPage,
     headerPage,
   }) => {
-    for (let i = 0; i < data.existingEmails.length; i++) {
+    for (let i = 0; i < authorizationData.Existent.emails.length; i++) {
       // Click on the "Вхід" button
       await headerPage.clickHeaderLoginBtn();
 
       // Check the authorization with valid email and password
       await mainPage.isAuthorizationPopupDisplayed();
-      await mainPage.fillLoginEmailField(data.existingEmails[i]);
-      await mainPage.fillLoginPasswordField(data.validPassword);
+      await mainPage.fillLoginEmailField(authorizationData.Existent.emails[i]);
+      await mainPage.fillLoginPasswordField(authorizationData.Valid.password);
       await mainPage.clickHiddenPasswordBtn();
       await mainPage.isPasswordNotHidden();
       await mainPage.clickHiddenPasswordBtn();
@@ -110,7 +117,7 @@ test.describe("C190 Tests", () => {
       }
       await headerPage.clickUserIcon();
       await headerPage.isUserEmailDisplayed(
-        data.existingEmails[i].toLowerCase()
+        authorizationData.Existent.emails[i].toLowerCase()
       );
 
       // Check logout
@@ -123,23 +130,27 @@ test.describe("C190 Tests", () => {
     profilePage,
     headerPage,
   }) => {
-    for (let i = 0; i < data.validPhones.length; i++) {
+    for (let i = 0; i < authorizationData.Valid.phones.length; i++) {
       // Click on the "Вхід" button
       await headerPage.clickHeaderLoginBtn();
 
       // Check the authorization with valid phone and password
       await mainPage.isAuthorizationPopupDisplayed();
-      await mainPage.fillLoginEmailField(data.validPhones[i]);
+      await mainPage.fillLoginEmailField(authorizationData.Valid.phones[i]);
       await mainPage.isEmailFieldNotRedHighlighted();
-      await mainPage.fillLoginPasswordField(data.validPassword);
+      await mainPage.fillLoginPasswordField(authorizationData.Valid.password);
       await mainPage.isPasswordFieldNotRedHighlighted();
       await mainPage.clickLoginBtn();
       await headerPage.clickUserIcon();
-      await headerPage.isUserEmailDisplayed(data.existingEmails[0]);
+      await headerPage.isUserEmailDisplayed(
+        authorizationData.Existent.emails[0]
+      );
       await headerPage.clickProfileLink();
       await profilePage.checkProfileURL();
-      await profilePage.isUserPhoneNumberDisplayed(data.profilePhone);
-      await profilePage.isUserPhoneNumberVerificated(data.verificationMsg);
+      await profilePage.isUserPhoneNumberDisplayed(
+        authorizationData.Existent.phone
+      );
+      await profilePage.isUserPhoneNumberVerificated(messagesData.verification);
       await profilePage.clickLogoutLink();
     }
   });

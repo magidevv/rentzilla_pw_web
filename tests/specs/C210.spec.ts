@@ -1,5 +1,7 @@
 import { test } from "../../fixtures/fixtures";
-import data from "../../utils/test-data.json";
+import servicesData from "../../utils/services-data.json";
+import specialMachineryData from "../../utils/special-machinery-data.json";
+import inputData from "../../utils/input-data.json";
 
 test.describe("C210 Tests", () => {
   test.beforeEach(async ({ mainPage }) => {
@@ -13,20 +15,20 @@ test.describe("C210 Tests", () => {
     unitPage,
   }) => {
     // Repeat for all services on all tabs
-    for (let i = 0; i < data.Services.Type.length; i++) {
+    for (let i = 0; i < servicesData.Type.length; i++) {
       // Check the services display
       await mainPage.isServicesLabelDisplayed();
       await mainPage.areServiceTypeLabelsDisplayed();
       await mainPage.areProposesServicesItemsDisplayed();
 
       // Iterate through the different service types
-      const serviceType = data.Services.Type[i];
+      const serviceType = servicesData.Type[i];
 
-      for (let j = 0; j < data.Services[serviceType].length; j++) {
+      for (let j = 0; j < servicesData[serviceType].length; j++) {
         // Check the relevant filter is checked and the relevant units display
         await mainPage.clickService(i, j);
         await productsPage.checkProductsURL();
-        await productsPage.checkRelevantFilter(data.Services[serviceType][j]);
+        await productsPage.checkRelevantFilter(servicesData[serviceType][j]);
 
         if (await productsPage.isUnitCountGreaterZero()) {
           await productsPage.areUnitItemsDisplayed();
@@ -34,7 +36,7 @@ test.describe("C210 Tests", () => {
           // Check the unit page is opened and contains the relevant service
           await productsPage.clickFirstUnitItem();
           await unitPage.checkUnitURL();
-          await unitPage.isUnitServiceDisplayed(data.Services[serviceType][j]);
+          await unitPage.isUnitServiceDisplayed(servicesData[serviceType][j]);
 
           // Return to the main page
           await unitPage.clickLogo();
@@ -49,25 +51,25 @@ test.describe("C210 Tests", () => {
     unitPage,
   }) => {
     // Repeat for all special machinery on all tabs
-    for (let i = 0; i < data.SpecialMachinery.Type.length; i++) {
+    for (let i = 0; i < specialMachineryData.Type.length; i++) {
       // Check the special machinery display
       await mainPage.isSpecialMachineryLabelDisplayed();
       await mainPage.areSpecialMachineryTypeLabelsDisplayed();
       await mainPage.areProposesSpecialMachineryItemsDisplayed();
 
       // Iterate through the different SpecialMachinery types
-      const specialMachineryType = data.SpecialMachinery.Type[i];
+      const specialMachineryType = specialMachineryData.Type[i];
 
       for (
         let j = 0;
-        j < data.SpecialMachinery[specialMachineryType].length;
+        j < specialMachineryData[specialMachineryType].length;
         j++
       ) {
         // Check the relevant filter is checked and the relevant units display
         await mainPage.clickSpecialMachinery(i, j);
         await productsPage.checkProductsURL();
         await productsPage.checkRelevantFilter(
-          data.SpecialMachinery[specialMachineryType][j].filter
+          specialMachineryData[specialMachineryType][j].filter
         );
         if (await productsPage.isUnitCountGreaterZero()) {
           try {
@@ -77,7 +79,7 @@ test.describe("C210 Tests", () => {
             await productsPage.clickFirstUnitItem();
             await unitPage.checkUnitURL();
             await unitPage.isUnitCategoryDisplayed(
-              data.SpecialMachinery[specialMachineryType][j].category
+              specialMachineryData[specialMachineryType][j].category
             );
           } catch (error) {
             console.error("Failed:", error.message);
@@ -123,7 +125,9 @@ test.describe("C210 Tests", () => {
     // Check the products page
     await footerPage.clickAdvertisment();
     await productsPage.isPlaceholderDisplayed();
-    await productsPage.doesPlaceholderHaveText(data.placeholderProductsText);
+    await productsPage.doesPlaceholderHaveText(
+      inputData.Placeholders.productsText
+    );
 
     // Return to the «Rentzila» main page
     await headerPage.clickLogo();
@@ -131,7 +135,9 @@ test.describe("C210 Tests", () => {
     // Check the tenders page
     await footerPage.clickTenders();
     await tendersPage.isPlaceholderDisplayed();
-    await tendersPage.doesPlaceholderHaveText(data.placeholderTendersText);
+    await tendersPage.doesPlaceholderHaveText(
+      inputData.Placeholders.tendersText
+    );
 
     // Return to the «Rentzila» main page
     await headerPage.clickLogo();

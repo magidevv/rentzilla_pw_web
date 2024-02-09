@@ -1,5 +1,7 @@
 import { test } from "../../fixtures/fixtures";
-import data from "../../utils/test-data.json";
+import authorizationData from "../../utils/authorization-data.json";
+import messagesData from "../../utils/messages-data.json";
+import inputData from "../../utils/input-data.json";
 
 test.describe("C220 Tests", () => {
   test.beforeEach(async ({ mainPage }) => {
@@ -19,11 +21,11 @@ test.describe("C220 Tests", () => {
     await footerPage.clickQuestionFormSubmitBtn();
     await footerPage.areQuestionFormFieldsRedHighlighted();
     await footerPage.areQuestionFormErrorLabelsDisplayed(
-      data.emptyFieldErrorMsg
+      messagesData.Errors.emptyField
     );
 
     // Check the form submit with empty phone number field
-    await footerPage.fillQuestionFormNameField(data.names);
+    await footerPage.fillQuestionFormNameField(authorizationData.Valid.name);
     await footerPage.clickQuestionFormSubmitBtn();
     await footerPage.isQuestionFormNameFieldNotRedHighlighted();
     await footerPage.isQuestionFormPhoneFieldRedHighlighted();
@@ -31,39 +33,54 @@ test.describe("C220 Tests", () => {
     //Check the prefilled phone number part
     await footerPage.clickQuestionFormPhoneField();
     await footerPage.doesQuestionFormPhoneHavePrefilledPart(
-      data.prefilledPhoneNumberPart
+      inputData.prefilledPhoneNumberPart
     );
 
     // Check the form submit with empty phone number field
-    await footerPage.fillQuestionFormPhoneField(data.validPhones[0]);
+    await footerPage.fillQuestionFormPhoneField(
+      authorizationData.Valid.phones[0]
+    );
     await footerPage.clearQuestionFormNameField();
     await footerPage.clickQuestionFormSubmitBtn();
     await footerPage.isQuestionFormNameFieldRedHighlighted();
     await footerPage.isQuestionFormPhoneFieldNotRedHighlighted();
 
     // Check the phone number field validation with invalid phone numbers
-    await footerPage.fillQuestionFormNameField(data.names);
-    for (const invalidPhone of data.invalidPhones) {
+    await footerPage.fillQuestionFormNameField(authorizationData.Valid.name);
+    for (const invalidPhone of authorizationData.Invalid.phones) {
       await footerPage.fillQuestionFormPhoneField(invalidPhone);
       await footerPage.clickQuestionFormSubmitBtn();
       await footerPage.isQuestionFormNameFieldNotRedHighlighted();
       await footerPage.isQuestionFormPhoneFieldRedHighlighted();
       await footerPage.isQuestionFormPhoneErrorLabelDisplayed(
-        data.invalidPhoneNumberErrorMsg
+        messagesData.Errors.invalidPhoneNumber
       );
     }
 
     // Check the successful form submit with valid data
-    await footerPage.fillQuestionFormPhoneField(data.validPhones[0]);
+    await footerPage.fillQuestionFormPhoneField(
+      authorizationData.Valid.phones[0]
+    );
     await footerPage.clickQuestionFormSubmitBtn();
     await mainPage.waitForModalAccept();
 
     // Check the feedback is present (then delete)
     await mainPage.toBeTrue(
-      await apiHelper.checkResponseResults(data.names, data.validPhones[0])
+      await apiHelper.checkResponseResults(
+        authorizationData.Valid.name,
+        authorizationData.Valid.phones[0]
+      )
     );
-    if (await apiHelper.checkResponseResults(data.names, data.validPhones[0])) {
-      await apiHelper.deleteFeedback(data.names, data.validPhones[0]);
+    if (
+      await apiHelper.checkResponseResults(
+        authorizationData.Valid.name,
+        authorizationData.Valid.phones[0]
+      )
+    ) {
+      await apiHelper.deleteFeedback(
+        authorizationData.Valid.name,
+        authorizationData.Valid.phones[0]
+      );
     }
   });
 });
