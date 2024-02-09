@@ -8,7 +8,7 @@ const data: any = {
   password: process.env.ADMIN_PASSWORD,
 };
 
-class ApiHelper {
+class APIhelper {
   constructor(private request: APIRequestContext) {
     this.request = request;
   }
@@ -80,4 +80,4 @@ class ApiHelper {
   }
 }
 
-export default ApiHelper;
+export default APIhelper;

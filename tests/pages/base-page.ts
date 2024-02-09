@@ -133,7 +133,8 @@ class BasePage {
   }
 
   public async isNotExist(element: string): Promise<void> {
-    expect((await this.getElement(element)).count()).toEqual(0);
+    const count = await (await this.getElement(element)).count();
+    expect(count).toEqual(0);
   }
 
   public async getText(element: string): Promise<string> {

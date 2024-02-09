@@ -1,5 +1,5 @@
 import { test as base } from "@playwright/test";
-import ApiHelper from "../utils/API.helper";
+import APIhelper from "../utils/API-helper";
 import MainPage from "../tests/pages/main.page";
 import ProductsPage from "../tests/pages/products.page";
 import UnitPage from "../tests/pages/unit.page";
@@ -12,7 +12,7 @@ import HeaderPage from "../tests/pages/header.page";
 import FooterPage from "../tests/pages/footer.page";
 
 type MyFixtures = {
-  apiHelper: ApiHelper;
+  apiHelper: APIhelper;
   mainPage: MainPage;
   productsPage: ProductsPage;
   unitPage: UnitPage;
@@ -57,6 +57,6 @@ export const test = base.extend<MyFixtures>({
     await use(new ProfilePage(page));
   },
   apiHelper: async ({ request }, use) => {
-    await use(new ApiHelper(request));
+    await use(new APIhelper(request));
   },
 });
