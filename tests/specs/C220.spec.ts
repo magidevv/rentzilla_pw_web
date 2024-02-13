@@ -71,16 +71,15 @@ test.describe("C220 Tests", () => {
         authorizationData.Valid.phones[0]
       )
     );
-    if (
+    await apiHelper.deleteFeedback(
+      authorizationData.Valid.name,
+      authorizationData.Valid.phones[0]
+    );
+    await mainPage.toBeFalse(
       await apiHelper.checkResponseResults(
         authorizationData.Valid.name,
         authorizationData.Valid.phones[0]
       )
-    ) {
-      await apiHelper.deleteFeedback(
-        authorizationData.Valid.name,
-        authorizationData.Valid.phones[0]
-      );
-    }
+    );
   });
 });
