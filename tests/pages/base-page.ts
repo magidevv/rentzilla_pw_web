@@ -230,6 +230,14 @@ class BasePage {
   async toBeTrue(element: any): Promise<void> {
     expect(element).toBeTruthy();
   }
+
+  async toBeFalse(element: any): Promise<void> {
+    expect(element).toBeFalsy();
+  }
+
+  async toEqual(element: any, value: any): Promise<void> {
+    expect(element).toEqual(value);
+  }
 }
 
 export default BasePage;
