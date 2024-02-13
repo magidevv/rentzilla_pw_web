@@ -12,7 +12,10 @@ jobs:
     env:
       ENV: ${{ secrets.ENV }}
       ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
-      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }} 
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      MY_EMAIL: ${{secrets.MY_EMAIL}}
+      MY_PASSWORD: ${{secrets.MY_PASSWORD}}
+      MY_PHONE: ${{secrets.MY_PHONE}}
 
     steps:
       - name: Checkout code
