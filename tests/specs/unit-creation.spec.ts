@@ -1,13 +1,11 @@
 import { test } from "../../fixtures/fixtures";
-import FakerHelper from "../../utils/faker-helper";
+import { generateRandomCombination } from "../../utils/random.util";
 
 const data: any = {
-  userEmail: process.env.MY_EMAIL,
-  userPassword: process.env.MY_PASSWORD,
+  userEmail: process.env.USER_EMAIL,
+  userPassword: process.env.USER_PASSWORD,
 };
 
-const randomUnitName = FakerHelper.generateRandomCombination();
-const unitName = randomUnitName;
 let status: number;
 
 test.describe("API testing", () => {
@@ -24,13 +22,15 @@ test.describe("API testing", () => {
     apiHelper,
   }) => {
     // Create the random unit via API
+    const randomUnitName = "Test " + generateRandomCombination();
+    const unitName = randomUnitName;
     status = await apiHelper.createUnit(unitName);
     await mainPage.toEqual(status, 201);
 
     // Click on the "Вхід" button
     await headerPage.clickHeaderLoginBtn();
 
-    // Authorization with my account
+    // Authorization with user account
     await mainPage.isAuthorizationPopupDisplayed();
     await mainPage.fillLoginEmailField(data.userEmail);
     await mainPage.fillLoginPasswordField(data.userPassword);

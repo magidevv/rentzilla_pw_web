@@ -6,6 +6,7 @@ let accessToken: any = null;
 let feedbackList: any;
 let userMe: any;
 let unitList: any;
+let tenderList: any;
 let manufacturerList: any;
 let categoryList: any;
 let serviceList: any;
@@ -14,9 +15,9 @@ const data: any = {
   adminEmail: process.env.ADMIN_EMAIL,
   adminPassword: process.env.ADMIN_PASSWORD,
 
-  userEmail: process.env.MY_EMAIL,
-  userPassword: process.env.MY_PASSWORD,
-  userPhone: process.env.MY_PHONE,
+  userEmail: process.env.USER_EMAIL,
+  userPassword: process.env.USER_PASSWORD,
+  userPhone: process.env.USER_PHONE,
 };
 
 class APIhelper {
@@ -264,7 +265,7 @@ class APIhelper {
       }
     );
     serviceList = await response.json();
-    //console.log(serviceList);
+    // console.log(serviceList);
     return serviceList;
   }
 
@@ -330,6 +331,91 @@ class APIhelper {
         },
       }
     );
+  }
+
+  async getTenderList(): Promise<any> {
+    const userAccessToken = await this.createAccessToken();
+    const response = await this.request.get(
+      `https://stage.rentzila.com.ua/api/tenders/`,
+      {
+        headers: {
+          Authorization: `Bearer ${userAccessToken}`,
+        },
+      }
+    );
+    tenderList = await response.json();
+    console.log(tenderList);
+    return tenderList;
+  }
+
+  async checkTenderResponseResults(name: string): Promise<boolean> {
+    const response = await this.getTenderList();
+    for (const tender of response.tenders) {
+      if (tender.name === name) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  async getTenderId(name: string): Promise<number | null> {
+    const response = await this.getTenderList();
+    let id: number | null = null;
+    for (const tender of response.tenders) {
+      if (tender.name === name) {
+        id = tender.id;
+        console.log(tender.name);
+        return id;
+      }
+    }
+    return id;
+  }
+
+  async deleteTender(name: string): Promise<void> {
+    const id = await this.getTenderId(name);
+    const userAccessToken = await this.createAccessToken();
+    await this.request.patch(
+      `https://stage.rentzila.com.ua/api/tender/${id}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${userAccessToken}`,
+        },
+        data: {
+          is_closed: true,
+        },
+      }
+    );
+    await this.request.delete(
+      `https://stage.rentzila.com.ua/api/tender/${id}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${userAccessToken}`,
+        },
+      }
+    );
+  }
+
+  async deleteService(name: string): Promise<void> {
+    const id = await this.getServiceId(name);
+    const userAccessToken = await this.createAccessToken();
+    await this.request.delete(
+      `https://stage.rentzila.com.ua/api/crm/services/${id}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${userAccessToken}`,
+        },
+      }
+    );
+  }
+
+  async checkServiceResponseResults(name: string): Promise<boolean> {
+    const response = await this.getServiceList();
+    for (const service of response) {
+      if (service.name === name) {
+        return true;
+      }
+    }
+    return false;
   }
 }
 
