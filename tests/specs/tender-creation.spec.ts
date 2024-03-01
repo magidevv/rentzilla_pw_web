@@ -218,7 +218,7 @@ test.describe("Tender Creation", () => {
     await createTenderPage.clickEndDateField();
     await createTenderPage.isCalendarDisplayed();
     await createTenderPage.selectNextDay(1);
-    await createTenderPage.selectNextTime(0);
+    await createTenderPage.selectNextTime(1);
 
     for (let i = 0; i < 4; i++) {
       await createTenderPage.fillBudgetAmountField(
@@ -232,7 +232,7 @@ test.describe("Tender Creation", () => {
     );
     await createTenderPage.verifyBudgetAmountLength(9);
 
-    await createTenderPage.clickChooseOnMapBtn();
+    await createTenderPage.clickWorkPlaceField();
     await createTenderPage.fillWorkCityField(invalidTenderData.workAddress[0]);
     await createTenderPage.isWorkCityFieldDropdownNotDisplayed();
     await createTenderPage.isAddressDisplayed();

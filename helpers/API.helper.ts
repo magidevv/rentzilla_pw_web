@@ -147,7 +147,7 @@ class APIhelper {
     );
 
     const responseBodyUnit = await responseUnit.json();
-    console.log(responseBodyUnit);
+    // console.log(responseBodyUnit);
 
     // Check if the unit was created successfully
     if (responseUnit.status() !== 201) {
@@ -344,7 +344,7 @@ class APIhelper {
       }
     );
     tenderList = await response.json();
-    console.log(tenderList);
+    // console.log(tenderList);
     return tenderList;
   }
 
