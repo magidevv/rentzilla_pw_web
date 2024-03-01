@@ -93,13 +93,11 @@ test.describe("Tender Creation", () => {
 
     await createTenderPage.clickStartDateField();
     await createTenderPage.isCalendarDisplayed();
-    await createTenderPage.clickNextMonthBtn();
     await createTenderPage.selectCurrentDay();
     await createTenderPage.selectCurrentTime();
 
     await createTenderPage.clickEndDateField();
     await createTenderPage.isCalendarDisplayed();
-    await createTenderPage.clickNextMonthBtn();
     await createTenderPage.selectNextDay(2);
     await createTenderPage.selectNextTime(1);
 

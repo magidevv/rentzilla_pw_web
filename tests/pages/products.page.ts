@@ -52,7 +52,7 @@ class ProductsPage extends BasePage {
   }
 
   public async doesPlaceholderHaveText(text: string): Promise<void> {
-    await super.doesElementAttrHaveText(
+    await super.doesElementAttrHaveValue(
       searchInputPlaceholder,
       "placeholder",
       text

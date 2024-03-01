@@ -66,21 +66,31 @@ class BasePage {
     element: string,
     text: string
   ): Promise<void> {
-    const elements = await this.getElement(element);
-    const el = elements.first();
-    const elText = await el.innerText();
-    const ariaDisabled = await el.getAttribute("aria-disabled");
+    const filteredEl = (await this.getElement(element)).filter({
+      hasText: text,
+    });
 
-    if (elText.includes(text) && ariaDisabled !== "true") {
-      await el.click();
+    for (const el of await filteredEl.all()) {
+      const ariaDisabled = await el.getAttribute("aria-disabled");
+      if (ariaDisabled === "false") {
+        await el.click();
+        return;
+      }
     }
   }
 
   public async filteredClickLast(element: string, text: string): Promise<void> {
-    await (await this.getElement(element))
-      .filter({ hasText: text })
-      .last()
-      .click();
+    const filteredEl = (await this.getElement(element)).filter({
+      hasText: text,
+    });
+
+    for (const el of await filteredEl.all()) {
+      const ariaDisabled = await el.getAttribute("aria-disabled");
+      if (ariaDisabled === "false") {
+        await el.click();
+        return;
+      }
+    }
   }
 
   public async hover(element: string): Promise<void> {

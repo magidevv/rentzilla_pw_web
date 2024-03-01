@@ -322,11 +322,11 @@ class MainPage extends BasePage {
   }
 
   public async isPasswordHidden(): Promise<void> {
-    await super.doesElementAttrHaveText(loginPasswordField, "type", "password");
+    await super.doesElementAttrHaveValue(loginPasswordField, "type", "password");
   }
 
   public async isPasswordNotHidden(): Promise<void> {
-    await super.doesElementAttrHaveText(loginPasswordField, "type", "text");
+    await super.doesElementAttrHaveValue(loginPasswordField, "type", "text");
   }
 
   public async pressPasswordFieldEnter(): Promise<void> {
