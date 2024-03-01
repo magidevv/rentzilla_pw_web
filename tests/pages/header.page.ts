@@ -20,6 +20,9 @@ const profileDropdownMenu: string =
 const profileDropdownMenuUserEmail: string = "//div[@data-testid='email']";
 const profileDropdownMenuLogoutLink: string = "//div[@data-testid='logout']";
 const profileDropdownMenuProfileLink: string = "//div[@data-testid='profile']";
+const profileDropdownMenuTendersLink: string = "//div[@data-testid='tenders']";
+const profileDropdownMenuMyTendersLink: string =
+  "//div[@data-testid='tenders']//li[1]";
 
 class HeaderPage extends BasePage {
   constructor(page: Page) {
@@ -135,7 +138,14 @@ class HeaderPage extends BasePage {
   }
 
   public async clickProfileLink(): Promise<void> {
+    await super.isDisplayed(profileDropdownMenu);
     await super.click(profileDropdownMenuProfileLink);
+  }
+
+  public async clickMyTendersLink(): Promise<void> {
+    await super.hover(profileDropdownMenuTendersLink);
+    await super.isDisplayed(profileDropdownMenuMyTendersLink);
+    await super.click(profileDropdownMenuMyTendersLink);
   }
 }
 

@@ -62,6 +62,27 @@ class BasePage {
     await (await this.getElement(element)).filter({ hasText: text }).click();
   }
 
+  public async filteredClickFirst(
+    element: string,
+    text: string
+  ): Promise<void> {
+    const elements = await this.getElement(element);
+    const el = elements.first();
+    const elText = await el.innerText();
+    const ariaDisabled = await el.getAttribute("aria-disabled");
+
+    if (elText.includes(text) && ariaDisabled !== "true") {
+      await el.click();
+    }
+  }
+
+  public async filteredClickLast(element: string, text: string): Promise<void> {
+    await (await this.getElement(element))
+      .filter({ hasText: text })
+      .last()
+      .click();
+  }
+
   public async hover(element: string): Promise<void> {
     await (await this.getElement(element)).hover();
   }
@@ -87,11 +108,29 @@ class BasePage {
     await (await this.getElement(element)).first().click();
   }
 
+  public async doesFirstElHaveText(
+    element: string,
+    text: string
+  ): Promise<void> {
+    await expect((await this.getElement(element)).first()).toHaveText(text);
+  }
+
+  public async getFirstElText(element: string): Promise<string> {
+    const textContent = await (await this.getElement(element))
+      ?.first()
+      .textContent();
+    return textContent ?? "";
+  }
+
   public async clickAll(element: string): Promise<void> {
     const items = await (await this.getElement(element)).all();
     for (const item of items) {
       await item.click();
     }
+  }
+
+  public async getInputValue(element: string): Promise<string> {
+    return await (await this.getElement(element)).inputValue({ timeout: 1000 });
   }
 
   public async setValue(element: string, value: string): Promise<void> {
@@ -102,12 +141,25 @@ class BasePage {
     await (await this.getElement(element)).clear();
   }
 
+  public async isEmpty(element: string): Promise<void> {
+    await expect(await this.getElement(element)).toBeEmpty();
+  }
+
   public async toHaveValue(element: string, value: string): Promise<void> {
     await expect(await this.getElement(element)).toHaveValue(value);
   }
 
   public async isDisplayed(element: string, timeout = 5000): Promise<void> {
     await expect(await this.getElement(element)).toBeVisible({
+      timeout: timeout,
+    });
+  }
+
+  public async isFirstDisplayed(
+    element: string,
+    timeout = 5000
+  ): Promise<void> {
+    await expect((await this.getElement(element)).first()).toBeVisible({
       timeout: timeout,
     });
   }
@@ -193,6 +245,18 @@ class BasePage {
     await expect(await this.getElement(element)).toHaveAttribute("href");
   }
 
+  public async getAttributeValue(
+    element: string,
+    attribute: string
+  ): Promise<string> {
+    const attrValue = await (
+      await this.getElement(element)
+    )?.getAttribute(attribute, {
+      timeout: 1000,
+    });
+    return attrValue ?? "";
+  }
+
   public async doesElementHaveAttr(
     element: string,
     attribute: string
@@ -200,17 +264,15 @@ class BasePage {
     await expect(await this.getElement(element)).toHaveAttribute(attribute);
   }
 
-  public async doesElementAttrHaveText(
+  public async doesElementAttrHaveValue(
     element: string,
     attribute: string,
-    text: string
+    value: string
   ): Promise<void> {
-    const attributeText = await (
-      await this.getElement(element)
-    ).evaluate((input, attr) => {
-      return input.getAttribute(attr);
-    }, attribute);
-    expect(attributeText).toBe(text);
+    await expect(await this.getElement(element)).toHaveAttribute(
+      attribute,
+      value
+    );
   }
 
   async isFieldRedHighlighted(field: string): Promise<void> {
@@ -227,6 +289,10 @@ class BasePage {
     );
   }
 
+  public async upload(element: string, path: string): Promise<void> {
+    await (await this.getElement(element)).setInputFiles(path);
+  }
+
   async toBeTrue(element: any): Promise<void> {
     expect(element).toBeTruthy();
   }
@@ -237,6 +303,10 @@ class BasePage {
 
   async toEqual(element: any, value: any): Promise<void> {
     expect(element).toEqual(value);
+  }
+
+  async valuesEqual(firstValue: any, secondValue: any): Promise<void> {
+    expect(firstValue).toEqual(secondValue);
   }
 }
 

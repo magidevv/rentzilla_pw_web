@@ -1,5 +1,5 @@
 import { test as base } from "@playwright/test";
-import APIhelper from "../utils/API-helper";
+import APIhelper from "../helpers/API.helper";
 import MainPage from "../tests/pages/main.page";
 import ProductsPage from "../tests/pages/products.page";
 import UnitPage from "../tests/pages/unit.page";
@@ -11,6 +11,8 @@ import ProfilePage from "../tests/pages/profile.page";
 import HeaderPage from "../tests/pages/header.page";
 import FooterPage from "../tests/pages/footer.page";
 import OwnerUnitsPage from "../tests/pages/owner-units.page";
+import OwnerTendersPage from "../tests/pages/owner-tenders.page";
+import CreateTenderPage from "../tests/pages/create-tender.page";
 
 type MyFixtures = {
   apiHelper: APIhelper;
@@ -23,6 +25,8 @@ type MyFixtures = {
   tendersPage: TendersPage;
   profilePage: ProfilePage;
   ownerUnitsPage: OwnerUnitsPage;
+  ownerTendersPage: OwnerTendersPage;
+  createTenderPage: CreateTenderPage;
   headerPage: HeaderPage;
   footerPage: FooterPage;
 };
@@ -60,6 +64,12 @@ export const test = base.extend<MyFixtures>({
   },
   ownerUnitsPage: async ({ page }, use) => {
     await use(new OwnerUnitsPage(page));
+  },
+  ownerTendersPage: async ({ page }, use) => {
+    await use(new OwnerTendersPage(page));
+  },
+  createTenderPage: async ({ page }, use) => {
+    await use(new CreateTenderPage(page));
   },
   apiHelper: async ({ request }, use) => {
     await use(new APIhelper(request));
