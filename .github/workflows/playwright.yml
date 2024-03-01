@@ -10,12 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      ENV: ${{ secrets.ENV }}
+      BASE_URL: ${{ secrets.BASE_URL }}
       ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
       ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-      MY_EMAIL: ${{secrets.MY_EMAIL}}
-      MY_PASSWORD: ${{secrets.MY_PASSWORD}}
-      MY_PHONE: ${{secrets.MY_PHONE}}
+
+      USER_EMAIL: ${{secrets.USER_EMAIL}}
+      USER_PASSWORD: ${{secrets.USER_PASSWORD}}
+      USER_PHONE: ${{secrets.USER_PHONE}}
 
     steps:
       - name: Checkout code
@@ -25,7 +26,7 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --no-optional
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
