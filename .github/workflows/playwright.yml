@@ -18,6 +18,10 @@ jobs:
       USER_PASSWORD: ${{secrets.USER_PASSWORD}}
       USER_PHONE: ${{secrets.USER_PHONE}}
 
+      TESTUSER_EMAIL: ${{secrets.TESTUSER_EMAIL}}
+      TESTUSER_PASSWORD: ${{secrets.TESTUSER_PASSWORD}}
+      TESTUSER_PHONE: ${{secrets.TESTUSER_PHONE}}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
