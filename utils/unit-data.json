@@ -1,0 +1,19 @@
+{
+  "name": "Sample Unit",
+  "model_name": "Sample model",
+  "description": "This is a sample unit created via API.",
+  "features": "Sample features of the unit.",
+  "type_of_work": "HOUR",
+  "time_of_work": "",
+  "minimal_price": 1500,
+  "money_value": "USD",
+  "payment_method": "CASH_OR_CARD",
+  "lat": 50.453,
+  "lng": 30.516,
+  "count": 1,
+  "is_approved": false,
+  "is_archived": false,
+  "manufacturer": "ABAC",
+  "category": "всюдиходи",
+  "services": "Риття ям"
+}

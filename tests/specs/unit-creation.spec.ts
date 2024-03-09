@@ -6,9 +6,7 @@ const data: any = {
   userPassword: process.env.USER_PASSWORD,
 };
 
-let status: number;
-
-test.describe("API testing", () => {
+test.describe("Unit Creation", () => {
   test.beforeEach(async ({ mainPage }) => {
     // Open the «Rentzila» main page
     await mainPage.openMainURL();
@@ -22,10 +20,7 @@ test.describe("API testing", () => {
     apiHelper,
   }) => {
     // Create the random unit via API
-    const randomUnitName = "Test " + generateRandomCombination();
-    const unitName = randomUnitName;
-    status = await apiHelper.createUnit(unitName);
-    await mainPage.toEqual(status, 201);
+    const unitName = await apiHelper.createUnit();
 
     // Click on the "Вхід" button
     await headerPage.clickHeaderLoginBtn();

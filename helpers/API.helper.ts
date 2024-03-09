@@ -1,6 +1,7 @@
 import { APIRequestContext } from "@playwright/test";
 import fs from "fs";
 import path from "path";
+import { generateRandomCombination } from "../utils/random.util";
 
 let accessToken: any = null;
 let feedbackList: any;
@@ -24,10 +25,11 @@ class APIhelper {
   constructor(private request: APIRequestContext) {
     this.request = request;
   }
+
   async createAccessToken(): Promise<string> {
-    if (!accessToken) {
+    if (accessToken === null) {
       const response = await this.request.post(
-        `https://stage.rentzila.com.ua/api/auth/jwt/create/`,
+        "https://stage.rentzila.com.ua/api/auth/jwt/create/",
         {
           data: {
             email: data.adminEmail,
@@ -35,8 +37,8 @@ class APIhelper {
           },
         }
       );
-      const responseBody = await response.json();
-      accessToken = responseBody.access;
+      const responseData = await response.json();
+      accessToken = responseData.access;
     }
     return accessToken;
   }
@@ -108,11 +110,18 @@ class APIhelper {
     return accessToken;
   }
 
-  async createUnit(name: string): Promise<number> {
+  async createUnit(): Promise<string> {
+    const name = "Test " + generateRandomCombination();
+    const unitDataString = await fs.promises.readFile(
+      "utils/unit-data.json",
+      "utf8"
+    );
+    const unitData = JSON.parse(unitDataString);
+
     const owner = await this.getMyUserId();
-    const manufacturer = await this.getManufacturerId("ABAC");
-    const category = await this.getCategoryId("всюдиходи");
-    const services = await this.getServiceId("Риття ям");
+    const manufacturer = await this.getManufacturerId(unitData.manufacturer);
+    const category = await this.getCategoryId(unitData.category);
+    const services = await this.getServiceId(unitData.services);
     const token = await this.createUserAccessToken();
 
     // Create the unit
@@ -123,24 +132,11 @@ class APIhelper {
           Authorization: `Bearer ${token}`,
         },
         data: {
-          name: name,
-          model_name: "Sample model",
-          description: "This is a sample unit created via API.",
-          features: "Sample features of the unit.",
-          type_of_work: "HOUR",
-          time_of_work: "",
-          phone: data.userPhone,
-          minimal_price: 1500,
-          money_value: "USD",
-          payment_method: "CASH_OR_CARD",
-          lat: 50.453,
-          lng: 30.516,
-          count: 1,
-          is_approved: false,
-          is_archived: false,
-          manufacturer: manufacturer,
-          owner: owner,
-          category: category,
+          ...unitData,
+          name,
+          owner,
+          manufacturer,
+          category,
           services: [services],
         },
       }
@@ -174,8 +170,37 @@ class APIhelper {
       }
     );
 
-    const statusCode = responseImage.status();
-    return statusCode;
+    if (responseImage.status() !== 201) {
+      throw new Error("Unit Image uploading failed");
+    }
+
+    return name;
+  }
+
+  async approveUnit(name: string): Promise<void> {
+    const id = await this.getUnitId(name);
+    accessToken = null;
+    const token = await this.createAccessToken();
+    await this.request.patch(
+      `https://stage.rentzila.com.ua/api/crm/units/${id}/moderate/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          declined_censored: false,
+          declined_incomplete: false,
+          declined_incorrect_data: false,
+          declined_incorrect_price: false,
+          declined_invalid_img: false,
+          is_approved: true,
+        },
+      }
+    );
+
+    // if (response.status() !== 200) {
+    //   throw new Error(response.statusText());
+    // }
   }
 
   async getUserMe(): Promise<any> {
@@ -283,12 +308,12 @@ class APIhelper {
   }
 
   async getUnitList(): Promise<any> {
-    const userAccessToken = await this.createAccessToken();
+    const token = await this.createAccessToken();
     const response = await this.request.get(
       `https://stage.rentzila.com.ua/api/units/`,
       {
         headers: {
-          Authorization: `Bearer ${userAccessToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -309,15 +334,12 @@ class APIhelper {
 
   async getUnitId(name: string): Promise<number | null> {
     const response = await this.getUnitList();
-    let id: number | null = null;
     for (const unit of response.results) {
       if (unit.name === name) {
-        id = unit.id;
-        console.log(unit.name);
-        return id;
+        return unit.id;
       }
     }
-    return id;
+    return null;
   }
 
   async deleteUnit(name: string): Promise<void> {
@@ -397,12 +419,12 @@ class APIhelper {
 
   async deleteService(name: string): Promise<void> {
     const id = await this.getServiceId(name);
-    const userAccessToken = await this.createAccessToken();
+    const token = await this.createAccessToken();
     await this.request.delete(
       `https://stage.rentzila.com.ua/api/crm/services/${id}/`,
       {
         headers: {
-          Authorization: `Bearer ${userAccessToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );

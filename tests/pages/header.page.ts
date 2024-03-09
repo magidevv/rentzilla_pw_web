@@ -2,6 +2,7 @@ import { Page } from "@playwright/test";
 import BasePage from "./base-page";
 
 const logo: string = "//div[@data-testid='Navbar']//div[@data-testid='logo']";
+const unitLink: string = "//a[contains(@class, 'Navbar_link')][1]";
 const catalogBtn: string = "//div[contains(@class, 'NavbarCatalog_wrapper')]";
 const catalogDropdown: string = "//div[contains(@class, 'Catalog_container')]";
 const catalogSpecialMachinery: string =
@@ -23,6 +24,9 @@ const profileDropdownMenuProfileLink: string = "//div[@data-testid='profile']";
 const profileDropdownMenuTendersLink: string = "//div[@data-testid='tenders']";
 const profileDropdownMenuMyTendersLink: string =
   "//div[@data-testid='tenders']//li[1]";
+const profileDropdownMenuUnitsLink: string = "//div[@data-testid='units']";
+const profileDropdownMenuMyUnitsLink: string =
+  "//div[@data-testid='units']//li[1]";
 
 class HeaderPage extends BasePage {
   constructor(page: Page) {
@@ -31,6 +35,11 @@ class HeaderPage extends BasePage {
 
   public async clickLogo(): Promise<void> {
     await super.click(logo);
+    await super.waitForLoad();
+  }
+
+  public async clickUnitsLink(): Promise<void> {
+    await super.click(unitLink);
     await super.waitForLoad();
   }
 
@@ -119,6 +128,7 @@ class HeaderPage extends BasePage {
   }
 
   public async clickHeaderLoginBtn(): Promise<void> {
+    await super.isDisplayed(headerLoginBtn);
     await super.click(headerLoginBtn);
   }
 
@@ -146,6 +156,12 @@ class HeaderPage extends BasePage {
     await super.hover(profileDropdownMenuTendersLink);
     await super.isDisplayed(profileDropdownMenuMyTendersLink);
     await super.click(profileDropdownMenuMyTendersLink);
+  }
+
+  public async clickMyUnitsLink(): Promise<void> {
+    await super.hover(profileDropdownMenuUnitsLink);
+    await super.isDisplayed(profileDropdownMenuMyUnitsLink);
+    await super.click(profileDropdownMenuMyUnitsLink);
   }
 }
 
