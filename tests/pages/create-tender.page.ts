@@ -359,7 +359,7 @@ class CreateTenderPage extends BasePage {
         break;
       }
       await super.click(mapZoomOutBtn);
-      await super.waitForTimeout(100);
+      await super.waitForTimeout(500);
     }
     await super.doesElementAttrHaveValue(
       mapZoomOutBtn,
