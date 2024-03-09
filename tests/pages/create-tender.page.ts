@@ -344,7 +344,7 @@ class CreateTenderPage extends BasePage {
         break;
       }
       await super.click(mapZoomInBtn);
-      await super.waitForTimeout(100);
+      await super.waitForTimeout(500);
     }
     await super.doesElementAttrHaveValue(mapZoomInBtn, "aria-disabled", "true");
   }
