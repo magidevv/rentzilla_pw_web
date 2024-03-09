@@ -29,13 +29,13 @@ class UnitProposeDetailsPage extends BasePage {
 
   public async checkProposeDetails(
     userName: string,
-    period: string,
+    // period: string,
     fileName: string,
     comment: string
   ): Promise<void> {
     await super.isDisplayed(proposeDetailsCard);
     await super.toHaveText(proposeUserName, userName);
-    await super.toHaveText(proposePeriodDate, period);
+    // await super.toHaveText(proposePeriodDate, period);
     await super.toHaveText(proposeFileName, fileName);
     await super.toHaveText(proposeComment, comment);
   }

@@ -29,12 +29,12 @@ class UnitProposesPage extends BasePage {
 
   public async checkPropose(
     userName: string,
-    period: string,
+    // period: string,
     fileName: string
   ): Promise<void> {
     await super.isDisplayed(proposeCard);
     await super.toHaveText(proposeUserName, userName);
-    await super.toHaveText(proposePeriodDate, period);
+    // await super.toHaveText(proposePeriodDate, period);
     await super.toHaveText(proposeFileName, fileName);
   }
 

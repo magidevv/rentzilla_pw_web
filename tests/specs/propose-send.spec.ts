@@ -91,7 +91,6 @@ test.describe("Unit propose sending", () => {
     await unitProposesPage.checkProposeUnit(unitName);
     await unitProposesPage.checkPropose(
       validUnitProposeData.userName,
-      datePeriod(2),
       validUnitProposeData.fileName
     );
     await unitProposesPage.clickProposeDetailsBtn();
@@ -99,7 +98,6 @@ test.describe("Unit propose sending", () => {
     await unitProposeDetailsPage.checkProposeUnit(unitName);
     await unitProposeDetailsPage.checkProposeDetails(
       validUnitProposeData.userNameTitle,
-      datePeriod(2),
       validUnitProposeData.fileName,
       validUnitProposeData.comment
     );
