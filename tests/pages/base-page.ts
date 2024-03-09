@@ -159,6 +159,30 @@ class BasePage {
     await expect(await this.getElement(element)).toHaveValue(value);
   }
 
+  public async toHaveValueWithoutSpaces(
+    element: string,
+    value: string
+  ): Promise<void> {
+    const actualValue = await this.getInputValue(element);
+    await this.valuesEqual(actualValue.replace(/\s/g, ""), value);
+  }
+
+  public async toHaveValueLength(
+    element: string,
+    length: number
+  ): Promise<void> {
+    const value = await this.getInputValue(element);
+    await this.valuesEqual(value.length, length);
+  }
+
+  public async toHaveValueLengthWithoutSpaces(
+    element: string,
+    length: number
+  ): Promise<void> {
+    const value = await this.getInputValue(element);
+    await this.valuesEqual(value.replace(/\s/g, "").length, length);
+  }
+
   public async isDisplayed(element: string, timeout = 5000): Promise<void> {
     await expect(await this.getElement(element)).toBeVisible({
       timeout: timeout,
@@ -255,6 +279,14 @@ class BasePage {
     await expect(await this.getElement(element)).toHaveAttribute("href");
   }
 
+  public async isEnabled(element: string): Promise<void> {
+    await expect(await this.getElement(element)).toBeEnabled();
+  }
+
+  public async isDisabled(element: string): Promise<void> {
+    await expect(await this.getElement(element)).toBeDisabled();
+  }
+
   public async getAttributeValue(
     element: string,
     attribute: string
@@ -285,6 +317,17 @@ class BasePage {
     );
   }
 
+  public async doesElementAttrDoesntHaveValue(
+    element: string,
+    attribute: string,
+    value: string
+  ): Promise<void> {
+    await expect(await this.getElement(element)).not.toHaveAttribute(
+      attribute,
+      value
+    );
+  }
+
   async isFieldRedHighlighted(field: string): Promise<void> {
     await expect(await this.getElement(field)).toHaveCSS(
       "border-color",
@@ -296,6 +339,13 @@ class BasePage {
     await expect(await this.getElement(field)).not.toHaveCSS(
       "border-color",
       "rgb(247, 56, 89)"
+    );
+  }
+
+  async isFieldGreenHighlighted(field: string): Promise<void> {
+    await expect(await this.getElement(field)).toHaveCSS(
+      "border-color",
+      "rgb(71, 196, 128)"
     );
   }
 
@@ -317,6 +367,13 @@ class BasePage {
 
   async valuesEqual(firstValue: any, secondValue: any): Promise<void> {
     expect(firstValue).toEqual(secondValue);
+  }
+
+  async stringsContainEqual(
+    firstValue: string,
+    secondValue: string
+  ): Promise<void> {
+    expect(firstValue).toEqual(expect.stringContaining(secondValue));
   }
 }
 
