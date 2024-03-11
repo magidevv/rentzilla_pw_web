@@ -38,10 +38,8 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
 
-      - name: Copy HTML report to separate branch
-        run: |
-          git checkout -b test-results
-          cp -R playwright-report/. html-report/
-          git add html-report
-          git commit -m "Add HTML report"
-          git push origin test-results
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: playwright-report
