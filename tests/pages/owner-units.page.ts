@@ -7,8 +7,18 @@ const activeUnitsTab: string =
   "//button[contains(@class, 'MuiButtonBase-root MuiTab-root')][1]";
 const unitCard: string = "//div[@data-testid='unitCard']";
 const unitName: string = "//div[contains(@class, 'OwnerUnitCard_name')]";
+const unitManufacturer: string = "//div[@data-testid='manufacturer']";
+const unitCategory: string =
+  "//div[contains(@class, 'OwnerUnitCard_category')]";
+const unitCreatedDate: string =
+  "//div[contains(@class, 'OwnerUnitCard_dateWithDot')]/div[2]";
 const proposesBtn: string =
   "//button[contains(@class, 'ItemButtons_darkBlueBtn')]";
+const activeEditBtn: string =
+  "//button[contains(@class, 'ItemButtons_lightBlueBtn')]";
+const waitingEditBtn: string =
+  "//button[contains(@class, 'ItemButtons_darkBlueBtn')]";
+const noActiveUnitsMsg: string = "//div[@data-testid='title']";
 
 class OwnerUnitsPage extends BasePage {
   constructor(page: Page) {
@@ -16,7 +26,7 @@ class OwnerUnitsPage extends BasePage {
   }
 
   public async checkOwnerUnitsURL(): Promise<void> {
-    await super.doesPageHaveURL(/owner-units-page\/$/);
+    await super.doesPageHaveURL(/\/owner-units-page\/$/);
   }
 
   public async clickWaitingUnitsTab(): Promise<void> {
@@ -43,6 +53,45 @@ class OwnerUnitsPage extends BasePage {
 
   public async clickProposesBtn(): Promise<void> {
     await super.click(proposesBtn);
+  }
+
+  public async clickActiveEditBtn(): Promise<void> {
+    await super.click(activeEditBtn);
+    await super.waitForTimeout(1000);
+  }
+
+  public async clickWaitingEditBtn(): Promise<void> {
+    await super.click(waitingEditBtn);
+    await super.waitForTimeout(1000);
+  }
+
+  public async checkUnitDisplay(name: string, msg: string): Promise<void> {
+    if (await super.isVisible(unitCard)) {
+      await super.notToHaveText(unitName, name);
+    } else {
+      await super.toHaveText(noActiveUnitsMsg, msg);
+    }
+  }
+
+  public async checkUnitData(
+    name: string,
+    manufacturer: string,
+    category: string,
+    date: string
+  ): Promise<void> {
+    await super.toHaveText(unitName, name);
+    await super.toHaveText(unitManufacturer, manufacturer);
+    await super.toContainText(unitCategory, category);
+    await super.toHaveText(unitCreatedDate, date);
+  }
+
+  public async checkUnitManufacturer(manufacturer: string): Promise<void> {
+    await super.toHaveText(unitManufacturer, manufacturer);
+  }
+
+  public async clickUnitCard(): Promise<void> {
+    await super.click(unitCard);
+    await super.waitForTimeout(1000);
   }
 }
 

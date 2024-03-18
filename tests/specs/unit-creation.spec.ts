@@ -1,10 +1,11 @@
 import { test } from "../../fixtures/fixtures";
-import { generateRandomCombination } from "../../utils/random.util";
 
 const data: any = {
   userEmail: process.env.USER_EMAIL,
   userPassword: process.env.USER_PASSWORD,
 };
+
+let unitName: string;
 
 test.describe("Unit Creation", () => {
   test.beforeEach(async ({ mainPage }) => {
@@ -20,7 +21,8 @@ test.describe("Unit Creation", () => {
     apiHelper,
   }) => {
     // Create the random unit via API
-    const unitName = await apiHelper.createUnit();
+    unitName = await apiHelper.createUnit();
+    await mainPage.toBeTrue(await apiHelper.checkUnitResponseResults(unitName));
 
     // Click on the "Вхід" button
     await headerPage.clickHeaderLoginBtn();
@@ -40,9 +42,10 @@ test.describe("Unit Creation", () => {
     await ownerUnitsPage.checkOwnerUnitsURL();
     await ownerUnitsPage.clickWaitingUnitsTab();
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
+  });
 
-    // Check the created unit status code (then delete)
-    await mainPage.toBeTrue(await apiHelper.checkUnitResponseResults(unitName));
+  test.afterEach(async ({ apiHelper, mainPage }) => {
+    // Delete the created unit via API
     await apiHelper.deleteUnit(unitName);
     await mainPage.toBeFalse(
       await apiHelper.checkUnitResponseResults(unitName)

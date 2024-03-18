@@ -7,7 +7,27 @@ const unitService: string =
 const unitCategory: string =
   "//div[contains(@class, 'UnitCharacteristics_characteristics_info')]/span";
 const unitTitle: string = "//h1[contains(@class, 'UnitName_name')]";
+const unitManufacturer: string =
+  "(//div[contains(@class, 'UnitCharacteristics_characteristics_info')])[2]";
+const unitModelName: string =
+  "(//div[contains(@class, 'UnitCharacteristics_characteristics_info')])[3]";
+const unitTechCharacteristics: string =
+  "(//div[contains(@class, 'UnitCharacteristics_characteristics_info')])[4]";
+const unitDetailedDescr: string =
+  "//div[contains(@class, 'UnitDescription_content')]/p";
+const unitPlace: string =
+  "//div[contains(@class, 'UnitPlace_currentPlace')]/span";
+const unitImage: string = "//img[@data-testid='mainImage']";
+const unitPaymentMethod: string =
+  "//div[contains(@class, 'ImageWithDescription_paymentMethod')]";
+const unitMinPrice: string =
+  "(//div[contains(@class, 'ImageWithDescription_price')])[2]";
+  const unitServicePrice: string =
+    "//div[contains(@class, 'Terms_service_cost')]/span[1]";
+const unitPriceValue: string = "//span[@data-testid='servicePriceValue']";
 const searchInputField: string = "//input[@data-testid='searchInput']";
+const editBtn: string =
+  "//button[contains(@class, 'CurrentUnitButtons_emptyBtn')]";
 const orderBtn: string =
   "//button[contains(@class, 'ImageWithDescription_orderBtn')]";
 const datePickers: string = "//div[@class='react-datepicker']";
@@ -113,6 +133,10 @@ class UnitPage extends BasePage {
     await super.click(submitBtn);
   }
 
+  public async clickEditBtn(): Promise<void> {
+    await super.click(editBtn);
+  }
+
   public async clickSearchInputField(): Promise<void> {
     await super.click(searchInputField);
   }
@@ -120,6 +144,57 @@ class UnitPage extends BasePage {
   public async fillSearchInputField(searchPrompt: string): Promise<void> {
     await super.setValue(searchInputField, searchPrompt);
     await super.waitForTimeout(1000);
+  }
+
+  public async checkUnitName(name: string): Promise<void> {
+    await super.toHaveText(unitTitle, name);
+  }
+
+  public async checkUnitManufacturer(manufacturer: string): Promise<void> {
+    await super.toHaveText(unitManufacturer, manufacturer);
+  }
+
+  public async checkUnitModelName(modelName: string): Promise<void> {
+    await super.toHaveText(unitModelName, modelName);
+  }
+
+  public async checkUnitTechCharacteristics(
+    techCharacteristics: string
+  ): Promise<void> {
+    await super.toHaveText(unitTechCharacteristics, techCharacteristics);
+  }
+
+  public async checkUnitDetailedDescr(detailedDescr: string): Promise<void> {
+    await super.toHaveText(unitDetailedDescr, detailedDescr);
+  }
+
+  public async checkUnitPlace(place: string): Promise<void> {
+    await super.toHaveText(unitPlace, place);
+  }
+
+  public async checkUnitImage(fileName: string): Promise<void> {
+    const value = await super.getAttributeValue(unitImage, "src");
+    await super.stringsContainEqual(value, fileName);
+  }
+
+  public async checkUnitService(service: string): Promise<void> {
+    await super.toHaveText(unitService, service);
+  }
+
+  public async checkUnitPaymentMethod(method: string): Promise<void> {
+    await super.toHaveText(unitPaymentMethod, method);
+  }
+
+  public async checkUnitMinPrice(price: string): Promise<void> {
+    await super.toHaveText(unitMinPrice, price);
+  }
+
+  public async checkUnitServicePrice(price: string): Promise<void> {
+    await super.toHaveText(unitServicePrice, price);
+  }
+
+  public async checkUnitPriceValue(value: string): Promise<void> {
+    await super.toContainText(unitPriceValue, value);
   }
 }
 

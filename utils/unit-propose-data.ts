@@ -1,6 +1,8 @@
 import { generateRandomTextLines } from "./random.util";
 import { DateTime } from "luxon";
 
+export const currentDate = DateTime.now().toFormat("dd.MM.yyyy").toString();
+
 export const datePeriod = (daysToAdd: number): string => {
   const currentDate = DateTime.now().toFormat("dd.MM.yyyy").toString();
   const endDate = DateTime.now()

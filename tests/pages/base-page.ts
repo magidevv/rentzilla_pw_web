@@ -34,7 +34,7 @@ class BasePage {
   }
 
   public async waitForModalAccept(): Promise<void> {
-    await (await this.page.waitForEvent("dialog")).accept();
+    this.page.on("dialog", (dialog) => dialog.accept());
   }
 
   public async doesPageHaveURL(URL: string | RegExp): Promise<void> {
@@ -97,15 +97,27 @@ class BasePage {
     await (await this.getElement(element)).hover();
   }
 
+  public async forceHover(element: string): Promise<void> {
+    await (await this.getElement(element)).hover({ force: true });
+  }
+
   public async click(element: string): Promise<void> {
     await (await this.getElement(element)).click();
   }
 
-  public async clickByCoordinates(element: string): Promise<void> {
+  public async forceClick(element: string): Promise<void> {
+    await(await this.getElement(element)).click({ force: true });
+  }
+
+  public async clickByCoordinates(
+    element: string,
+    divX: number,
+    divY: number
+  ): Promise<void> {
     const boundingBox = await (await this.getElement(element)).boundingBox();
     if (boundingBox) {
-      const x: number = boundingBox.x + boundingBox.width / 5.5;
-      const y: number = boundingBox.y + boundingBox.height / 2; // Center Y coordinate
+      const x: number = boundingBox.x + boundingBox.width / divX;
+      const y: number = boundingBox.y + boundingBox.height / divY; // Center Y coordinate
       await this.page.mouse.click(x, y);
     }
   }
@@ -233,6 +245,13 @@ class BasePage {
     text: string | RegExp
   ): Promise<void> {
     await expect(await this.getElement(element)).toHaveText(text);
+  }
+
+  public async notToHaveText(
+    element: string,
+    text: string | RegExp
+  ): Promise<void> {
+    await expect(await this.getElement(element)).not.toHaveText(text);
   }
 
   public async elementsToHaveText(
@@ -374,6 +393,11 @@ class BasePage {
     secondValue: string
   ): Promise<void> {
     expect(firstValue).toEqual(expect.stringContaining(secondValue));
+  }
+
+  async isVisible(element: string): Promise<boolean> {
+    const visible = await (await this.getElement(element)).isVisible();
+    return visible;
   }
 }
 

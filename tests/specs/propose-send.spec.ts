@@ -15,6 +15,8 @@ const filePath: any = {
   profileImage: path.resolve("data/", "test.png"),
 };
 
+let unitName: string;
+
 test.describe("Unit propose sending", () => {
   test.beforeEach(async ({ mainPage }) => {
     // Open the «Rentzila» main page
@@ -32,7 +34,7 @@ test.describe("Unit propose sending", () => {
     apiHelper,
   }) => {
     // Create the random unit via API
-    const unitName = await apiHelper.createUnit();
+    unitName = await apiHelper.createUnit();
 
     // Check the created unit and approve via API
     await mainPage.toBeTrue(await apiHelper.checkUnitResponseResults(unitName));
@@ -101,7 +103,9 @@ test.describe("Unit propose sending", () => {
       validUnitProposeData.fileName,
       validUnitProposeData.comment
     );
+  });
 
+  test.afterEach(async ({ apiHelper, mainPage }) => {
     // Delete the created unit via API
     await apiHelper.deleteUnit(unitName);
     await mainPage.toBeFalse(

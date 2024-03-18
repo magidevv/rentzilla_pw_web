@@ -1,0 +1,15 @@
+{
+  "name": "Sample Unit Edited",
+  "model_name": "Sample model Ed",
+  "description": "This is a sample unit created via API. Edited",
+  "features": "Sample features of the unit. Edited",
+  "type_of_work": "HOUR",
+  "time_of_work": "",
+  "minimal_price": 50000,
+  "money_value": "UAH",
+  "payment_method": "CASHLESS_PAYMENT_WITH_VAT",
+  "lat": 50.51351385880504,
+  "lng": 30.79412838444114,
+  "manufacturer": "KOHLER",
+  "services": "Асфальтування"
+}
