@@ -10,7 +10,6 @@ import {
   invalidUnitData,
   validUnitData,
 } from "../../utils/unit-data";
-import UnitPage from "../pages/unit.page";
 
 const data: any = {
   adminEmail: process.env.ADMIN_EMAIL,
