@@ -10,6 +10,7 @@ import {
   invalidUnitData,
   validUnitData,
 } from "../../utils/unit-data";
+import { objectMatch } from "../../utils/object-compare.util";
 
 const data: any = {
   adminEmail: process.env.ADMIN_EMAIL,
@@ -61,6 +62,7 @@ test.describe("Unit Edit", () => {
   test("C182: Edit Unit without changes", async ({
     ownerUnitsPage,
     editUnitPage,
+    apiHelper,
   }) => {
     // Check unit edit cancel
     await ownerUnitsPage.clickActiveEditBtn();
@@ -87,10 +89,15 @@ test.describe("Unit Edit", () => {
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.checkUnitData(
       unitName,
-      unitData.manufacturer,
-      unitData.category.charAt(0).toUpperCase() + unitData.category.slice(1),
+      unitData.manufacturer.name,
+      unitData.category.name.charAt(0).toUpperCase() +
+        unitData.category.name.slice(1),
       currentDate
     );
+
+    // Verify unit is not changed via API
+    const userUnit = await apiHelper.getUserUnit(unitName);
+    await ownerUnitsPage.toBeTrue(objectMatch(unitData, userUnit))
   });
 
   test("C272: Check 'Назва оголошення' input field", async ({
@@ -646,7 +653,8 @@ test.describe("Unit Edit", () => {
     await ownerUnitsPage.checkUnitData(
       unitName,
       editUnitData.manufacturer,
-      unitData.category.charAt(0).toUpperCase() + unitData.category.slice(1),
+      unitData.category.name.charAt(0).toUpperCase() +
+        unitData.category.name.slice(1),
       currentDate
     );
 

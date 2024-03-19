@@ -121,9 +121,11 @@ class APIhelper {
     );
     const unitData = JSON.parse(unitDataString);
     const owner = await this.getMyUserId();
-    const manufacturer = await this.getManufacturerId(unitData.manufacturer);
-    const category = await this.getCategoryId(unitData.category);
-    const services = await this.getServiceId(unitData.services);
+    const manufacturer = await this.getManufacturerId(
+      unitData.manufacturer.name
+    );
+    const category = await this.getCategoryId(unitData.category.name);
+    const services = await this.getServiceId(unitData.services[0].name);
     const token = await this.createUserAccessToken();
 
     const responseUnit = await this.request.post(
@@ -398,6 +400,25 @@ class APIhelper {
     return unitList;
   }
 
+  async getUserUnit(name: string): Promise<any> {
+    const token = await this.createUserAccessToken();
+    const response = await this.request.get(
+      `https://stage.rentzila.com.ua/api/auth/users/me/units/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    unitList = await response.json();
+    // console.log(unitList.units);
+    for (const unit of unitList.units) {
+      if (unit.name === name) {
+        return unit;
+      }
+    }
+  }
+
   async checkUnitResponseResults(name: string): Promise<boolean> {
     const response = await this.getUnitList();
     for (const unit of response.results) {
@@ -424,8 +445,8 @@ class APIhelper {
       "utf8"
     );
     const unitData = JSON.parse(unitDataString);
-    const manufacturer = await this.getManufacturerId(unitData.manufacturer);
-    const services = await this.getServiceId(unitData.services);
+    const manufacturer = await this.getManufacturerId(unitData.manufacturer.name);
+    const services = await this.getServiceId(unitData.services[0].name);
     const id = await this.getUnitId(name);
     const token = await this.createUserAccessToken();
     const responseUnitEdit = await this.request.patch(

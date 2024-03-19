@@ -1,5 +1,4 @@
 {
-  "name": "Sample Unit",
   "model_name": "Sample model",
   "description": "This is a sample unit created via API.",
   "features": "Sample features of the unit.",
@@ -11,9 +10,9 @@
   "lat": 50.453,
   "lng": 30.516,
   "count": 1,
-  "is_approved": false,
+  "is_approved": null,
   "is_archived": false,
-  "manufacturer": "ABAC",
-  "category": "всюдиходи",
-  "services": "Риття ям"
+  "manufacturer": { "name": "ABAC" },
+  "category": { "name": "всюдиходи" },
+  "services": [{ "name": "Риття ям" }]
 }

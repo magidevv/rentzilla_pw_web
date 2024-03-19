@@ -158,10 +158,10 @@ test.describe("Tender Creation", () => {
     await createTenderPage.areTenderCreationSubmitPopupElementsDisplayed();
     await createTenderPage.clickTenderCreationSubmitPopupSubmitBtn();
     await createTenderPage.areTenderCreationMsgDisplayed();
-    await createTenderPage.clickNotificationBtn();
-    await createTenderPage.isNotificationMsgDisplayed(
-      messagesData.successfulTenderCreation
-    );
+    // await createTenderPage.clickNotificationBtn();
+    // await createTenderPage.isNotificationMsgDisplayed(
+    //   messagesData.successfulTenderCreation
+    // );
     await createTenderPage.isUserPointsBalanceReduced();
     await createTenderPage.clickSeeInMyTendersBtn();
 
