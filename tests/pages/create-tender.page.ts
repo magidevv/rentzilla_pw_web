@@ -500,6 +500,7 @@ class CreateTenderPage extends BasePage {
   }
 
   public async clickNotificationBtn(): Promise<void> {
+    await super.waitForTimeout(1000);
     await super.click(notificationBtn);
   }
 
