@@ -97,7 +97,7 @@ test.describe("Unit Edit", () => {
 
     // Verify unit is not changed via API
     const userUnit = await apiHelper.getUserUnit(unitName);
-    await ownerUnitsPage.toBeTrue(objectMatch(unitData, userUnit))
+    await ownerUnitsPage.toBeTrue(objectMatch(unitData, userUnit));
   });
 
   test("C272: Check 'Назва оголошення' input field", async ({
@@ -652,7 +652,7 @@ test.describe("Unit Edit", () => {
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.checkUnitData(
       unitName,
-      editUnitData.manufacturer,
+      editUnitData.manufacturer.name,
       unitData.category.name.charAt(0).toUpperCase() +
         unitData.category.name.slice(1),
       currentDate
@@ -662,13 +662,13 @@ test.describe("Unit Edit", () => {
     await ownerUnitsPage.clickUnitCard();
     await unitPage.checkUnitURL();
     await unitPage.checkUnitName(unitName);
-    await unitPage.checkUnitManufacturer(editUnitData.manufacturer);
+    await unitPage.checkUnitManufacturer(editUnitData.manufacturer.name);
     await unitPage.checkUnitModelName(editUnitData.model_name);
     await unitPage.checkUnitTechCharacteristics(editUnitData.features);
     await unitPage.checkUnitDetailedDescr(editUnitData.description);
     await unitPage.checkUnitPlace("Бровари, Київська область,  Україна");
     await unitPage.checkUnitImage("test_copy_2.png");
-    await unitPage.checkUnitService(editUnitData.services);
+    await unitPage.checkUnitService(editUnitData.services[0].name);
     await unitPage.checkUnitPaymentMethod("Безготівковий розрахунок (з ПДВ)");
     await unitPage.checkUnitMinPrice("50 000 грн");
     await unitPage.checkUnitServicePrice("3000");

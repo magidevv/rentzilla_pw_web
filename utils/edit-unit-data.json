@@ -10,6 +10,6 @@
   "payment_method": "CASHLESS_PAYMENT_WITH_VAT",
   "lat": 50.51351385880504,
   "lng": 30.79412838444114,
-  "manufacturer": "KOHLER",
-  "services": "Асфальтування"
+  "manufacturer": { "name": "KOHLER" },
+  "services": [{ "name": "Асфальтування" }]
 }
