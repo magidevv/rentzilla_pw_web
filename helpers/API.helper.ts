@@ -369,7 +369,7 @@ class APIhelper {
       }
     );
     imageList = await response.json();
-    console.log(imageList);
+    // console.log(imageList);
     return imageList;
   }
 
