@@ -61,7 +61,7 @@ test.describe("Tender Creation", () => {
       validTenderData.newServiceName
     );
     await createTenderPage.isTenderNewServiceMsgDisplayed(
-      messagesData.serviceNotFound
+      messagesData.Errors.Tender.serviceNotFound
     );
     await createTenderPage.clickTenderServiceCreateBtn();
     await createTenderPage.isNewTenderServiceNameEntered(
