@@ -16,6 +16,7 @@ import CreateTenderPage from "../tests/pages/create-tender.page";
 import UnitProposesPage from "../tests/pages/proposes-to-owner-unit.page";
 import UnitProposeDetailsPage from "../tests/pages/order-details.page";
 import EditUnitPage from "../tests/pages/edit-unit.page";
+import EditTenderPage from "../tests/pages/edit-tender.page";
 
 type MyFixtures = {
   apiHelper: APIhelper;
@@ -33,6 +34,7 @@ type MyFixtures = {
   unitProposesPage: UnitProposesPage;
   unitProposeDetailsPage: UnitProposeDetailsPage;
   editUnitPage: EditUnitPage;
+  editTenderPage: EditTenderPage;
   headerPage: HeaderPage;
   footerPage: FooterPage;
 };
@@ -85,6 +87,9 @@ export const test = base.extend<MyFixtures>({
   },
   editUnitPage: async ({ page }, use) => {
     await use(new EditUnitPage(page));
+  },
+  editTenderPage: async ({ page }, use) => {
+    await use(new EditTenderPage(page));
   },
   apiHelper: async ({ request }, use) => {
     await use(new APIhelper(request));

@@ -106,7 +106,7 @@ class BasePage {
   }
 
   public async forceClick(element: string): Promise<void> {
-    await(await this.getElement(element)).click({ force: true });
+    await (await this.getElement(element)).click({ force: true });
   }
 
   public async clickByCoordinates(
@@ -245,6 +245,14 @@ class BasePage {
     text: string | RegExp
   ): Promise<void> {
     await expect(await this.getElement(element)).toHaveText(text);
+  }
+
+  public async toHaveTextWithoutSpaces(
+    element: string,
+    text: string
+  ): Promise<void> {
+    const actualText = await this.getText(element);
+    await this.valuesEqual(actualText.replace(/\s/g, ""), text);
   }
 
   public async notToHaveText(

@@ -2,6 +2,7 @@ import { APIRequestContext } from "@playwright/test";
 import fs from "fs";
 import path from "path";
 import { generateRandomCombination } from "../utils/random.util";
+import { date } from "../utils/tender-data";
 
 let adminAccessToken: any = null;
 let userAccessToken: any = null;
@@ -302,6 +303,19 @@ class APIhelper {
     return id;
   }
 
+  async getServiceCategoryId(name: string): Promise<number | null> {
+    const response = await this.getServiceList();
+    let id: number | null = null;
+    for (const service of response) {
+      if (service.name === name) {
+        id = service.category[0].id;
+        console.log(service.category[0].name);
+        return id;
+      }
+    }
+    return id;
+  }
+
   async getServiceList(): Promise<any> {
     const token = await this.createAccessToken();
     const response = await this.request.get(
@@ -445,7 +459,9 @@ class APIhelper {
       "utf8"
     );
     const unitData = JSON.parse(unitDataString);
-    const manufacturer = await this.getManufacturerId(unitData.manufacturer.name);
+    const manufacturer = await this.getManufacturerId(
+      unitData.manufacturer.name
+    );
     const services = await this.getServiceId(unitData.services[0].name);
     const id = await this.getUnitId(name);
     const token = await this.createUserAccessToken();
@@ -545,6 +561,110 @@ class APIhelper {
         },
       }
     );
+  }
+
+  async createTender(): Promise<string> {
+    const name = "Test " + generateRandomCombination();
+    const tenderDataString = await fs.promises.readFile(
+      "utils/tender-data.json",
+      "utf8"
+    );
+    const tenderData = JSON.parse(tenderDataString);
+    const start_propose_date = date.currentDate;
+    const end_propose_date = date.endDate;
+    const start_tender_date = date.startTenderDate;
+    const end_tender_date = date.endTenderDate;
+    const customer = await this.getMyUserId();
+    const category = await this.getServiceCategoryId(
+      tenderData.services[0].name
+    );
+    const services = await this.getServiceId(tenderData.services[0].name);
+    const token = await this.createUserAccessToken();
+
+    const responseTender = await this.request.post(
+      "https://stage.rentzila.com.ua/api/tenders/",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          ...tenderData,
+          name,
+          start_propose_date,
+          end_propose_date,
+          start_tender_date,
+          end_tender_date,
+          customer,
+          category,
+          services: [services],
+        },
+      }
+    );
+    const responseBodyTender = await responseTender.json();
+    // console.log(responseBodyTender);
+
+    if (responseTender.status() !== 201) {
+      throw new Error("Tender creation failed");
+    }
+
+    const tenderId = responseBodyTender.id;
+
+    // Upload the documentation
+    const imagePath1 = path.resolve("data/", "test.png");
+    const imageStream1 = fs.createReadStream(imagePath1);
+
+    const responseImage1 = await this.request.post(
+      "https://stage.rentzila.com.ua/api/tender/attachment-file/",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        multipart: {
+          tender: tenderId,
+          attachment_file: imageStream1,
+        },
+      }
+    );
+
+    if (responseImage1.status() !== 201) {
+      throw new Error("Tender Image uploading failed");
+    }
+
+    return name;
+  }
+
+  async approveTender(name: string): Promise<void> {
+    const id = await this.getTenderId(name);
+    const token = await this.createAccessToken();
+    await this.request.post(
+      `https://stage.rentzila.com.ua/api/crm/tenders/${id}/moderate/?status=approved`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    // if (response.status() !== 200) {
+    //   throw new Error(response.statusText());
+    // }
+  }
+
+  async rejectTender(name: string): Promise<void> {
+    const id = await this.getTenderId(name);
+    const token = await this.createAccessToken();
+    await this.request.post(
+      `https://stage.rentzila.com.ua/api/crm/tenders/${id}/moderate/?status=declined`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    // if (response.status() !== 200) {
+    //   throw new Error(response.statusText());
+    // }
   }
 
   async getTenderList(): Promise<any> {
