@@ -20,7 +20,6 @@ const filePath: any = {
 };
 
 let tenderName: string;
-let newTenderService: string;
 
 test.describe("Tender Edit", () => {
   test.beforeEach(
@@ -60,6 +59,7 @@ test.describe("Tender Edit", () => {
     await headerPage.clickMyTendersLink();
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.isActiveTendersTabSelected();
+    await ownerTendersPage.fillTenderSearchInput(tenderName);
     await ownerTendersPage.isActiveTenderDisplayed(tenderName);
 
     // Check "Назва тендеру" field
@@ -86,7 +86,7 @@ test.describe("Tender Edit", () => {
     await editTenderPage.verifyTenderNameLength(
       invalidTenderData.name[1].length - 1
     );
-    await editTenderPage.fillTenderNameField(editTenderData.name);
+    await editTenderPage.fillTenderNameField(validTenderData.name);
 
     await editTenderPage.clickTenderServiceClearBtn();
     await editTenderPage.isTenderServiceNameCleared();
@@ -165,14 +165,15 @@ test.describe("Tender Edit", () => {
     await editTenderPage.uploadDocumentationFile(filePath.tenderImage);
 
     await editTenderPage.clickNextBtn();
-    tenderName = editTenderData.name;
+    tenderName = validTenderData.name;
     await editTenderPage.areTenderCreationMsgDisplayed();
     await editTenderPage.clickSeeInMyTendersBtn();
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.isWaitingTabSelected();
-    await ownerTendersPage.isWaitingTenderDisplayed(editTenderData.name);
+    await ownerTendersPage.fillTenderSearchInput(tenderName);
+    await ownerTendersPage.isWaitingTenderDisplayed(tenderName);
     await ownerTendersPage.checkTenderData(
-      editTenderData.name,
+      tenderName,
       editTenderData.services[0].name,
       datePeriod(),
       "Київ, Київська область, Україна",
@@ -191,6 +192,7 @@ test.describe("Tender Edit", () => {
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.clickWaitingTab();
     await ownerTendersPage.isWaitingTabSelected();
+    await ownerTendersPage.fillTenderSearchInput(tenderName);
     await ownerTendersPage.isWaitingTenderDisplayed(tenderName);
 
     // Check "Назва тендеру" field
@@ -217,7 +219,7 @@ test.describe("Tender Edit", () => {
     await editTenderPage.verifyTenderNameLength(
       invalidTenderData.name[1].length - 1
     );
-    await editTenderPage.fillTenderNameField(editTenderData.name);
+    await editTenderPage.fillTenderNameField(validTenderData.name);
 
     await editTenderPage.clickTenderServiceClearBtn();
     await editTenderPage.isTenderServiceNameCleared();
@@ -296,14 +298,15 @@ test.describe("Tender Edit", () => {
     await editTenderPage.uploadDocumentationFile(filePath.tenderImage);
 
     await editTenderPage.clickNextBtn();
-    tenderName = editTenderData.name;
+    tenderName = validTenderData.name;
     await editTenderPage.areTenderCreationMsgDisplayed();
     await editTenderPage.clickSeeInMyTendersBtn();
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.isWaitingTabSelected();
-    await ownerTendersPage.isWaitingTenderDisplayed(editTenderData.name);
+    await ownerTendersPage.fillTenderSearchInput(tenderName);
+    await ownerTendersPage.isWaitingTenderDisplayed(tenderName);
     await ownerTendersPage.checkTenderData(
-      editTenderData.name,
+      tenderName,
       editTenderData.services[0].name,
       datePeriod(),
       "Київ, Київська область, Україна",
@@ -326,6 +329,7 @@ test.describe("Tender Edit", () => {
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.clickRejectedTab();
     await ownerTendersPage.isRejectedTabSelected();
+    await ownerTendersPage.fillTenderSearchInput(tenderName);
     await ownerTendersPage.isRejectedTenderDisplayed(tenderName);
 
     // Check "Назва тендеру" field
@@ -352,7 +356,7 @@ test.describe("Tender Edit", () => {
     await editTenderPage.verifyTenderNameLength(
       invalidTenderData.name[1].length - 1
     );
-    await editTenderPage.fillTenderNameField(editTenderData.name);
+    await editTenderPage.fillTenderNameField(validTenderData.name);
 
     await editTenderPage.clickTenderServiceClearBtn();
     await editTenderPage.isTenderServiceNameCleared();
@@ -431,14 +435,15 @@ test.describe("Tender Edit", () => {
     await editTenderPage.uploadDocumentationFile(filePath.tenderImage);
 
     await editTenderPage.clickNextBtn();
-    tenderName = editTenderData.name;
+    tenderName = validTenderData.name;
     await editTenderPage.areTenderCreationMsgDisplayed();
     await editTenderPage.clickSeeInMyTendersBtn();
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.isWaitingTabSelected();
-    await ownerTendersPage.isWaitingTenderDisplayed(editTenderData.name);
+    await ownerTendersPage.fillTenderSearchInput(tenderName);
+    await ownerTendersPage.isWaitingTenderDisplayed(tenderName);
     await ownerTendersPage.checkTenderData(
-      editTenderData.name,
+      tenderName,
       editTenderData.services[0].name,
       datePeriod(),
       "Київ, Київська область, Україна",

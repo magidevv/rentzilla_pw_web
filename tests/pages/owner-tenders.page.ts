@@ -22,6 +22,9 @@ const tenderPlace: string =
 const editBtn: string =
   "//button[contains(@class, 'CurrentTenderButtons_fillBtn')]";
 const noActiveTendersMsg: string = "//div[@data-testid='title']";
+const tenderSearchInput: string = "//div[@data-testid='search']/input";
+const resetFiltersBtn: string = "//button[@data-testid='emptyBlockButton']";
+const tenderNotFoundMsg: string = "//div[@data-testid='title']";
 
 class OwnerTendersPage extends BasePage {
   constructor(page: Page) {
@@ -30,6 +33,14 @@ class OwnerTendersPage extends BasePage {
 
   public async checkOwnerTendersURL(): Promise<void> {
     await super.doesPageHaveURL(/owner-tenders-page\/$/);
+  }
+
+  public async fillTenderSearchInput(name: string): Promise<void> {
+    await super.setValue(tenderSearchInput, name);
+  }
+
+  public async resetUnitSearchInput(): Promise<void> {
+    await super.click(resetFiltersBtn);
   }
 
   public async clickCreateTenderBtn(): Promise<void> {
@@ -88,11 +99,16 @@ class OwnerTendersPage extends BasePage {
     await super.waitForTimeout(1000);
   }
 
-  public async checkTenderDisplay(name: string, msg: string): Promise<void> {
+  public async checkTenderDisplay(
+    name: string,
+    notFoundMsg: string,
+    noActiveMsg: string
+  ): Promise<void> {
     if (await super.isVisible(tenderCard)) {
-      await super.notToHaveText(tenderName, name);
+      await this.fillTenderSearchInput(name);
+      await super.toContainText(tenderNotFoundMsg, notFoundMsg);
     } else {
-      await super.toHaveText(noActiveTendersMsg, msg);
+      await super.toHaveText(noActiveTendersMsg, noActiveMsg);
     }
   }
 

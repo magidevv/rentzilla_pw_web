@@ -87,6 +87,7 @@ test.describe("Unit propose sending", () => {
     await headerPage.clickMyUnitsLink();
     await ownerUnitsPage.checkOwnerUnitsURL();
     await ownerUnitsPage.isActiveUnitsTabSelected();
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isActiveUnitDisplayed(unitName);
     await ownerUnitsPage.clickProposesBtn();
     await unitProposesPage.checkUnitProposesURL();

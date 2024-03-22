@@ -19,6 +19,9 @@ const activeEditBtn: string =
 const waitingEditBtn: string =
   "//button[contains(@class, 'ItemButtons_darkBlueBtn')]";
 const noActiveUnitsMsg: string = "//div[@data-testid='title']";
+const unitSearchInput: string = "//div[@data-testid='search']/input";
+const resetFiltersBtn: string = "//button[@data-testid='emptyBlockButton']";
+const unitNotFoundMsg: string = "//div[@data-testid='title']";
 
 class OwnerUnitsPage extends BasePage {
   constructor(page: Page) {
@@ -27,6 +30,18 @@ class OwnerUnitsPage extends BasePage {
 
   public async checkOwnerUnitsURL(): Promise<void> {
     await super.doesPageHaveURL(/\/owner-units-page\/$/);
+  }
+
+  public async fillUnitSearchInput(name: string): Promise<void> {
+    await super.setValue(unitSearchInput, name);
+  }
+
+  public async resetUnitSearchInput(): Promise<void> {
+    await super.click(resetFiltersBtn);
+  }
+
+  public async isUnitNotFoundMsgDisplayed(msg: string): Promise<void> {
+    await super.toHaveText(unitNotFoundMsg, msg);
   }
 
   public async clickWaitingUnitsTab(): Promise<void> {
@@ -65,11 +80,16 @@ class OwnerUnitsPage extends BasePage {
     await super.waitForTimeout(1000);
   }
 
-  public async checkUnitDisplay(name: string, msg: string): Promise<void> {
+  public async checkUnitDisplay(
+    name: string,
+    notFoundMsg: string,
+    noActiveMsg: string
+  ): Promise<void> {
     if (await super.isVisible(unitCard)) {
-      await super.notToHaveText(unitName, name);
+      await this.fillUnitSearchInput(name);
+      await super.toHaveText(unitNotFoundMsg, notFoundMsg);
     } else {
-      await super.toHaveText(noActiveUnitsMsg, msg);
+      await super.toHaveText(noActiveUnitsMsg, noActiveMsg);
     }
   }
 

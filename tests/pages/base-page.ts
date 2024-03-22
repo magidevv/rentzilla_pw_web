@@ -404,7 +404,7 @@ class BasePage {
   }
 
   async isVisible(element: string): Promise<boolean> {
-    const visible = await (await this.getElement(element)).isVisible();
+    const visible = await (await this.getElement(element)).first().isVisible();
     return visible;
   }
 }

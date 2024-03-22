@@ -168,7 +168,8 @@ test.describe("Tender Creation", () => {
     // Check the created tender display
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.isWaitingTabSelected();
-    await ownerTendersPage.isWaitingTendersDisplayed(validTenderData.name);
+    await ownerTendersPage.fillTenderSearchInput(validTenderData.name);
+    await ownerTendersPage.isWaitingTenderDisplayed(validTenderData.name);
 
     // Check the created tender (then delete)
     await ownerTendersPage.toBeTrue(

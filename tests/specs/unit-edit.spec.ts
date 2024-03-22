@@ -55,6 +55,7 @@ test.describe("Unit Edit", () => {
       await headerPage.clickMyUnitsLink();
       await ownerUnitsPage.checkOwnerUnitsURL();
       await ownerUnitsPage.isActiveUnitsTabSelected();
+      await ownerUnitsPage.fillUnitSearchInput(unitName);
       await ownerUnitsPage.isActiveUnitDisplayed(unitName);
     }
   );
@@ -70,6 +71,7 @@ test.describe("Unit Edit", () => {
     await editUnitPage.clickCancelBtn();
     await ownerUnitsPage.checkOwnerUnitsURL();
     await ownerUnitsPage.isActiveUnitsTabSelected();
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isActiveUnitDisplayed(unitName);
 
     // Check unit edit without changes in "Активні" tab
@@ -82,10 +84,16 @@ test.describe("Unit Edit", () => {
     );
     await editUnitPage.clickSeeMyUnitsBtn();
     await ownerUnitsPage.checkOwnerUnitsURL();
-    await ownerUnitsPage.checkUnitDisplay(unitName, messagesData.noActiveUnits);
+    await ownerUnitsPage.resetUnitSearchInput();
+    await ownerUnitsPage.checkUnitDisplay(
+      unitName,
+      `Оголошення за назвою \"${unitName}\" не знайдені`,
+      messagesData.noActiveUnits
+    );
 
     // Verify unit is not changed and unit is in "Очікуючі" tab
     await ownerUnitsPage.clickWaitingUnitsTab();
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.checkUnitData(
       unitName,
@@ -141,10 +149,16 @@ test.describe("Unit Edit", () => {
     );
     await editUnitPage.clickSeeMyUnitsBtn();
     await ownerUnitsPage.checkOwnerUnitsURL();
-    await ownerUnitsPage.checkUnitDisplay(unitName, messagesData.noActiveUnits);
+    await ownerUnitsPage.resetUnitSearchInput();
+    await ownerUnitsPage.checkUnitDisplay(
+      unitName,
+      `Оголошення за назвою \"${unitName}\" не знайдені`,
+      messagesData.noActiveUnits
+    );
 
     // Verify unit name is changed and unit is in "Очікуючі" tab
     await ownerUnitsPage.clickWaitingUnitsTab();
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.clickUnitCard();
     await unitPage.checkUnitName(unitName);
@@ -195,10 +209,16 @@ test.describe("Unit Edit", () => {
     );
     await editUnitPage.clickSeeMyUnitsBtn();
     await ownerUnitsPage.checkOwnerUnitsURL();
-    await ownerUnitsPage.checkUnitDisplay(unitName, messagesData.noActiveUnits);
+    await ownerUnitsPage.resetUnitSearchInput();
+    await ownerUnitsPage.checkUnitDisplay(
+      unitName,
+      `Оголошення за назвою \"${unitName}\" не знайдені`,
+      messagesData.noActiveUnits
+    );
 
     // Verify unit manufacturer is changed and unit is in "Очікуючі" tab
     await ownerUnitsPage.clickWaitingUnitsTab();
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.checkUnitManufacturer(validUnitData.manufacturer);
     await ownerUnitsPage.clickUnitCard();
@@ -235,10 +255,16 @@ test.describe("Unit Edit", () => {
     );
     await editUnitPage.clickSeeMyUnitsBtn();
     await ownerUnitsPage.checkOwnerUnitsURL();
-    await ownerUnitsPage.checkUnitDisplay(unitName, messagesData.noActiveUnits);
+    await ownerUnitsPage.resetUnitSearchInput();
+    await ownerUnitsPage.checkUnitDisplay(
+      unitName,
+      `Оголошення за назвою \"${unitName}\" не знайдені`,
+      messagesData.noActiveUnits
+    );
 
     // Verify unit model name is changed and unit is in "Очікуючі" tab
     await ownerUnitsPage.clickWaitingUnitsTab();
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.clickUnitCard();
     await unitPage.checkUnitModelName(validUnitData.modelName);
@@ -261,8 +287,14 @@ test.describe("Unit Edit", () => {
     );
     await editUnitPage.clickSeeMyUnitsBtn();
     await ownerUnitsPage.checkOwnerUnitsURL();
-    await ownerUnitsPage.checkUnitDisplay(unitName, messagesData.noActiveUnits);
+    await ownerUnitsPage.resetUnitSearchInput();
+    await ownerUnitsPage.checkUnitDisplay(
+      unitName,
+      `Оголошення за назвою \"${unitName}\" не знайдені`,
+      messagesData.noActiveUnits
+    );
     await ownerUnitsPage.clickWaitingUnitsTab();
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.clickWaitingEditBtn();
     await editUnitPage.checkEditUnitURL();
@@ -286,6 +318,7 @@ test.describe("Unit Edit", () => {
     await ownerUnitsPage.checkOwnerUnitsURL();
 
     // Verify unit model name is changed and unit is in "Очікуючі" tab
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.clickUnitCard();
     await unitPage.checkUnitTechCharacteristics(
@@ -310,8 +343,14 @@ test.describe("Unit Edit", () => {
     );
     await editUnitPage.clickSeeMyUnitsBtn();
     await ownerUnitsPage.checkOwnerUnitsURL();
-    await ownerUnitsPage.checkUnitDisplay(unitName, messagesData.noActiveUnits);
+    await ownerUnitsPage.resetUnitSearchInput();
+    await ownerUnitsPage.checkUnitDisplay(
+      unitName,
+      `Оголошення за назвою \"${unitName}\" не знайдені`,
+      messagesData.noActiveUnits
+    );
     await ownerUnitsPage.clickWaitingUnitsTab();
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.clickWaitingEditBtn();
     await editUnitPage.checkEditUnitURL();
@@ -333,6 +372,7 @@ test.describe("Unit Edit", () => {
     await ownerUnitsPage.checkOwnerUnitsURL();
 
     // Verify unit description is changed and unit is in "Очікуючі" tab
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.clickUnitCard();
     await unitPage.checkUnitDetailedDescr(validUnitData.detailedDescr);
@@ -366,10 +406,16 @@ test.describe("Unit Edit", () => {
     );
     await editUnitPage.clickSeeMyUnitsBtn();
     await ownerUnitsPage.checkOwnerUnitsURL();
-    await ownerUnitsPage.checkUnitDisplay(unitName, messagesData.noActiveUnits);
+    await ownerUnitsPage.resetUnitSearchInput();
+    await ownerUnitsPage.checkUnitDisplay(
+      unitName,
+      `Оголошення за назвою \"${unitName}\" не знайдені`,
+      messagesData.noActiveUnits
+    );
 
     // Verify unit machinery placement is changed and unit is in "Очікуючі" tab
     await ownerUnitsPage.clickWaitingUnitsTab();
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.clickUnitCard();
     await unitPage.checkUnitPlace(validUnitData.place);
@@ -409,10 +455,16 @@ test.describe("Unit Edit", () => {
     );
     await editUnitPage.clickSeeMyUnitsBtn();
     await ownerUnitsPage.checkOwnerUnitsURL();
-    await ownerUnitsPage.checkUnitDisplay(unitName, messagesData.noActiveUnits);
+    await ownerUnitsPage.resetUnitSearchInput();
+    await ownerUnitsPage.checkUnitDisplay(
+      unitName,
+      `Оголошення за назвою \"${unitName}\" не знайдені`,
+      messagesData.noActiveUnits
+    );
 
     // Verify unit machinery placement is changed and unit is in "Очікуючі" tab
     await ownerUnitsPage.clickWaitingUnitsTab();
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.clickUnitCard();
     await unitPage.checkUnitImage(validUnitData.photo);
@@ -445,7 +497,7 @@ test.describe("Unit Edit", () => {
       invalidUnitData.service[1][0].length - 1
     );
 
-    newUnitService = unitData.services + validUnitData.service;
+    newUnitService = unitData.services[0].name + validUnitData.service;
     await editUnitPage.fillServiceField(newUnitService);
     await editUnitPage.isNewServiceErrorMsgDisplayed(
       messagesData.Errors.Unit.serviceNotFound
@@ -461,10 +513,16 @@ test.describe("Unit Edit", () => {
     );
     await editUnitPage.clickSeeMyUnitsBtn();
     await ownerUnitsPage.checkOwnerUnitsURL();
-    await ownerUnitsPage.checkUnitDisplay(unitName, messagesData.noActiveUnits);
+    await ownerUnitsPage.resetUnitSearchInput();
+    await ownerUnitsPage.checkUnitDisplay(
+      unitName,
+      `Оголошення за назвою \"${unitName}\" не знайдені`,
+      messagesData.noActiveUnits
+    );
 
     // Verify unit service is changed and unit is in "Очікуючі" tab
     await ownerUnitsPage.clickWaitingUnitsTab();
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.clickUnitCard();
     await unitPage.checkUnitService(newUnitService);
@@ -502,11 +560,12 @@ test.describe("Unit Edit", () => {
       await ownerUnitsPage.checkOwnerUnitsURL();
       // await ownerUnitsPage.checkUnitDisplay(
       //   unitName,
-      //   messagesData.noActiveUnits
+      //   unitName, messagesData.noActiveUnits
       // );
 
       // Verify unit payment method is changed and unit is in "Очікуючі" tab
       await ownerUnitsPage.clickWaitingUnitsTab();
+      await ownerUnitsPage.fillUnitSearchInput(unitName);
       await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
       await ownerUnitsPage.clickUnitCard();
       await unitPage.checkUnitPaymentMethod(paymentMethods[i]);
@@ -549,11 +608,12 @@ test.describe("Unit Edit", () => {
     await ownerUnitsPage.checkOwnerUnitsURL();
     // await ownerUnitsPage.checkUnitDisplay(
     //   unitName,
-    //   messagesData.noActiveUnits
+    //   unitName, messagesData.noActiveUnits
     // );
 
     // Verify unit minimal price is changed and unit is in "Очікуючі" tab
     await ownerUnitsPage.clickWaitingUnitsTab();
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.clickUnitCard();
     await unitPage.checkUnitMinPrice(validUnitData.price);
@@ -591,11 +651,12 @@ test.describe("Unit Edit", () => {
         await ownerUnitsPage.checkOwnerUnitsURL();
         // await ownerUnitsPage.checkUnitDisplay(
         //   unitName,
-        //   messagesData.noActiveUnits
+        //   unitName, messagesData.noActiveUnits
         // );
 
         // Verify unit minimal price is changed and unit is in "Очікуючі" tab
         await ownerUnitsPage.clickWaitingUnitsTab();
+        await ownerUnitsPage.fillUnitSearchInput(unitName);
         await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
         await ownerUnitsPage.clickUnitCard();
         await unitPage.checkUnitPriceValue(timeOptions.shortTime[i]);
@@ -622,11 +683,12 @@ test.describe("Unit Edit", () => {
           await ownerUnitsPage.checkOwnerUnitsURL();
           // await ownerUnitsPage.checkUnitDisplay(
           //   unitName,
-          //   messagesData.noActiveUnits
+          //   unitName, messagesData.noActiveUnits
           // );
 
           // Verify unit minimal price is changed and unit is in "Очікуючі" tab
           await ownerUnitsPage.clickWaitingUnitsTab();
+          await ownerUnitsPage.fillUnitSearchInput(unitName);
           await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
           await ownerUnitsPage.clickUnitCard();
           await unitPage.checkUnitPriceValue(timeOptions.shift[j]);
@@ -649,6 +711,7 @@ test.describe("Unit Edit", () => {
     // Verify unit is changed and unit is in "Очікуючі" tab
     await ownerUnitsPage.refreshPage();
     await ownerUnitsPage.clickWaitingUnitsTab();
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.checkUnitData(
       unitName,

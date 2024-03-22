@@ -41,6 +41,7 @@ test.describe("Unit Creation", () => {
     await profilePage.clickMyUnitsLink();
     await ownerUnitsPage.checkOwnerUnitsURL();
     await ownerUnitsPage.clickWaitingUnitsTab();
+    await ownerUnitsPage.fillUnitSearchInput(unitName);
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
   });
 
