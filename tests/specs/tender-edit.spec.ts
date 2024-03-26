@@ -23,7 +23,7 @@ let tenderName: string;
 
 test.describe("Tender Edit", () => {
   test.beforeEach(
-    async ({ mainPage, headerPage, ownerTendersPage, apiHelper }) => {
+    async ({ mainPage, headerPage, apiHelper }) => {
       // Open the «Rentzila» main page
       await mainPage.openMainURL();
       await mainPage.waitForModalAccept();

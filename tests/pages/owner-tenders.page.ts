@@ -5,6 +5,8 @@ const createTenderButton: string = "//button[@data-testid='emptyBlockButton']";
 
 const waitingTendersTab: string =
   "//button[contains(@class, 'MuiButtonBase-root MuiTab-root')][3]";
+const closedTendersTab: string =
+  "//button[contains(@class, 'MuiButtonBase-root MuiTab-root')][2]";
 const rejectedTendersTab: string =
   "//button[contains(@class, 'MuiButtonBase-root MuiTab-root')][4]";
 const activeTendersTab: string =
@@ -62,6 +64,27 @@ class OwnerTendersPage extends BasePage {
   public async isWaitingTenderDisplayed(name: string): Promise<void> {
     await super.isDisplayed(tenderCard);
     await super.toHaveText(tenderName, name);
+  }
+
+  public async clickClosedTab(): Promise<void> {
+    await super.click(closedTendersTab);
+  }
+
+  public async isClosedTabSelected(): Promise<void> {
+    await super.doesElementAttrHaveValue(
+      closedTendersTab,
+      "aria-selected",
+      "true"
+    );
+  }
+
+  public async isClosedTenderDisplayed(name: string): Promise<void> {
+    await super.isDisplayed(tenderCard);
+    await super.toHaveText(tenderName, name);
+  }
+
+  public async isClosedTenderNotDisplayed(): Promise<void> {
+    await super.isNotDisplayed(tenderCard);
   }
 
   public async clickRejectedTab(): Promise<void> {

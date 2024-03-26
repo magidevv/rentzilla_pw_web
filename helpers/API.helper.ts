@@ -667,6 +667,26 @@ class APIhelper {
     // }
   }
 
+  async closeTender(name: string): Promise<void> {
+    const id = await this.getTenderId(name);
+    const token = await this.createAccessToken();
+    await this.request.patch(
+      `https://stage.rentzila.com.ua/api/tender/${id}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          is_closed: true,
+        },
+      }
+    );
+
+    // if (response.status() !== 200) {
+    //   throw new Error(response.statusText());
+    // }
+  }
+
   async getTenderList(): Promise<any> {
     const token = await this.createAccessToken();
     const response = await this.request.get(
