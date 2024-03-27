@@ -1,0 +1,11 @@
+{
+  "name": "Sample name Edited",
+  "description": "This is a sample sample sample sample sample sample tender created via API. Edited",
+  "lat": 50.51351385880504,
+  "lng": 30.79412838444114,
+  "start_price": 50000,
+  "currency": "UAH",
+  "type_of_work": "HOUR",
+  "time_of_work": "EIGHT",
+  "services": [{ "name": "Буріння" }]
+}
