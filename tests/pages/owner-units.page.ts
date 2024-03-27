@@ -111,7 +111,7 @@ class OwnerUnitsPage extends BasePage {
 
   public async clickUnitCard(): Promise<void> {
     await super.click(unitCard);
-    await super.waitForTimeout(2000);
+    await super.waitForTimeout(3000);
   }
 }
 
