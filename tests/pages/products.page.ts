@@ -71,11 +71,8 @@ class ProductsPage extends BasePage {
     await super.elementsToContainText(searchUnitItems, searchPrompt);
   }
 
-  public async isSearchUnitItemDisplayed(
-    searchPrompt: string
-  ): Promise<void> {
-    await super.isDisplayed(searchUnitItems);
-    await super.elementsToContainText(searchUnitItems, searchPrompt);
+  public async isSearchUnitItemDisplayed(searchPrompt: string): Promise<void> {
+    await super.toContainText(searchUnitItems, searchPrompt);
   }
 
   public async areSearchUnitItemsNotDisplayed(): Promise<void> {
