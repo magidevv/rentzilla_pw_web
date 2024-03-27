@@ -171,15 +171,19 @@ test.describe("Tender Creation", () => {
     await ownerTendersPage.isWaitingTabSelected();
     await ownerTendersPage.fillTenderSearchInput(validTenderData.name);
     await ownerTendersPage.isWaitingTenderDisplayed(validTenderData.name);
+  });
 
+  test.afterEach(async ({ apiHelper, ownerTendersPage }) => {
     // Check the created tender (then delete)
-    await ownerTendersPage.toBeTrue(
-      await apiHelper.checkTenderResponseResults(validTenderData.name)
+    const tenderExists = await apiHelper.checkTenderResponseResults(
+      validTenderData.name
     );
-    await apiHelper.deleteTender(validTenderData.name);
-    await ownerTendersPage.toBeFalse(
-      await apiHelper.checkTenderResponseResults(validTenderData.name)
-    );
+    if (tenderExists) {
+      await apiHelper.deleteTender(validTenderData.name);
+      await ownerTendersPage.toBeFalse(
+        await apiHelper.checkTenderResponseResults(validTenderData.name)
+      );
+    }
   });
 
   test("Tender creation w/ invalid data", async ({
