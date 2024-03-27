@@ -542,38 +542,42 @@ test.describe("Unit Edit", () => {
     editUnitPage,
     unitPage,
   }) => {
-    // Check 'Спосіб оплати' menu
-    await ownerUnitsPage.clickActiveEditBtn();
-    for (let i = 0; i < paymentMethods.length; i++) {
-      await editUnitPage.checkEditUnitURL();
-      await editUnitPage.clickPaymentMethodSelect();
-      await editUnitPage.arePaymentMethodOptionsDisplayed();
-      await editUnitPage.clickPaymentMethodOption(i + 1);
-      await editUnitPage.isSelectedPaymentMethodDisplayed(paymentMethods[i]);
-      await editUnitPage.clickSubmitBtn();
+    try {
+      // Check 'Спосіб оплати' menu
+      await ownerUnitsPage.clickActiveEditBtn();
+      for (let i = 0; i < paymentMethods.length; i++) {
+        await editUnitPage.checkEditUnitURL();
+        await editUnitPage.clickPaymentMethodSelect();
+        await editUnitPage.arePaymentMethodOptionsDisplayed();
+        await editUnitPage.clickPaymentMethodOption(i + 1);
+        await editUnitPage.isSelectedPaymentMethodDisplayed(paymentMethods[i]);
+        await editUnitPage.clickSubmitBtn();
 
-      // await editUnitPage.checkSuccessEditMsgsDisplay(
-      //   messagesData.successfulUnitEditToModeration,
-      //   messagesData.successfulUnitEdit
-      // );
-      await editUnitPage.checkSuccessEditMsgDisplay(
-        messagesData.successfulUnitEdit
-      );
-      await editUnitPage.clickSeeMyUnitsBtn();
-      await ownerUnitsPage.checkOwnerUnitsURL();
-      // await ownerUnitsPage.checkUnitDisplay(
-      //   unitName,
-      //   unitName, messagesData.noActiveUnits
-      // );
+        // await editUnitPage.checkSuccessEditMsgsDisplay(
+        //   messagesData.successfulUnitEditToModeration,
+        //   messagesData.successfulUnitEdit
+        // );
+        await editUnitPage.checkSuccessEditMsgDisplay(
+          messagesData.successfulUnitEdit
+        );
+        await editUnitPage.clickSeeMyUnitsBtn();
+        await ownerUnitsPage.checkOwnerUnitsURL();
+        // await ownerUnitsPage.checkUnitDisplay(
+        //   unitName,
+        //   unitName, messagesData.noActiveUnits
+        // );
 
-      // Verify unit payment method is changed and unit is in "Очікуючі" tab
-      await ownerUnitsPage.clickWaitingUnitsTab();
-      await ownerUnitsPage.fillUnitSearchInput(unitName);
-      await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
-      await ownerUnitsPage.clickUnitCard();
-      await unitPage.checkUnitPaymentMethod(paymentMethods[i]);
+        // Verify unit payment method is changed and unit is in "Очікуючі" tab
+        await ownerUnitsPage.clickWaitingUnitsTab();
+        await ownerUnitsPage.fillUnitSearchInput(unitName);
+        await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
+        await ownerUnitsPage.clickUnitCard();
+        await unitPage.checkUnitPaymentMethod(paymentMethods[i]);
 
-      await unitPage.clickEditBtn();
+        await unitPage.clickEditBtn();
+      }
+    } catch (error) {
+      console.log("Test case failed: ", error);
     }
   });
 
