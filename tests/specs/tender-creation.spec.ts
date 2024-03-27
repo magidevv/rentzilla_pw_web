@@ -103,7 +103,8 @@ test.describe("Tender Creation", () => {
 
     await createTenderPage.clickWorkPeriodDateField();
     await createTenderPage.isCalendarDisplayed();
-    await createTenderPage.selectWorkPeriodDate(2, 3);
+    await createTenderPage.clickNextMonthBtn();
+    await createTenderPage.selectWorkPeriodDate(3, 4);
 
     await createTenderPage.fillBudgetAmountField(validTenderData.budgetAmount);
 

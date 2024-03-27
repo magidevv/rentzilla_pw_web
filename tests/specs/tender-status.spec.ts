@@ -88,10 +88,19 @@ test.describe("Tender Status", () => {
   test("C258: Delete the tender", async ({
     ownerTendersPage,
     apiHelper,
+    mainPage,
     headerPage,
   }) => {
     // Close and delete the created tender via API
     await apiHelper.deleteTender(tenderName);
+
+    // Create the random tender via API (to display the tabs)
+    tenderName = await apiHelper.createTender();
+
+    // Check the created tender via API
+    await mainPage.toBeTrue(
+      await apiHelper.checkTenderResponseResults(tenderName)
+    );
 
     // Check the tender display in "Завершені" tab
     await headerPage.clickUserIcon();
