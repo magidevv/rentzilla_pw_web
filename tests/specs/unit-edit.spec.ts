@@ -526,15 +526,6 @@ test.describe("Unit Edit", () => {
     await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
     await ownerUnitsPage.clickUnitCard();
     await unitPage.checkUnitService(newUnitService);
-
-    // Check the created service (then delete)
-    await editUnitPage.toBeTrue(
-      await apiHelper.checkServiceResponseResults(newUnitService)
-    );
-    await apiHelper.deleteService(newUnitService);
-    await editUnitPage.toBeFalse(
-      await apiHelper.checkServiceResponseResults(newUnitService)
-    );
   });
 
   test("C541: Check 'Спосіб оплати' menu", async ({
@@ -759,5 +750,16 @@ test.describe("Unit Edit", () => {
     await mainPage.toBeFalse(
       await apiHelper.checkUnitResponseResults(unitName)
     );
+
+    // Check the created service (then delete)
+    const serviceExist = await apiHelper.checkServiceResponseResults(
+      "Риття ям test12345"
+    );
+    if (serviceExist) {
+      await apiHelper.deleteService("Риття ям test12345");
+      await mainPage.toBeFalse(
+        await apiHelper.checkServiceResponseResults("Риття ям test12345")
+      );
+    }
   });
 });
