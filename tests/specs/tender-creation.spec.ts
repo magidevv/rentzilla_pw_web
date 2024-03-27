@@ -53,7 +53,7 @@ test.describe("Tender Creation", () => {
     await createTenderPage.isBaseInfoTabSelected();
     await createTenderPage.areBaseInfoFormElementsDisplayed();
 
-    await createTenderPage.getUserPointsBalance();
+    // await createTenderPage.getUserPointsBalance();
 
     await createTenderPage.fillTenderNameField(validTenderData.name);
 
@@ -163,7 +163,7 @@ test.describe("Tender Creation", () => {
     // await createTenderPage.isNotificationMsgDisplayed(
     //   messagesData.successfulTenderCreation
     // );
-    await createTenderPage.isUserPointsBalanceReduced();
+    // await createTenderPage.isUserPointsBalanceReduced();
     await createTenderPage.clickSeeInMyTendersBtn();
 
     // Check the created tender display

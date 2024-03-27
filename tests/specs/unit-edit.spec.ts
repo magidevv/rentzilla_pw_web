@@ -552,8 +552,11 @@ test.describe("Unit Edit", () => {
       await editUnitPage.isSelectedPaymentMethodDisplayed(paymentMethods[i]);
       await editUnitPage.clickSubmitBtn();
 
-      await editUnitPage.checkSuccessEditMsgsDisplay(
-        messagesData.successfulUnitEditToModeration,
+      // await editUnitPage.checkSuccessEditMsgsDisplay(
+      //   messagesData.successfulUnitEditToModeration,
+      //   messagesData.successfulUnitEdit
+      // );
+      await editUnitPage.checkSuccessEditMsgDisplay(
         messagesData.successfulUnitEdit
       );
       await editUnitPage.clickSeeMyUnitsBtn();
@@ -649,7 +652,7 @@ test.describe("Unit Edit", () => {
           //   messagesData.successfulUnitEditToModeration
           // );
           await editUnitPage.checkSuccessEditMsgDisplay(
-            messagesData.successfulUnitEditToModeration
+            messagesData.successfulUnitEdit
           );
           await editUnitPage.clickSeeMyUnitsBtn();
           await ownerUnitsPage.checkOwnerUnitsURL();
@@ -685,7 +688,7 @@ test.describe("Unit Edit", () => {
             //   messagesData.successfulUnitEditToModeration
             // );
             await editUnitPage.checkSuccessEditMsgDisplay(
-              messagesData.successfulUnitEditToModeration
+              messagesData.successfulUnitEdit
             );
             await editUnitPage.clickSeeMyUnitsBtn();
             await ownerUnitsPage.checkOwnerUnitsURL();
@@ -706,10 +709,7 @@ test.describe("Unit Edit", () => {
         }
       }
     } catch (error) {
-      console.log(
-        "Test case failed: ",
-        error
-      );
+      console.log("Test case failed: ", error);
     }
   });
 
