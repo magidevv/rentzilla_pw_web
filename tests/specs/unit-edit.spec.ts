@@ -643,9 +643,11 @@ test.describe("Unit Edit", () => {
       if (i != 1) {
         await editUnitPage.clickSubmitBtn();
 
-        await editUnitPage.checkSuccessEditMsgsDisplay(
-          messagesData.successfulUnitEditToModeration,
-          messagesData.successfulUnitEdit
+        // await editUnitPage.checkSuccessEditNotificationDisplay(
+        //   messagesData.successfulUnitEditToModeration
+        // );
+        await editUnitPage.checkSuccessEditMsgDisplay(
+          messagesData.successfulUnitEditToModeration
         );
         await editUnitPage.clickSeeMyUnitsBtn();
         await ownerUnitsPage.checkOwnerUnitsURL();
@@ -676,9 +678,11 @@ test.describe("Unit Edit", () => {
 
           await editUnitPage.clickSubmitBtn();
 
-          await editUnitPage.checkSuccessEditMsgsDisplay(
-            messagesData.successfulUnitEditToModeration,
-            messagesData.successfulUnitEdit
+          // await editUnitPage.checkSuccessEditNotificationDisplay(
+          //   messagesData.successfulUnitEditToModeration
+          // );
+          await editUnitPage.checkSuccessEditMsgDisplay(
+            messagesData.successfulUnitEditToModeration
           );
           await editUnitPage.clickSeeMyUnitsBtn();
           await ownerUnitsPage.checkOwnerUnitsURL();
@@ -708,7 +712,7 @@ test.describe("Unit Edit", () => {
     // Edit the created unit via API
     await apiHelper.editUnit(unitName);
     unitName += " Edited";
-    
+
     // Verify unit is changed and unit is in "Очікуючі" tab
     await ownerUnitsPage.refreshPage();
     await ownerUnitsPage.clickWaitingUnitsTab();

@@ -103,6 +103,9 @@ test.describe("Tender Status", () => {
       await apiHelper.checkTenderResponseResults(newTenderName)
     );
 
+    // Close the new created tender via API
+    await apiHelper.closeTender(newTenderName);
+
     // Check the deleted tender display in "Завершені" tab
     await headerPage.clickUserIcon();
     await headerPage.clickMyTendersLink();

@@ -117,6 +117,17 @@ class EditUnitPage extends BasePage {
     await super.click(submitBtn);
   }
 
+  public async checkSuccessEditNotificationDisplay(
+    notification: string
+  ): Promise<void> {
+    await super.toHaveText(successEditPopupNotification, notification);
+  }
+
+  public async checkSuccessEditMsgDisplay(msg: string): Promise<void> {
+    await super.toHaveText(successEditMsg, msg);
+    await super.isDisplayed(seeMyUnitsBtn);
+  }
+
   public async checkSuccessEditMsgsDisplay(
     notification: string,
     msg: string
