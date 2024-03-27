@@ -551,6 +551,7 @@ test.describe("Unit Edit", () => {
       await editUnitPage.clickPaymentMethodOption(i + 1);
       await editUnitPage.isSelectedPaymentMethodDisplayed(paymentMethods[i]);
       await editUnitPage.clickSubmitBtn();
+      await editUnitPage.waitForTimeout(3000);
 
       // await editUnitPage.checkSuccessEditMsgsDisplay(
       //   messagesData.successfulUnitEditToModeration,
@@ -646,7 +647,7 @@ test.describe("Unit Edit", () => {
         );
         if (i != 1) {
           await editUnitPage.clickSubmitBtn();
-          await editUnitPage.waitForTimeout(10000);
+          await editUnitPage.waitForTimeout(3000);
 
           // await editUnitPage.checkSuccessEditNotificationDisplay(
           //   messagesData.successfulUnitEditToModeration
@@ -682,7 +683,7 @@ test.describe("Unit Edit", () => {
             );
 
             await editUnitPage.clickSubmitBtn();
-            await editUnitPage.waitForTimeout(10000);
+            await editUnitPage.waitForTimeout(3000);
 
             // await editUnitPage.checkSuccessEditNotificationDisplay(
             //   messagesData.successfulUnitEditToModeration
