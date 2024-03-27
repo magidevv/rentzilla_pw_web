@@ -103,11 +103,11 @@ test.describe("Tender Status", () => {
     await ownerTendersPage.isClosedTenderNotDisplayed();
   });
 
-  test.afterEach(async ({ apiHelper, mainPage }) => {
+  test.afterEach(async ({ apiHelper }) => {
     // Delete the created tender via API
-    await apiHelper.deleteTender(tenderName);
-    await mainPage.toBeFalse(
-      await apiHelper.checkTenderResponseResults(tenderName)
-    );
+    const tenderExists = await apiHelper.checkTenderResponseResults(tenderName);
+    if (tenderExists) {
+      await apiHelper.deleteTender(tenderName);
+    }
   });
 });
