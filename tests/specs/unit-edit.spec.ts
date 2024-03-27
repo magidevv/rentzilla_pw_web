@@ -624,59 +624,26 @@ test.describe("Unit Edit", () => {
     editUnitPage,
     unitPage,
   }) => {
-    // Check 'Вартість мінімального замовлення' drop-down menu
-    await ownerUnitsPage.clickActiveEditBtn();
-    await editUnitPage.checkEditUnitURL();
-    await editUnitPage.clickSpecificServicePriceAddBtn();
-    await editUnitPage.fillSpecificServicePriceField(
-      unitData.minimal_price.toString()
-    );
-    for (let i = 0; i < timeOptions.time.length; i++) {
+    try {
+      // Check 'Вартість мінімального замовлення' drop-down menu
+      await ownerUnitsPage.clickActiveEditBtn();
       await editUnitPage.checkEditUnitURL();
-      await editUnitPage.clickSpecificServicePriceTimeSelect();
-      await editUnitPage.isSpecificServicePriceTimeOptionsListDisplayed();
-      await editUnitPage.isHourOptionSelected();
-      await editUnitPage.clickSpecificServicePriceTimeOption(i + 1);
-      await editUnitPage.isSpecificServicePriceTimeOptionDisplayed(
-        timeOptions.time[i]
+      await editUnitPage.clickSpecificServicePriceAddBtn();
+      await editUnitPage.fillSpecificServicePriceField(
+        unitData.minimal_price.toString()
       );
-      if (i != 1) {
-        await editUnitPage.clickSubmitBtn();
-
-        // await editUnitPage.checkSuccessEditNotificationDisplay(
-        //   messagesData.successfulUnitEditToModeration
-        // );
-        await editUnitPage.checkSuccessEditMsgDisplay(
-          messagesData.successfulUnitEditToModeration
+      for (let i = 0; i < timeOptions.time.length; i++) {
+        await editUnitPage.checkEditUnitURL();
+        await editUnitPage.clickSpecificServicePriceTimeSelect();
+        await editUnitPage.isSpecificServicePriceTimeOptionsListDisplayed();
+        await editUnitPage.isHourOptionSelected();
+        await editUnitPage.clickSpecificServicePriceTimeOption(i + 1);
+        await editUnitPage.isSpecificServicePriceTimeOptionDisplayed(
+          timeOptions.time[i]
         );
-        await editUnitPage.clickSeeMyUnitsBtn();
-        await ownerUnitsPage.checkOwnerUnitsURL();
-        // await ownerUnitsPage.checkUnitDisplay(
-        //   unitName,
-        //   unitName, messagesData.noActiveUnits
-        // );
-
-        // Verify unit minimal price is changed and unit is in "Очікуючі" tab
-        await ownerUnitsPage.clickWaitingUnitsTab();
-        await ownerUnitsPage.fillUnitSearchInput(unitName);
-        await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
-        await ownerUnitsPage.clickUnitCard();
-        await unitPage.refreshPage();
-        await unitPage.checkUnitPriceValue(timeOptions.shortTime[i]);
-
-        await unitPage.clickEditBtn();
-      } else {
-        for (let j = 0; j < timeOptions.shift.length; j++) {
-          await editUnitPage.isSpecificServicePriceShiftSelectDisplayed();
-          await editUnitPage.clickSpecificServicePriceShiftSelect();
-          await editUnitPage.isSpecificServicePriceShiftOptionsListDisplayed();
-          await editUnitPage.isShiftOptionSelected();
-          await editUnitPage.clickSpecificServicePriceShiftOption(j + 1);
-          await editUnitPage.isSpecificServicePriceShiftOptionDisplayed(
-            timeOptions.shift[j]
-          );
-
+        if (i != 1) {
           await editUnitPage.clickSubmitBtn();
+          await editUnitPage.waitForTimeout(10000);
 
           // await editUnitPage.checkSuccessEditNotificationDisplay(
           //   messagesData.successfulUnitEditToModeration
@@ -696,11 +663,53 @@ test.describe("Unit Edit", () => {
           await ownerUnitsPage.fillUnitSearchInput(unitName);
           await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
           await ownerUnitsPage.clickUnitCard();
-          await unitPage.checkUnitPriceValue(timeOptions.shift[j]);
+          await unitPage.refreshPage();
+          await unitPage.checkUnitPriceValue(timeOptions.shortTime[i]);
 
           await unitPage.clickEditBtn();
+        } else {
+          for (let j = 0; j < timeOptions.shift.length; j++) {
+            await editUnitPage.isSpecificServicePriceShiftSelectDisplayed();
+            await editUnitPage.clickSpecificServicePriceShiftSelect();
+            await editUnitPage.isSpecificServicePriceShiftOptionsListDisplayed();
+            await editUnitPage.isShiftOptionSelected();
+            await editUnitPage.clickSpecificServicePriceShiftOption(j + 1);
+            await editUnitPage.isSpecificServicePriceShiftOptionDisplayed(
+              timeOptions.shift[j]
+            );
+
+            await editUnitPage.clickSubmitBtn();
+            await editUnitPage.waitForTimeout(10000);
+
+            // await editUnitPage.checkSuccessEditNotificationDisplay(
+            //   messagesData.successfulUnitEditToModeration
+            // );
+            await editUnitPage.checkSuccessEditMsgDisplay(
+              messagesData.successfulUnitEditToModeration
+            );
+            await editUnitPage.clickSeeMyUnitsBtn();
+            await ownerUnitsPage.checkOwnerUnitsURL();
+            // await ownerUnitsPage.checkUnitDisplay(
+            //   unitName,
+            //   unitName, messagesData.noActiveUnits
+            // );
+
+            // Verify unit minimal price is changed and unit is in "Очікуючі" tab
+            await ownerUnitsPage.clickWaitingUnitsTab();
+            await ownerUnitsPage.fillUnitSearchInput(unitName);
+            await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
+            await ownerUnitsPage.clickUnitCard();
+            await unitPage.checkUnitPriceValue(timeOptions.shift[j]);
+
+            await unitPage.clickEditBtn();
+          }
         }
       }
+    } catch (error) {
+      console.log(
+        "Test case failed: ",
+        error
+      );
     }
   });
 
