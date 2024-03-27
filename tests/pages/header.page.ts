@@ -156,6 +156,7 @@ class HeaderPage extends BasePage {
     await super.hover(profileDropdownMenuTendersLink);
     await super.isDisplayed(profileDropdownMenuMyTendersLink);
     await super.click(profileDropdownMenuMyTendersLink);
+    await super.waitForTimeout(1000);
   }
 
   public async clickMyUnitsLink(): Promise<void> {

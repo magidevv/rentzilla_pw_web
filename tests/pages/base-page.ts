@@ -7,7 +7,7 @@ class BasePage {
   }
 
   public async openURL(url: string): Promise<void> {
-    await this.page.goto(url);
+    await this.page.goto(url, {timeout: 10000});
     await this.page.waitForLoadState("load");
   }
 

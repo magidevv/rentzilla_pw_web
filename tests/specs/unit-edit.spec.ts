@@ -659,6 +659,7 @@ test.describe("Unit Edit", () => {
         await ownerUnitsPage.fillUnitSearchInput(unitName);
         await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
         await ownerUnitsPage.clickUnitCard();
+        await unitPage.refreshPage();
         await unitPage.checkUnitPriceValue(timeOptions.shortTime[i]);
 
         await unitPage.clickEditBtn();
@@ -706,8 +707,8 @@ test.describe("Unit Edit", () => {
   }) => {
     // Edit the created unit via API
     await apiHelper.editUnit(unitName);
-    unitName = editUnitData.name;
-
+    unitName += " Edited";
+    
     // Verify unit is changed and unit is in "Очікуючі" tab
     await ownerUnitsPage.refreshPage();
     await ownerUnitsPage.clickWaitingUnitsTab();

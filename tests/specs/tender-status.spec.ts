@@ -9,6 +9,7 @@ const data: any = {
 };
 
 let tenderName: string;
+let newTenderName: string;
 
 test.describe("Tender Status", () => {
   test.beforeEach(async ({ mainPage, headerPage, apiHelper }) => {
@@ -94,15 +95,15 @@ test.describe("Tender Status", () => {
     // Close and delete the created tender via API
     await apiHelper.deleteTender(tenderName);
 
-    // Create the random tender via API (to display the tabs)
-    tenderName = await apiHelper.createTender();
+    // Create the new tender via API (to display the tabs)
+    newTenderName = await apiHelper.createTender();
 
-    // Check the created tender via API
+    // Check the new created tender via API
     await mainPage.toBeTrue(
-      await apiHelper.checkTenderResponseResults(tenderName)
+      await apiHelper.checkTenderResponseResults(newTenderName)
     );
 
-    // Check the tender display in "Завершені" tab
+    // Check the deleted tender display in "Завершені" tab
     await headerPage.clickUserIcon();
     await headerPage.clickMyTendersLink();
     await ownerTendersPage.checkOwnerTendersURL();
@@ -111,15 +112,26 @@ test.describe("Tender Status", () => {
     await ownerTendersPage.fillTenderSearchInput(tenderName);
     await ownerTendersPage.isClosedTenderNotDisplayed();
   });
+});
 
-  test.afterEach(async ({ apiHelper, ownerTendersPage }) => {
-    // Delete the created tender via API
-    const tenderExists = await apiHelper.checkTenderResponseResults(tenderName);
-    if (tenderExists) {
-      await apiHelper.deleteTender(tenderName);
-      await ownerTendersPage.toBeFalse(
-        await apiHelper.checkTenderResponseResults(tenderName)
-      );
-    }
-  });
+test.afterEach(async ({ apiHelper, ownerTendersPage }) => {
+  // Delete the created tender via API
+  const tenderExists = await apiHelper.checkTenderResponseResults(tenderName);
+  if (tenderExists) {
+    await apiHelper.deleteTender(tenderName);
+    await ownerTendersPage.toBeFalse(
+      await apiHelper.checkTenderResponseResults(tenderName)
+    );
+  }
+
+  const newTenderExists = await apiHelper.checkTenderResponseResults(
+    newTenderName
+  );
+  if (newTenderExists) {
+    // Delete the new created tender
+    await apiHelper.deleteTender(newTenderName);
+    await ownerTendersPage.toBeFalse(
+      await apiHelper.checkTenderResponseResults(newTenderName)
+    );
+  }
 });

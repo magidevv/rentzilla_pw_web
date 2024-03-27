@@ -380,6 +380,7 @@ class APIhelper {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        timeout: 10000,
       }
     );
     imageList = await response.json();
@@ -407,6 +408,7 @@ class APIhelper {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        timeout: 10000,
       }
     );
     unitList = await response.json();
@@ -473,6 +475,7 @@ class APIhelper {
         },
         data: {
           ...unitData,
+          name: name + " Edited",
           manufacturer,
           services: [services],
         },
@@ -695,6 +698,7 @@ class APIhelper {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        timeout: 10000,
       }
     );
     tenderList = await response.json();
