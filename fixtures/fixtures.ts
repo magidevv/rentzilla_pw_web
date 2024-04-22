@@ -11,6 +11,7 @@ import ProfilePage from "../tests/pages/profile.page";
 import HeaderPage from "../tests/pages/header.page";
 import FooterPage from "../tests/pages/footer.page";
 import OwnerUnitsPage from "../tests/pages/owner-units.page";
+import OwnerFavUnitsPage from "../tests/pages/owner-favourite-units.page";
 import OwnerTendersPage from "../tests/pages/owner-tenders.page";
 import CreateTenderPage from "../tests/pages/create-tender.page";
 import UnitProposesPage from "../tests/pages/proposes-to-owner-unit.page";
@@ -29,6 +30,7 @@ type MyFixtures = {
   tendersPage: TendersPage;
   profilePage: ProfilePage;
   ownerUnitsPage: OwnerUnitsPage;
+  ownerFavUnitsPage: OwnerFavUnitsPage;
   ownerTendersPage: OwnerTendersPage;
   createTenderPage: CreateTenderPage;
   unitProposesPage: UnitProposesPage;
@@ -72,6 +74,9 @@ export const test = base.extend<MyFixtures>({
   },
   ownerUnitsPage: async ({ page }, use) => {
     await use(new OwnerUnitsPage(page));
+  },
+  ownerFavUnitsPage: async ({ page }, use) => {
+    await use(new OwnerFavUnitsPage(page));
   },
   ownerTendersPage: async ({ page }, use) => {
     await use(new OwnerTendersPage(page));

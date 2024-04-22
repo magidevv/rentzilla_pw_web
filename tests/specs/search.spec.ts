@@ -1,7 +1,7 @@
 import { test } from "../../fixtures/fixtures";
 import inputData from "../../utils/input-data.json";
 
-test.describe("C530 Tests", () => {
+test.describe("Search", () => {
   test.beforeEach(async ({ mainPage }) => {
     // Open the «Rentzila» main page
     await mainPage.openMainURL();

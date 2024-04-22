@@ -28,6 +28,26 @@ export const timeOptions = {
   shift: ["8 год", "4 год"],
 };
 
+export const mainCategories = [
+  "Будівельна техніка",
+  "Комунальна техніка",
+  "Складська техніка",
+  "Сільськогосподарська техніка",
+];
+
+export const sortingMethods = [" по назві", "по даті створення"];
+
+export const categories = [
+  "ресайклери",
+  "драглайни",
+  "всюдиходи",
+  "асенізатори",
+  "борони",
+  "дровоколи",
+  "вила",
+  "електротягачі",
+];
+
 export const validUnitData: {
   [key: string]: string;
 } = {

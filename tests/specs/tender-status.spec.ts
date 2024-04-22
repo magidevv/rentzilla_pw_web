@@ -8,8 +8,8 @@ const data: any = {
   userPassword: process.env.USER_PASSWORD,
 };
 
-let tenderName: string;
-let newTenderName: string;
+let tender: { name: string; responseBodyTender: any };
+let newTender: { name: string; responseBodyTender: any };
 
 test.describe("Tender Status", () => {
   test.beforeEach(async ({ mainPage, headerPage, apiHelper }) => {
@@ -18,11 +18,13 @@ test.describe("Tender Status", () => {
     await mainPage.waitForModalAccept();
 
     // Create the random tender via API
-    tenderName = await apiHelper.createTender();
+    tender = await apiHelper.createTender();
 
     // Check the created tender via API
     await mainPage.toBeTrue(
-      await apiHelper.checkTenderResponseResults(tenderName)
+      await apiHelper.checkTenderResponseResultsById(
+        tender.responseBodyTender.id
+      )
     );
 
     // Authorization with user account
@@ -39,15 +41,15 @@ test.describe("Tender Status", () => {
     headerPage,
   }) => {
     // Approve the created tender via API
-    await apiHelper.approveTender(tenderName);
+    await apiHelper.approveTender(tender.responseBodyTender.id);
 
     // Check the tender display in "Активні" tab
     await headerPage.clickUserIcon();
     await headerPage.clickMyTendersLink();
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.isActiveTendersTabSelected();
-    await ownerTendersPage.fillTenderSearchInput(tenderName);
-    await ownerTendersPage.isActiveTenderDisplayed(tenderName);
+    await ownerTendersPage.fillTenderSearchInput(tender.name);
+    await ownerTendersPage.isActiveTenderDisplayed(tender.name);
   });
 
   test("C256: Reject the tender", async ({
@@ -56,7 +58,7 @@ test.describe("Tender Status", () => {
     headerPage,
   }) => {
     // Reject the created tender via API
-    await apiHelper.rejectTender(tenderName);
+    await apiHelper.rejectTender(tender.responseBodyTender.id);
 
     // Check the tender display in "Відхилені" tab
     await headerPage.clickUserIcon();
@@ -64,8 +66,8 @@ test.describe("Tender Status", () => {
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.clickRejectedTab();
     await ownerTendersPage.isRejectedTabSelected();
-    await ownerTendersPage.fillTenderSearchInput(tenderName);
-    await ownerTendersPage.isRejectedTenderDisplayed(tenderName);
+    await ownerTendersPage.fillTenderSearchInput(tender.name);
+    await ownerTendersPage.isRejectedTenderDisplayed(tender.name);
   });
 
   test("C257: Close the tender", async ({
@@ -74,7 +76,7 @@ test.describe("Tender Status", () => {
     headerPage,
   }) => {
     // Close the created tender via API
-    await apiHelper.closeTender(tenderName);
+    await apiHelper.closeTender(tender.responseBodyTender.id);
 
     // Check the tender display in "Завершені" tab
     await headerPage.clickUserIcon();
@@ -82,8 +84,8 @@ test.describe("Tender Status", () => {
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.clickClosedTab();
     await ownerTendersPage.isClosedTabSelected();
-    await ownerTendersPage.fillTenderSearchInput(tenderName);
-    await ownerTendersPage.isClosedTenderDisplayed(tenderName);
+    await ownerTendersPage.fillTenderSearchInput(tender.name);
+    await ownerTendersPage.isClosedTenderDisplayed(tender.name);
   });
 
   test("C258: Delete the tender", async ({
@@ -93,18 +95,20 @@ test.describe("Tender Status", () => {
     headerPage,
   }) => {
     // Close and delete the created tender via API
-    await apiHelper.deleteTender(tenderName);
+    await apiHelper.deleteTender(tender.responseBodyTender.id);
 
     // Create the new tender via API (to display the tabs)
-    newTenderName = await apiHelper.createTender();
+    newTender = await apiHelper.createTender();
 
     // Check the new created tender via API
     await mainPage.toBeTrue(
-      await apiHelper.checkTenderResponseResults(newTenderName)
+      await apiHelper.checkTenderResponseResultsById(
+        newTender.responseBodyTender.id
+      )
     );
 
     // Close the new created tender via API
-    await apiHelper.closeTender(newTenderName);
+    await apiHelper.closeTender(newTender.responseBodyTender.id);
 
     // Check the deleted tender display in "Завершені" tab
     await headerPage.clickUserIcon();
@@ -112,29 +116,29 @@ test.describe("Tender Status", () => {
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.clickClosedTab();
     await ownerTendersPage.isClosedTabSelected();
-    await ownerTendersPage.fillTenderSearchInput(tenderName);
+    await ownerTendersPage.fillTenderSearchInput(tender.name);
     await ownerTendersPage.isClosedTenderNotDisplayed();
   });
 });
 
 test.afterEach(async ({ apiHelper, ownerTendersPage }) => {
   // Delete the created tender via API
-  const tenderExists = await apiHelper.checkTenderResponseResults(tenderName);
-  if (tenderExists) {
-    await apiHelper.deleteTender(tenderName);
+  if (tender !== undefined) {
+    await apiHelper.deleteTender(tender.responseBodyTender.id);
     await ownerTendersPage.toBeFalse(
-      await apiHelper.checkTenderResponseResults(tenderName)
+      await apiHelper.checkTenderResponseResultsById(
+        tender.responseBodyTender.id
+      )
     );
   }
 
-  const newTenderExists = await apiHelper.checkTenderResponseResults(
-    newTenderName
-  );
-  if (newTenderExists) {
+  if (newTender !== undefined) {
     // Delete the new created tender
-    await apiHelper.deleteTender(newTenderName);
+    await apiHelper.deleteTender(newTender.responseBodyTender.id);
     await ownerTendersPage.toBeFalse(
-      await apiHelper.checkTenderResponseResults(newTenderName)
+      await apiHelper.checkTenderResponseResultsById(
+        newTender.responseBodyTender.id
+      )
     );
   }
 });

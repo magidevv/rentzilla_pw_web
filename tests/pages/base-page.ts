@@ -7,7 +7,7 @@ class BasePage {
   }
 
   public async openURL(url: string): Promise<void> {
-    await this.page.goto(url, {timeout: 10000});
+    await this.page.goto(url, { timeout: 10000 });
     await this.page.waitForLoadState("load");
   }
 
@@ -109,6 +109,10 @@ class BasePage {
     await (await this.getElement(element)).click({ force: true });
   }
 
+  public async doubleClick(element: string): Promise<void> {
+    await (await this.getElement(element)).click({ clickCount: 2 });
+  }
+
   public async clickByCoordinates(
     element: string,
     divX: number,
@@ -128,6 +132,17 @@ class BasePage {
 
   public async clickFirst(element: string): Promise<void> {
     await (await this.getElement(element)).first().click();
+  }
+
+  public async forceClickFirst(element: string): Promise<void> {
+    await (await this.getElement(element)).first().click({ force: true });
+  }
+
+  public async doesFirstContainText(
+    element: string,
+    text: string
+  ): Promise<void> {
+    await expect((await this.getElement(element)).first()).toContainText(text);
   }
 
   public async doesFirstElHaveText(
@@ -240,6 +255,16 @@ class BasePage {
     return textContent ?? "";
   }
 
+  public async getElementsText(element: string): Promise<string[]> {
+    const textContents: string[] = [];
+    const items = await (await this.getElement(element)).all();
+    for (const item of items) {
+      let textContent = await item?.textContent();
+      textContents.push(textContent ?? "");
+    }
+    return textContents;
+  }
+
   public async toHaveText(
     element: string,
     text: string | RegExp
@@ -336,7 +361,7 @@ class BasePage {
   public async doesElementAttrHaveValue(
     element: string,
     attribute: string,
-    value: string
+    value: string | RegExp
   ): Promise<void> {
     await expect(await this.getElement(element)).toHaveAttribute(
       attribute,
@@ -350,6 +375,47 @@ class BasePage {
     value: string
   ): Promise<void> {
     await expect(await this.getElement(element)).not.toHaveAttribute(
+      attribute,
+      value
+    );
+  }
+
+  async toHaveCSS(
+    element: string,
+    attribute: string,
+    value: string
+  ): Promise<void> {
+    await expect(await this.getElement(element)).toHaveCSS(attribute, value);
+  }
+
+  async notToHaveCSS(
+    element: string,
+    attribute: string,
+    value: string
+  ): Promise<void> {
+    await expect(await this.getElement(element)).not.toHaveCSS(
+      attribute,
+      value
+    );
+  }
+
+  async firstToHaveCSS(
+    element: string,
+    attribute: string,
+    value: string
+  ): Promise<void> {
+    await expect((await this.getElement(element)).first()).toHaveCSS(
+      attribute,
+      value
+    );
+  }
+
+  async firstNotToHaveCSS(
+    element: string,
+    attribute: string,
+    value: string
+  ): Promise<void> {
+    await expect((await this.getElement(element)).first()).not.toHaveCSS(
       attribute,
       value
     );

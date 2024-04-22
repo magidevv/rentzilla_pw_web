@@ -1,0 +1,9 @@
+{
+  "placeholder": "Заголовок оголошення",
+  "Prompts": {
+    "spaces": [" ", "  ", "          "],
+    "number": "16",
+    "symbols": ["!", "@", "#", "$", "%", "(", ")", "*"],
+    "non-existent": "non-existent test1234567890"
+  }
+}

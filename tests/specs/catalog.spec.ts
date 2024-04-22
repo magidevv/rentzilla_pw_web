@@ -1,7 +1,7 @@
 import { test } from "../../fixtures/fixtures";
 import catalogData from "../../utils/catalog-data.json";
 
-test.describe("C550 Tests", () => {
+test.describe("Catalog", () => {
   test.beforeEach(async ({ mainPage }) => {
     // Open the «Rentzila» main page
     await mainPage.openMainURL();

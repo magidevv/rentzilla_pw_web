@@ -5,7 +5,7 @@ const data: any = {
   userPassword: process.env.USER_PASSWORD,
 };
 
-let unitName: string;
+let unit: { name: string; responseBodyUnit: any };
 
 test.describe("Unit Creation", () => {
   test.beforeEach(async ({ mainPage }) => {
@@ -21,8 +21,10 @@ test.describe("Unit Creation", () => {
     apiHelper,
   }) => {
     // Create the random unit via API
-    unitName = await apiHelper.createUnit();
-    await mainPage.toBeTrue(await apiHelper.checkUnitResponseResults(unitName));
+    unit = await apiHelper.createUnit();
+    await mainPage.toBeTrue(
+      await apiHelper.checkUnitResponseResults(unit.responseBodyUnit.id)
+    );
 
     // Click on the "Вхід" button
     await headerPage.clickHeaderLoginBtn();
@@ -41,15 +43,15 @@ test.describe("Unit Creation", () => {
     await profilePage.clickMyUnitsLink();
     await ownerUnitsPage.checkOwnerUnitsURL();
     await ownerUnitsPage.clickWaitingUnitsTab();
-    await ownerUnitsPage.fillUnitSearchInput(unitName);
-    await ownerUnitsPage.isWaitingUnitDisplayed(unitName);
+    await ownerUnitsPage.fillUnitSearchInput(unit.name);
+    await ownerUnitsPage.isWaitingUnitDisplayed(unit.name);
   });
 
   test.afterEach(async ({ apiHelper, mainPage }) => {
     // Delete the created unit via API
-    await apiHelper.deleteUnit(unitName);
+    await apiHelper.deleteUnit(unit.responseBodyUnit.id);
     await mainPage.toBeFalse(
-      await apiHelper.checkUnitResponseResults(unitName)
+      await apiHelper.checkUnitResponseResults(unit.responseBodyUnit.id)
     );
   });
 });

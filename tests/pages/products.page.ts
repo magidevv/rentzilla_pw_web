@@ -11,6 +11,8 @@ const searchInputField: string = "//input[@data-testid='searchInput']";
 const map: string = "#map";
 const searchUnitItems: string = "//div[@data-testid='cardContainer']";
 const logo: string = "//div[@data-testid='Navbar']//div[@data-testid='logo']";
+const heartIcon = "(//div[@data-testid='favourite'])";
+const heartIconCSS = "#Vector > path";
 
 class ProductsPage extends BasePage {
   constructor(page: Page) {
@@ -135,6 +137,18 @@ class ProductsPage extends BasePage {
   public async clickLogo(): Promise<void> {
     await super.click(logo);
     await super.waitForLoad();
+  }
+
+  public async clickHeartIcon(count: number): Promise<void> {
+    await super.click(heartIcon + `[${count}]`);
+  }
+
+  public async isHeartIconRed(): Promise<void> {
+    await super.firstToHaveCSS(heartIconCSS, "fill", "rgb(247, 56, 89)");
+  }
+
+  public async isHeartIconNotRed(): Promise<void> {
+    await super.firstNotToHaveCSS(heartIconCSS, "fill", "rgb(247, 56, 89)");
   }
 }
 

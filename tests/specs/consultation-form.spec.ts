@@ -3,7 +3,7 @@ import authorizationData from "../../utils/authorization-data.json";
 import messagesData from "../../utils/messages-data.json";
 import inputData from "../../utils/input-data.json";
 
-test.describe("C220 Tests", () => {
+test.describe("Consultation form", () => {
   test.beforeEach(async ({ mainPage }) => {
     // Open the «Rentzila» main page
     await mainPage.openMainURL();

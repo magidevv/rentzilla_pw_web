@@ -2,7 +2,7 @@ import { test } from "../../fixtures/fixtures";
 import authorizationData from "../../utils/authorization-data.json";
 import messagesData from "../../utils/messages-data.json";
 
-test.describe("C190 Tests", () => {
+test.describe("Authorization w/ valid credentials and password recovery w/ invalid email", () => {
   test.beforeEach(async ({ mainPage }) => {
     // Open the «Rentzila» main page
     await mainPage.openMainURL();

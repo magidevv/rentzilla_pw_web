@@ -3,7 +3,7 @@ import servicesData from "../../utils/services-data.json";
 import specialMachineryData from "../../utils/special-machinery-data.json";
 import inputData from "../../utils/input-data.json";
 
-test.describe("C210 Tests", () => {
+test.describe("Main Sections", () => {
   test.beforeEach(async ({ mainPage }) => {
     // Open the «Rentzila» main page
     await mainPage.openMainURL();

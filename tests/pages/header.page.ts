@@ -27,6 +27,8 @@ const profileDropdownMenuMyTendersLink: string =
 const profileDropdownMenuUnitsLink: string = "//div[@data-testid='units']";
 const profileDropdownMenuMyUnitsLink: string =
   "//div[@data-testid='units']//li[1]";
+const profileDropdownMenuFavUnitsLink: string =
+  "//div[@data-testid='units']//li[2]";
 
 class HeaderPage extends BasePage {
   constructor(page: Page) {
@@ -163,6 +165,16 @@ class HeaderPage extends BasePage {
     await super.hover(profileDropdownMenuUnitsLink);
     await super.isDisplayed(profileDropdownMenuMyUnitsLink);
     await super.click(profileDropdownMenuMyUnitsLink);
+  }
+
+  public async clickFavUnitsLink(): Promise<void> {
+    await super.hover(profileDropdownMenuUnitsLink);
+    await super.isDisplayed(profileDropdownMenuFavUnitsLink);
+    await super.click(profileDropdownMenuFavUnitsLink);
+  }
+
+  public async isUnitLinkActive(): Promise<void> {
+    await super.doesElementAttrHaveValue(unitLink, "class", /Navbar_active/);
   }
 }
 

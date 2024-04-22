@@ -19,31 +19,31 @@ const filePath: any = {
   tenderImage: path.resolve("data/", "test copy.png"),
 };
 
-let tenderName: string;
+let tender: { name: string; responseBodyTender: any };
 
 test.describe("Tender Edit", () => {
-  test.beforeEach(
-    async ({ mainPage, headerPage, apiHelper }) => {
-      // Open the «Rentzila» main page
-      await mainPage.openMainURL();
-      await mainPage.waitForModalAccept();
+  test.beforeEach(async ({ mainPage, headerPage, apiHelper }) => {
+    // Open the «Rentzila» main page
+    await mainPage.openMainURL();
+    await mainPage.waitForModalAccept();
 
-      // Create the random tender via API
-      tenderName = await apiHelper.createTender();
+    // Create the random tender via API
+    tender = await apiHelper.createTender();
 
-      // Check the created tender via API
-      await mainPage.toBeTrue(
-        await apiHelper.checkTenderResponseResults(tenderName)
-      );
+    // Check the created tender via API
+    await mainPage.toBeTrue(
+      await apiHelper.checkTenderResponseResultsById(
+        tender.responseBodyTender.id
+      )
+    );
 
-      // Authorization with user account
-      await headerPage.clickHeaderLoginBtn();
-      await mainPage.isAuthorizationPopupDisplayed();
-      await mainPage.fillLoginEmailField(data.userEmail);
-      await mainPage.fillLoginPasswordField(data.userPassword);
-      await mainPage.clickLoginBtn();
-    }
-  );
+    // Authorization with user account
+    await headerPage.clickHeaderLoginBtn();
+    await mainPage.isAuthorizationPopupDisplayed();
+    await mainPage.fillLoginEmailField(data.userEmail);
+    await mainPage.fillLoginPasswordField(data.userPassword);
+    await mainPage.clickLoginBtn();
+  });
 
   test("C240: Edit the tender with empty/invalid input fields (another contact person)", async ({
     ownerTendersPage,
@@ -52,15 +52,15 @@ test.describe("Tender Edit", () => {
     headerPage,
   }) => {
     // Approve the created tender via API
-    await apiHelper.approveTender(tenderName);
+    await apiHelper.approveTender(tender.responseBodyTender.id);
 
     // Check the tender display in "Активні" tab
     await headerPage.clickUserIcon();
     await headerPage.clickMyTendersLink();
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.isActiveTendersTabSelected();
-    await ownerTendersPage.fillTenderSearchInput(tenderName);
-    await ownerTendersPage.isActiveTenderDisplayed(tenderName);
+    await ownerTendersPage.fillTenderSearchInput(tender.name);
+    await ownerTendersPage.isActiveTenderDisplayed(tender.name);
 
     // Check "Назва тендеру" field
     await ownerTendersPage.clickEditBtn();
@@ -165,15 +165,15 @@ test.describe("Tender Edit", () => {
     await editTenderPage.uploadDocumentationFile(filePath.tenderImage);
 
     await editTenderPage.clickNextBtn();
-    tenderName = validTenderData.name;
+    tender.name = validTenderData.name;
     await editTenderPage.areTenderCreationMsgDisplayed();
     await editTenderPage.clickSeeInMyTendersBtn();
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.isWaitingTabSelected();
-    await ownerTendersPage.fillTenderSearchInput(tenderName);
-    await ownerTendersPage.isWaitingTenderDisplayed(tenderName);
+    await ownerTendersPage.fillTenderSearchInput(tender.name);
+    await ownerTendersPage.isWaitingTenderDisplayed(tender.name);
     await ownerTendersPage.checkTenderData(
-      tenderName,
+      tender.name,
       editTenderData.services[0].name,
       datePeriod(),
       "Київ, Київська область, Україна",
@@ -192,8 +192,8 @@ test.describe("Tender Edit", () => {
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.clickWaitingTab();
     await ownerTendersPage.isWaitingTabSelected();
-    await ownerTendersPage.fillTenderSearchInput(tenderName);
-    await ownerTendersPage.isWaitingTenderDisplayed(tenderName);
+    await ownerTendersPage.fillTenderSearchInput(tender.name);
+    await ownerTendersPage.isWaitingTenderDisplayed(tender.name);
 
     // Check "Назва тендеру" field
     await ownerTendersPage.clickEditBtn();
@@ -298,15 +298,15 @@ test.describe("Tender Edit", () => {
     await editTenderPage.uploadDocumentationFile(filePath.tenderImage);
 
     await editTenderPage.clickNextBtn();
-    tenderName = validTenderData.name;
+    tender.name = validTenderData.name;
     await editTenderPage.areTenderCreationMsgDisplayed();
     await editTenderPage.clickSeeInMyTendersBtn();
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.isWaitingTabSelected();
-    await ownerTendersPage.fillTenderSearchInput(tenderName);
-    await ownerTendersPage.isWaitingTenderDisplayed(tenderName);
+    await ownerTendersPage.fillTenderSearchInput(tender.name);
+    await ownerTendersPage.isWaitingTenderDisplayed(tender.name);
     await ownerTendersPage.checkTenderData(
-      tenderName,
+      tender.name,
       editTenderData.services[0].name,
       datePeriod(),
       "Київ, Київська область, Україна",
@@ -321,7 +321,7 @@ test.describe("Tender Edit", () => {
     apiHelper,
   }) => {
     // Reject the created tender via API
-    await apiHelper.rejectTender(tenderName);
+    await apiHelper.rejectTender(tender.responseBodyTender.id);
 
     // Check the tender display in "Відхилені" tab
     await headerPage.clickUserIcon();
@@ -329,8 +329,8 @@ test.describe("Tender Edit", () => {
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.clickRejectedTab();
     await ownerTendersPage.isRejectedTabSelected();
-    await ownerTendersPage.fillTenderSearchInput(tenderName);
-    await ownerTendersPage.isRejectedTenderDisplayed(tenderName);
+    await ownerTendersPage.fillTenderSearchInput(tender.name);
+    await ownerTendersPage.isRejectedTenderDisplayed(tender.name);
 
     // Check "Назва тендеру" field
     await ownerTendersPage.clickEditBtn();
@@ -435,15 +435,15 @@ test.describe("Tender Edit", () => {
     await editTenderPage.uploadDocumentationFile(filePath.tenderImage);
 
     await editTenderPage.clickNextBtn();
-    tenderName = validTenderData.name;
+    tender.name = validTenderData.name;
     await editTenderPage.areTenderCreationMsgDisplayed();
     await editTenderPage.clickSeeInMyTendersBtn();
     await ownerTendersPage.checkOwnerTendersURL();
     await ownerTendersPage.isWaitingTabSelected();
-    await ownerTendersPage.fillTenderSearchInput(tenderName);
-    await ownerTendersPage.isWaitingTenderDisplayed(tenderName);
+    await ownerTendersPage.fillTenderSearchInput(tender.name);
+    await ownerTendersPage.isWaitingTenderDisplayed(tender.name);
     await ownerTendersPage.checkTenderData(
-      tenderName,
+      tender.name,
       editTenderData.services[0].name,
       datePeriod(),
       "Київ, Київська область, Україна",
@@ -453,9 +453,11 @@ test.describe("Tender Edit", () => {
 
   test.afterEach(async ({ apiHelper, mainPage }) => {
     // Delete the created tender via API
-    await apiHelper.deleteTender(tenderName);
+    await apiHelper.deleteTender(tender.responseBodyTender.id);
     await mainPage.toBeFalse(
-      await apiHelper.checkTenderResponseResults(tenderName)
+      await apiHelper.checkTenderResponseResultsById(
+        tender.responseBodyTender.id
+      )
     );
   });
 });

@@ -2,7 +2,7 @@ import { test } from "../../fixtures/fixtures";
 import authorizationData from "../../utils/authorization-data.json";
 import messagesData from "../../utils/messages-data.json";
 
-test.describe("C570 Tests", () => {
+test.describe("Authorization w/ invalid credentials", () => {
   test.beforeEach(async ({ mainPage, headerPage }) => {
     // Open the «Rentzila» main page
     await mainPage.openMainURL();

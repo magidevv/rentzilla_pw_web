@@ -175,13 +175,13 @@ test.describe("Tender Creation", () => {
 
   test.afterEach(async ({ apiHelper, ownerTendersPage }) => {
     // Check the created tender (then delete)
-    const tenderExists = await apiHelper.checkTenderResponseResults(
+    const tenderExists = await apiHelper.checkTenderResponseResultsByName(
       validTenderData.name
     );
     if (tenderExists) {
-      await apiHelper.deleteTender(validTenderData.name);
+      await apiHelper.deleteTenderByName(validTenderData.name);
       await ownerTendersPage.toBeFalse(
-        await apiHelper.checkTenderResponseResults(validTenderData.name)
+        await apiHelper.checkTenderResponseResultsByName(validTenderData.name)
       );
     }
   });

@@ -15,7 +15,7 @@ const filePath: any = {
   profileImage: path.resolve("data/", "test.png"),
 };
 
-let unitName: string;
+let unit: { name: string; responseBodyUnit: any };
 
 test.describe("Unit propose sending", () => {
   test.beforeEach(async ({ mainPage }) => {
@@ -34,11 +34,13 @@ test.describe("Unit propose sending", () => {
     apiHelper,
   }) => {
     // Create the random unit via API
-    unitName = await apiHelper.createUnit();
+    unit = await apiHelper.createUnit();
 
     // Check the created unit and approve via API
-    await mainPage.toBeTrue(await apiHelper.checkUnitResponseResults(unitName));
-    await apiHelper.approveUnit(unitName);
+    await mainPage.toBeTrue(
+      await apiHelper.checkUnitResponseResults(unit.responseBodyUnit.id)
+    );
+    await apiHelper.approveUnit(unit.responseBodyUnit.id);
 
     // Click on the "Вхід" button
     await headerPage.clickHeaderLoginBtn();
@@ -51,14 +53,14 @@ test.describe("Unit propose sending", () => {
 
     // Find the created unit in search
     await headerPage.clickUnitsLink();
-    await productsPage.fillSearchInputField(unitName);
-    await productsPage.isSearchUnitItemDisplayed(unitName);
+    await productsPage.fillSearchInputField(unit.name);
+    await productsPage.isSearchUnitItemDisplayed(unit.name);
     await productsPage.clickSearchUnitItem();
-    await unitPage.doesUnitTitleHaveText(unitName);
+    await unitPage.doesUnitTitleHaveText(unit.name);
 
     // Check propose sending on created unit
     await unitPage.clickOrderBtn();
-    await unitPage.isOrderPopupDisplayed("Замовити техніку", unitName);
+    await unitPage.isOrderPopupDisplayed("Замовити техніку", unit.name);
     await unitPage.clickRentalPeriodDateField();
     await unitPage.areCalendarsDisplayed();
     await unitPage.selectRentalPeriodDate(2);
@@ -87,18 +89,18 @@ test.describe("Unit propose sending", () => {
     await headerPage.clickMyUnitsLink();
     await ownerUnitsPage.checkOwnerUnitsURL();
     await ownerUnitsPage.isActiveUnitsTabSelected();
-    await ownerUnitsPage.fillUnitSearchInput(unitName);
-    await ownerUnitsPage.isActiveUnitDisplayed(unitName);
+    await ownerUnitsPage.fillUnitSearchInput(unit.name);
+    await ownerUnitsPage.isActiveUnitDisplayed(unit.name);
     await ownerUnitsPage.clickProposesBtn();
     await unitProposesPage.checkUnitProposesURL();
-    await unitProposesPage.checkProposeUnit(unitName);
+    await unitProposesPage.checkProposeUnit(unit.name);
     await unitProposesPage.checkPropose(
       validUnitProposeData.userName,
       validUnitProposeData.fileName
     );
     await unitProposesPage.clickProposeDetailsBtn();
     await unitProposeDetailsPage.checkUnitProposeDetailsURL();
-    await unitProposeDetailsPage.checkProposeUnit(unitName);
+    await unitProposeDetailsPage.checkProposeUnit(unit.name);
     await unitProposeDetailsPage.checkProposeDetails(
       validUnitProposeData.userNameTitle,
       validUnitProposeData.fileName,
@@ -108,9 +110,9 @@ test.describe("Unit propose sending", () => {
 
   test.afterEach(async ({ apiHelper, mainPage }) => {
     // Delete the created unit via API
-    await apiHelper.deleteUnit(unitName);
+    await apiHelper.deleteUnit(unit.responseBodyUnit.id);
     await mainPage.toBeFalse(
-      await apiHelper.checkUnitResponseResults(unitName)
+      await apiHelper.checkUnitResponseResults(unit.responseBodyUnit.id)
     );
   });
 });
