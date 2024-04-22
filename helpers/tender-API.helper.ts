@@ -11,7 +11,15 @@ class APIhelper {
     this.request = request;
   }
 
-  async createTender(): Promise<{ name: string; responseBodyTender: any }> {
+  async createTender(
+    userId: number,
+    serviceCategoryId: number,
+    serviceId: number,
+    token: string
+  ): Promise<{
+    name: string;
+    responseBodyTender: any;
+  }> {
     const name = "Test " + generateRandomCombination();
     const tenderDataString = await fs.promises.readFile(
       "utils/tender-data.json",
@@ -22,12 +30,6 @@ class APIhelper {
     const end_propose_date = date.endDate;
     const start_tender_date = date.startTenderDate;
     const end_tender_date = date.endTenderDate;
-    const customer = await this.getMyUserId();
-    const category = await this.getServiceCategoryId(
-      tenderData.services[0].name
-    );
-    const services = await this.getServiceId(tenderData.services[0].name);
-    const token = await this.createUserAccessToken();
 
     const responseTender = await this.request.post(
       "https://stage.rentzila.com.ua/api/tenders/",
@@ -42,9 +44,9 @@ class APIhelper {
           end_propose_date,
           start_tender_date,
           end_tender_date,
-          customer,
-          category,
-          services: [services],
+          customer: userId,
+          category: serviceCategoryId,
+          services: [serviceId],
         },
       }
     );
@@ -81,8 +83,7 @@ class APIhelper {
     return { name, responseBodyTender };
   }
 
-  async approveTender(id: number): Promise<void> {
-    const token = await this.createAccessToken();
+  async approveTender(token: string, id: number): Promise<void> {
     await this.request.post(
       `https://stage.rentzila.com.ua/api/crm/tenders/${id}/moderate/?status=approved`,
       {
@@ -97,8 +98,7 @@ class APIhelper {
     // }
   }
 
-  async rejectTender(id: number): Promise<void> {
-    const token = await this.createAccessToken();
+  async rejectTender(token: string, id: number): Promise<void> {
     await this.request.post(
       `https://stage.rentzila.com.ua/api/crm/tenders/${id}/moderate/?status=declined`,
       {
@@ -113,8 +113,7 @@ class APIhelper {
     // }
   }
 
-  async closeTender(id: number): Promise<void> {
-    const token = await this.createAccessToken();
+  async closeTender(token: string, id: number): Promise<void> {
     await this.request.patch(
       `https://stage.rentzila.com.ua/api/tender/${id}/`,
       {
@@ -132,8 +131,7 @@ class APIhelper {
     // }
   }
 
-  async getTenderList(): Promise<any> {
-    const token = await this.createAccessToken();
+  async checkTenderByName(token: string, name: string): Promise<boolean> {
     const response = await this.request.get(
       `https://stage.rentzila.com.ua/api/tenders/`,
       {
@@ -145,12 +143,8 @@ class APIhelper {
     );
     tenderList = await response.json();
     // console.log(tenderList);
-    return tenderList;
-  }
 
-  async checkTenderResponseResultsByName(name: string): Promise<boolean> {
-    const response = await this.getTenderList();
-    for (const tender of response.tenders) {
+    for (const tender of tenderList.tenders) {
       if (tender.name === name) {
         return true;
       }
@@ -158,9 +152,20 @@ class APIhelper {
     return false;
   }
 
-  async checkTenderResponseResultsById(id: number): Promise<boolean> {
-    const response = await this.getTenderList();
-    for (const tender of response.tenders) {
+  async checkTenderById(token: string, id: number): Promise<boolean> {
+    const response = await this.request.get(
+      `https://stage.rentzila.com.ua/api/tenders/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        timeout: 10000,
+      }
+    );
+    tenderList = await response.json();
+    // console.log(tenderList);
+
+    for (const tender of tenderList.tenders) {
       if (tender.id === id) {
         return true;
       }
@@ -168,21 +173,7 @@ class APIhelper {
     return false;
   }
 
-  async getTenderId(name: string): Promise<number | null> {
-    const response = await this.getTenderList();
-    let id: number | null = null;
-    for (const tender of response.tenders) {
-      if (tender.name === name) {
-        id = tender.id;
-        console.log(tender.name);
-        return id;
-      }
-    }
-    return id;
-  }
-
-  async deleteTender(id: number): Promise<void> {
-    const token = await this.createAccessToken();
+  async deleteTenderById(token: string, id: number): Promise<void> {
     await this.request.patch(
       `https://stage.rentzila.com.ua/api/tender/${id}/`,
       {
@@ -204,9 +195,27 @@ class APIhelper {
     );
   }
 
-  async deleteTenderByName(name: string): Promise<void> {
-    const id = await this.getTenderId(name);
-    const token = await this.createAccessToken();
+  async deleteTenderByName(token: string, name: string): Promise<void> {
+    const response = await this.request.get(
+      `https://stage.rentzila.com.ua/api/tenders/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        timeout: 10000,
+      }
+    );
+    tenderList = await response.json();
+    // console.log(tenderList);
+
+    let id: number | null = null;
+    for (const tender of tenderList.tenders) {
+      if (tender.name === name) {
+        id = tender.id;
+        console.log(tender.name);
+      }
+    }
+
     await this.request.patch(
       `https://stage.rentzila.com.ua/api/tender/${id}/`,
       {

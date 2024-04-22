@@ -4,6 +4,7 @@ import path from "path";
 import { generateRandomCombination } from "../utils/random.util";
 
 let unitList: any;
+let priceList: any;
 let imageList: any;
 
 class APIhelper {
@@ -279,6 +280,29 @@ class APIhelper {
     if (responseImageEdit.status() !== 200) {
       throw new Error(responseImageEdit.statusText());
     }
+  }
+
+  async getPriceId(token: string, unitId: number): Promise<number | null> {
+    const response = await this.request.get(
+      `https://stage.rentzila.com.ua/api/units/price/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    priceList = await response.json();
+    // console.log(priceList);
+
+    let id: number | null = null;
+    for (const price of priceList) {
+      if (price.unit === unitId) {
+        id = price.id;
+        console.log(price.id);
+        return id;
+      }
+    }
+    return id;
   }
 
   async addToFavUnit(userId: number, id: number, token: string): Promise<void> {
