@@ -114,7 +114,7 @@ class APIhelper {
     return userAccessToken;
   }
 
-  async createUnit(): Promise<string> {
+  async createUnit(): Promise<{ name: string; responseBodyUnit: any }> {
     const name = "Test " + generateRandomCombination();
     const unitDataString = await fs.promises.readFile(
       "utils/unit-data.json",
@@ -199,11 +199,100 @@ class APIhelper {
       throw new Error("Unit Image uploading failed");
     }
 
-    return name;
+    return { name, responseBodyUnit };
   }
 
-  async approveUnit(name: string): Promise<void> {
-    const id = await this.getUnitId(name);
+  async createUnitByCategory(
+    categoryName: string
+  ): Promise<{ name: string; responseBodyUnit: any }> {
+    const name = "Test " + generateRandomCombination();
+    const unitDataString = await fs.promises.readFile(
+      "utils/unit-data.json",
+      "utf8"
+    );
+    const unitData = JSON.parse(unitDataString);
+    const owner = await this.getMyUserId();
+    const manufacturer = await this.getManufacturerId(
+      unitData.manufacturer.name
+    );
+    const category = await this.getCategoryId(categoryName);
+    const services = await this.getServiceId(unitData.services[0].name);
+    const token = await this.createUserAccessToken();
+
+    const responseUnit = await this.request.post(
+      "https://stage.rentzila.com.ua/api/units/",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          ...unitData,
+          name,
+          owner,
+          manufacturer,
+          category,
+          services: [services],
+        },
+      }
+    );
+
+    const responseBodyUnit = await responseUnit.json();
+    // console.log(responseBodyUnit);
+
+    if (responseUnit.status() !== 201) {
+      throw new Error("Unit creation failed");
+    }
+
+    const unitId = responseBodyUnit.id;
+
+    // Upload the main unit image
+    const imagePath1 = path.resolve("data/", "test.png");
+    const imageStream1 = fs.createReadStream(imagePath1);
+
+    const responseImage1 = await this.request.post(
+      "https://stage.rentzila.com.ua/api/unit-images/",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        multipart: {
+          unit: unitId,
+          is_main: true,
+          image: imageStream1,
+        },
+      }
+    );
+
+    if (responseImage1.status() !== 201) {
+      throw new Error("Unit Image uploading failed");
+    }
+
+    // Upload the second unit image
+    const imagePath2 = path.resolve("data/", "test copy.png");
+    const imageStream2 = fs.createReadStream(imagePath2);
+
+    const responseImage2 = await this.request.post(
+      "https://stage.rentzila.com.ua/api/unit-images/",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        multipart: {
+          unit: unitId,
+          is_main: false,
+          image: imageStream2,
+        },
+      }
+    );
+
+    if (responseImage2.status() !== 201) {
+      throw new Error("Unit Image uploading failed");
+    }
+
+    return { name, responseBodyUnit };
+  }
+
+  async approveUnit(id: number): Promise<void> {
     const token = await this.createAccessToken();
     await this.request.patch(
       `https://stage.rentzila.com.ua/api/crm/units/${id}/moderate/`,
@@ -435,27 +524,17 @@ class APIhelper {
     }
   }
 
-  async checkUnitResponseResults(name: string): Promise<boolean> {
+  async checkUnitResponseResults(id: number): Promise<boolean> {
     const response = await this.getUnitList();
     for (const unit of response.results) {
-      if (unit.name === name) {
+      if (unit.id === id) {
         return true;
       }
     }
     return false;
   }
 
-  async getUnitId(name: string): Promise<number | null> {
-    const response = await this.getUnitList();
-    for (const unit of response.results) {
-      if (unit.name === name) {
-        return unit.id;
-      }
-    }
-    return null;
-  }
-
-  async editUnit(name: string): Promise<void> {
+  async editUnit(id: number, name: string): Promise<void> {
     const unitDataString = await fs.promises.readFile(
       "utils/edit-unit-data.json",
       "utf8"
@@ -465,7 +544,6 @@ class APIhelper {
       unitData.manufacturer.name
     );
     const services = await this.getServiceId(unitData.services[0].name);
-    const id = await this.getUnitId(name);
     const token = await this.createUserAccessToken();
     const responseUnitEdit = await this.request.patch(
       `https://stage.rentzila.com.ua/api/units/${id}/`,
@@ -553,10 +631,23 @@ class APIhelper {
     }
   }
 
-  async deleteUnit(name: string): Promise<void> {
-    const id = await this.getUnitId(name);
+  async addToFavUnit(id: number): Promise<void> {
+    const userId = await this.getMyUserId();
+    const token = await this.createUserAccessToken();
+    const response = await this.request.post(
+      `https://stage.rentzila.com.ua/api/auth/users/${userId}/favourite-units/${id}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(await response.json());
+  }
+
+  async deleteUnit(id: number): Promise<void> {
     const token = await this.createAccessToken();
-    await this.request.delete(
+    const response = await this.request.delete(
       `https://stage.rentzila.com.ua/api/units/${id}/`,
       {
         headers: {
@@ -566,7 +657,7 @@ class APIhelper {
     );
   }
 
-  async createTender(): Promise<string> {
+  async createTender(): Promise<{ name: string; responseBodyTender: any }> {
     const name = "Test " + generateRandomCombination();
     const tenderDataString = await fs.promises.readFile(
       "utils/tender-data.json",
@@ -633,11 +724,10 @@ class APIhelper {
       throw new Error("Tender Image uploading failed");
     }
 
-    return name;
+    return { name, responseBodyTender };
   }
 
-  async approveTender(name: string): Promise<void> {
-    const id = await this.getTenderId(name);
+  async approveTender(id: number): Promise<void> {
     const token = await this.createAccessToken();
     await this.request.post(
       `https://stage.rentzila.com.ua/api/crm/tenders/${id}/moderate/?status=approved`,
@@ -653,8 +743,7 @@ class APIhelper {
     // }
   }
 
-  async rejectTender(name: string): Promise<void> {
-    const id = await this.getTenderId(name);
+  async rejectTender(id: number): Promise<void> {
     const token = await this.createAccessToken();
     await this.request.post(
       `https://stage.rentzila.com.ua/api/crm/tenders/${id}/moderate/?status=declined`,
@@ -670,8 +759,7 @@ class APIhelper {
     // }
   }
 
-  async closeTender(name: string): Promise<void> {
-    const id = await this.getTenderId(name);
+  async closeTender(id: number): Promise<void> {
     const token = await this.createAccessToken();
     await this.request.patch(
       `https://stage.rentzila.com.ua/api/tender/${id}/`,
@@ -706,10 +794,20 @@ class APIhelper {
     return tenderList;
   }
 
-  async checkTenderResponseResults(name: string): Promise<boolean> {
+  async checkTenderResponseResultsByName(name: string): Promise<boolean> {
     const response = await this.getTenderList();
     for (const tender of response.tenders) {
       if (tender.name === name) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  async checkTenderResponseResultsById(id: number): Promise<boolean> {
+    const response = await this.getTenderList();
+    for (const tender of response.tenders) {
+      if (tender.id === id) {
         return true;
       }
     }
@@ -729,7 +827,30 @@ class APIhelper {
     return id;
   }
 
-  async deleteTender(name: string): Promise<void> {
+  async deleteTender(id: number): Promise<void> {
+    const token = await this.createAccessToken();
+    await this.request.patch(
+      `https://stage.rentzila.com.ua/api/tender/${id}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          is_closed: true,
+        },
+      }
+    );
+    await this.request.delete(
+      `https://stage.rentzila.com.ua/api/tender/${id}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  }
+
+  async deleteTenderByName(name: string): Promise<void> {
     const id = await this.getTenderId(name);
     const token = await this.createAccessToken();
     await this.request.patch(
