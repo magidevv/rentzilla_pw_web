@@ -113,6 +113,26 @@ class MainPage extends BasePage {
     await super.waitForTimeout(1000);
   }
 
+  public async tapServiceType(countType: number): Promise<void> {
+    await super.tap(servicesTypeLabel + `[${countType + 1}]`);
+    await super.waitForTimeout(1500);
+  }
+
+  public async tapServiceItem(countService: number): Promise<void> {
+    await super.tap(proposesServicesItems + `[${countService + 1}]`);
+    await super.waitForTimeout(1000);
+  }
+
+  public async tapSpecialMachineryType(countType: number): Promise<void> {
+    await super.tap(specialMachineryTypeLabel + `[${countType + 1}]`);
+    await super.waitForTimeout(1000);
+  }
+
+  public async tapSpecialMachineryItem(countCategory: number): Promise<void> {
+    await super.tap(proposesSpecialMachineryItems + `[${countCategory + 1}]`);
+    await super.waitForTimeout(1000);
+  }
+
   public async clickMainSearchInput(): Promise<void> {
     await super.click(mainSearchInput);
   }
@@ -242,9 +262,9 @@ class MainPage extends BasePage {
     await super.isDisplayed(restorePasswordPopup);
   }
 
-  public async clickRecaptchaCheckbox(): Promise<void> {
-    await super.clickByCoordinates(recaptchaCheckbox);
-  }
+  // public async clickRecaptchaCheckbox(): Promise<void> {
+  //   await super.clickByCoordinates(recaptchaCheckbox);
+  // }
 
   public async clickSubmitRestorePasswordBtn(): Promise<void> {
     await super.click(submitRestorePasswordBtn);
@@ -322,7 +342,11 @@ class MainPage extends BasePage {
   }
 
   public async isPasswordHidden(): Promise<void> {
-    await super.doesElementAttrHaveValue(loginPasswordField, "type", "password");
+    await super.doesElementAttrHaveValue(
+      loginPasswordField,
+      "type",
+      "password"
+    );
   }
 
   public async isPasswordNotHidden(): Promise<void> {

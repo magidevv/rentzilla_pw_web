@@ -1,6 +1,10 @@
 import { Page } from "@playwright/test";
 import BasePage from "./base-page";
 
+const mobileFilterBtn: string = "[data-testid='filters']";
+const mobileCloseFilterBtn: string = "[data-testid='filtersClose']";
+const mobileListSwitchBtn: string = "[data-testid='switch']";
+const mobileUnitCount: string = "[data-testid='findLabel']";
 const serviceFilter: string =
   "//div[contains(@class, 'ResetFilters_selectedCategory')]/p";
 const unitItems: string = "//div[@data-testid='cardWrapper']";
@@ -23,6 +27,19 @@ class ProductsPage extends BasePage {
     await super.doesPageHaveURL(/\/products\//);
   }
 
+  public async clickMobileFilterBtn(): Promise<void> {
+    await super.tap(mobileFilterBtn);
+  }
+
+  public async closeMobileFilterBtn(): Promise<void> {
+    await super.tap(mobileCloseFilterBtn);
+  }
+
+  public async clickMobileListSwitchBtn(): Promise<void> {
+    await super.tap(mobileListSwitchBtn);
+    await super.waitForTimeout(500);
+  }
+
   public async checkRelevantFilter(name: string): Promise<void> {
     await super.isDisplayed(serviceFilter);
     await super.toHaveText(serviceFilter, name);
@@ -30,6 +47,13 @@ class ProductsPage extends BasePage {
 
   public async isUnitCountGreaterZero(): Promise<boolean> {
     const searchResult = await super.getText(unitCount);
+    const countMatch = searchResult.match(/(\d+)/);
+    const count = countMatch ? parseInt(countMatch[1], 10) : 0;
+    return count > 0 ? true : false;
+  }
+
+  public async isMobileUnitCountGreaterZero(): Promise<boolean> {
+    const searchResult = await super.getText(mobileUnitCount);
     const countMatch = searchResult.match(/(\d+)/);
     const count = countMatch ? parseInt(countMatch[1], 10) : 0;
     return count > 0 ? true : false;
@@ -45,6 +69,11 @@ class ProductsPage extends BasePage {
 
   public async clickFirstUnitItem(): Promise<void> {
     await super.clickFirst(unitItems);
+    await super.waitForLoad();
+  }
+
+  public async tapFirstUnitItem(): Promise<void> {
+    await super.tapFirst(unitItems);
     await super.waitForLoad();
   }
 
@@ -92,6 +121,11 @@ class ProductsPage extends BasePage {
 
   public async isMapDisplayed(): Promise<void> {
     await super.isDisplayed(map);
+  }
+
+  public async isMobileMapDisplayed(): Promise<boolean> {
+    const mapVisibility = await super.isVisible(map);
+    return mapVisibility;
   }
 
   public async areFoundUnitItemsDisplayed(searchPrompt: string): Promise<void> {

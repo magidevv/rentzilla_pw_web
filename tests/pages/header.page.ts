@@ -2,6 +2,7 @@ import { Page } from "@playwright/test";
 import BasePage from "./base-page";
 
 const logo: string = "//div[@data-testid='Navbar']//div[@data-testid='logo']";
+const mobileNavbarBtn: string = "div[class^=NavbarMobile_burger]>button";
 const unitLink: string = "//a[contains(@class, 'Navbar_link')][1]";
 const catalogBtn: string = "//div[contains(@class, 'NavbarCatalog_wrapper')]";
 const catalogDropdown: string = "//div[contains(@class, 'Catalog_container')]";
@@ -38,6 +39,11 @@ class HeaderPage extends BasePage {
   public async clickLogo(): Promise<void> {
     await super.click(logo);
     await super.waitForLoad();
+  }
+
+  public async tapMobileNavbar(): Promise<void> {
+    await super.tap(mobileNavbarBtn);
+    await super.tap(mobileNavbarBtn);
   }
 
   public async clickUnitsLink(): Promise<void> {

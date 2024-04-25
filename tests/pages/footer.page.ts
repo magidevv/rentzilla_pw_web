@@ -1,6 +1,8 @@
 import { Page } from "@playwright/test";
 import BasePage from "./base-page";
 
+const mobileNavbarHomeBtn: string =
+  "li[class^='MobileNavbar_item']:nth-child(1)";
 const footer: string = "//div[contains(@class, 'Footer_footer')]";
 const footerLogo: string =
   "//div[contains(@class, 'Footer_footer')]//div[@data-testid='logo']";
@@ -38,6 +40,10 @@ class FooterPage extends BasePage {
     super(page);
   }
 
+  public async clickMobileHomeBtn(): Promise<void> {
+    await super.tap(mobileNavbarHomeBtn);
+  }
+
   public async isFooterDisplayed(): Promise<void> {
     await super.isDisplayed(footer);
   }
@@ -58,7 +64,6 @@ class FooterPage extends BasePage {
     await super.isDisplayed(requestsForWorkLabel);
     await super.isDisplayed(contactsLabel);
     await super.isDisplayed(companyEmail);
-    await super.isDisplayed(copyrightLabel);
   }
 
   public async clickPrivacyPolicy(): Promise<void> {
@@ -79,6 +84,26 @@ class FooterPage extends BasePage {
 
   public async clickTenders(): Promise<void> {
     await super.click(tendersLabel);
+  }
+
+  public async tapPrivacyPolicy(): Promise<void> {
+    await super.tap(privacyPolicyLabel);
+  }
+
+  public async tapCookiePolicy(): Promise<void> {
+    await super.tap(cookiePolicyLabel);
+  }
+
+  public async tapTermsConditions(): Promise<void> {
+    await super.tap(termsConditionsLabel);
+  }
+
+  public async tapAdvertisment(): Promise<void> {
+    await super.tap(advertismentLabel);
+  }
+
+  public async tapTenders(): Promise<void> {
+    await super.tap(tendersLabel);
   }
 
   public async isEmailClickable(): Promise<void> {

@@ -105,6 +105,10 @@ class BasePage {
     await (await this.getElement(element)).click();
   }
 
+  public async tap(element: string): Promise<void> {
+    await (await this.getElement(element)).tap();
+  }
+
   public async forceClick(element: string): Promise<void> {
     await (await this.getElement(element)).click({ force: true });
   }
@@ -132,6 +136,10 @@ class BasePage {
 
   public async clickFirst(element: string): Promise<void> {
     await (await this.getElement(element)).first().click();
+  }
+
+  public async tapFirst(element: string): Promise<void> {
+    await (await this.getElement(element)).first().tap();
   }
 
   public async forceClickFirst(element: string): Promise<void> {
