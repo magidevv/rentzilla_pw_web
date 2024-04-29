@@ -309,6 +309,11 @@ class MainPage extends BasePage {
     await super.click(loginBtn);
   }
 
+  public async tapLoginBtn(): Promise<void> {
+    await super.tap(loginBtn);
+    await super.waitForTimeout(500);
+  }
+
   public async fillLoginEmailField(email: string): Promise<void> {
     await super.setValue(loginEmailField, email);
   }
@@ -355,6 +360,7 @@ class MainPage extends BasePage {
 
   public async pressPasswordFieldEnter(): Promise<void> {
     await super.press(loginPasswordField, "Enter");
+    await super.waitForTimeout(500);
   }
 
   public async isLoginErrorMsgDisplayed(errorMsg: string): Promise<void> {

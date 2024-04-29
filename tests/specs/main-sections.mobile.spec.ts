@@ -49,7 +49,7 @@ test.describe("Main Sections (Mobile)", () => {
           await unitPage.isUnitServiceDisplayed(servicesData[serviceType][j]);
         }
         // Return to the main page
-        await footerPage.clickMobileHomeBtn();
+        await footerPage.tapMobileHomeBtn();
       }
     }
   });
@@ -107,7 +107,7 @@ test.describe("Main Sections (Mobile)", () => {
           }
         }
         // Return to the main page
-        await footerPage.clickMobileHomeBtn();
+        await footerPage.tapMobileHomeBtn();
       }
     }
   });

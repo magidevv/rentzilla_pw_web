@@ -113,6 +113,10 @@ class BasePage {
     await (await this.getElement(element)).click({ force: true });
   }
 
+  public async forceTap(element: string): Promise<void> {
+    await (await this.getElement(element)).tap({ force: true });
+  }
+
   public async doubleClick(element: string): Promise<void> {
     await (await this.getElement(element)).click({ clickCount: 2 });
   }

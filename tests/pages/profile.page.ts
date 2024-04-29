@@ -1,6 +1,10 @@
 import { Page } from "@playwright/test";
 import BasePage from "./base-page";
 
+const closeTelegramPopupBtn: string = "[data-testid='crossButton']";
+const mobileUserName: string = "[class*='nameWrapper']";
+const mobileProfileBtn: string =
+  "[class^='LeftSideOwnCabinetCategory_wrapper']:nth-child(4)";
 const phoneNumberVerificationMsg: string =
   "//div[@data-testid='verification_OwnerProfileNumber']";
 const logoutLink: string = "//div[@data-testid='logOut']";
@@ -80,6 +84,15 @@ class ProfilePage extends BasePage {
     await super.doesPageHaveURL(/\/owner-cabinet\//);
   }
 
+  public async closeTelegramPopup(): Promise<void> {
+    await super.click(closeTelegramPopupBtn);
+  }
+
+  public async checkUserName(name: string): Promise<void> {
+    await super.isDisplayed(mobileUserName);
+    await super.toHaveText(mobileUserName, name);
+  }
+
   public async isProfileTabSelected(): Promise<void> {
     await super.doesElementAttrHaveValue(profileTab, "aria-selected", "true");
   }
@@ -122,9 +135,7 @@ class ProfilePage extends BasePage {
     await super.toHaveText(personTypeOption + "[3]", options[2]);
   }
 
-  public async selectPersonTypeOption(
-    options: string
-  ): Promise<void> {
+  public async selectPersonTypeOption(options: string): Promise<void> {
     await super.filteredClick(personTypeOption, options);
   }
 
@@ -663,6 +674,16 @@ class ProfilePage extends BasePage {
   public async clickLogoutLink(): Promise<void> {
     await super.click(logoutLink);
     await super.waitForLoad();
+  }
+
+  public async tapLogoutLink(): Promise<void> {
+    await super.tap(logoutLink);
+    await super.waitForTimeout(1000);
+  }
+
+  public async tapProfileLink(): Promise<void> {
+    await super.tap(mobileProfileBtn);
+    await super.waitForTimeout(500);
   }
 
   public async clickUnitsLink(): Promise<void> {

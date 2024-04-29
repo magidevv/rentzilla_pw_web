@@ -3,6 +3,8 @@ import BasePage from "./base-page";
 
 const mobileNavbarHomeBtn: string =
   "li[class^='MobileNavbar_item']:nth-child(1)";
+const mobileNavbarProfileBtn: string =
+  "li[class^='MobileNavbar_item']:nth-child(5)";
 const footer: string = "//div[contains(@class, 'Footer_footer')]";
 const footerLogo: string =
   "//div[contains(@class, 'Footer_footer')]//div[@data-testid='logo']";
@@ -21,7 +23,6 @@ const requestsForWorkLabel: string = "//div[@data-testid='zapiti-na-robotu']/a";
 const contactsLabel: string =
   "//div[contains(@class, 'RentzilaContacts_title')]";
 const companyEmail: string = "//a[contains(@class, 'RentzilaContacts_email')]";
-const copyrightLabel: string = "//div[@data-testid='copyright']";
 const questionForm: string =
   "//div[contains(@class, 'ConsultationForm_container')]";
 const questionFormTitle: string =
@@ -40,8 +41,13 @@ class FooterPage extends BasePage {
     super(page);
   }
 
-  public async clickMobileHomeBtn(): Promise<void> {
+  public async tapMobileHomeBtn(): Promise<void> {
     await super.tap(mobileNavbarHomeBtn);
+  }
+
+  public async tapMobileProfileBtn(): Promise<void> {
+    await super.tap(mobileNavbarProfileBtn);
+    await super.waitForTimeout(500);
   }
 
   public async isFooterDisplayed(): Promise<void> {

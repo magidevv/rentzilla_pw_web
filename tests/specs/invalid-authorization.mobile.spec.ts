@@ -3,11 +3,13 @@ import authorizationData from "../../utils/authorization-data.json";
 import messagesData from "../../utils/messages-data.json";
 
 test.describe("Authorization w/ invalid credentials", () => {
-  test.beforeEach(async ({ mainPage, headerPage }) => {
+  test.beforeEach(async ({ mainPage, profilePage, footerPage }) => {
     // Open the «Rentzila» main page
     await mainPage.openMainURL();
+    await profilePage.closeTelegramPopup();
+    
     // Click on the "Вхід" button
-    await headerPage.clickHeaderLoginBtn();
+    await footerPage.tapMobileProfileBtn();
   });
 
   test("C576: Authorization with invalid email", async ({ mainPage }) => {
@@ -16,7 +18,7 @@ test.describe("Authorization w/ invalid credentials", () => {
       await mainPage.fillLoginEmailField(authorizationData.Invalid.emails[i]);
       await mainPage.fillLoginPasswordField(authorizationData.Valid.password);
       if (i === 0) {
-        await mainPage.clickLoginBtn();
+        await mainPage.tapLoginBtn();
       } else {
         await mainPage.pressPasswordFieldEnter();
       }
@@ -32,7 +34,7 @@ test.describe("Authorization w/ invalid credentials", () => {
       await mainPage.fillLoginEmailField(authorizationData.NonExistent.email);
       await mainPage.fillLoginPasswordField(authorizationData.Valid.password);
       if (i === 0) {
-        await mainPage.clickLoginBtn();
+        await mainPage.tapLoginBtn();
       } else {
         await mainPage.pressPasswordFieldEnter();
       }
@@ -52,7 +54,7 @@ test.describe("Authorization w/ invalid credentials", () => {
         authorizationData.Invalid.passwords[i]
       );
       if (i === 0) {
-        await mainPage.clickLoginBtn();
+        await mainPage.tapLoginBtn();
       } else {
         await mainPage.pressPasswordFieldEnter();
       }
@@ -70,7 +72,7 @@ test.describe("Authorization w/ invalid credentials", () => {
         authorizationData.NonExistent.password
       );
       if (i === 0) {
-        await mainPage.clickLoginBtn();
+        await mainPage.tapLoginBtn();
       } else {
         await mainPage.pressPasswordFieldEnter();
       }
