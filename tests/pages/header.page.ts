@@ -3,6 +3,10 @@ import BasePage from "./base-page";
 
 const logo: string = "//div[@data-testid='Navbar']//div[@data-testid='logo']";
 const mobileNavbarBtn: string = "div[class^=NavbarMobile_burger]>button";
+const mobileNavbarClose: string =
+  "[class^='BurgerMobileMenu']>[data-testid='crossIcon']";
+const mobileNavbarCatalogClose: string =
+  "[class^='Catalog']>[data-testid='crossIcon']";
 const unitLink: string = "//a[contains(@class, 'Navbar_link')][1]";
 const catalogBtn: string = "//div[contains(@class, 'NavbarCatalog_wrapper')]";
 const catalogDropdown: string = "//div[contains(@class, 'Catalog_container')]";
@@ -10,10 +14,13 @@ const catalogSpecialMachinery: string =
   "//div[contains(@class, 'Catalog_container')]/div/div[contains(@class, 'Catalog_parent')][1]";
 const catalogServices: string =
   "//div[contains(@class, 'Catalog_container')]/div/div[contains(@class, 'Catalog_parent')][2]";
+const mobileCatalogBackBtn: string = "[class^='Catalog_back']";
 const catalogItems: string =
   "//div[contains(@class, 'Catalog_container')]/div/div[contains(@class, 'CatalogItem_item')]";
 const catalogSecondItems: string =
   "//div[contains(@class, 'Catalog_container')]/div[contains(@class, 'Catalog_listSecond')][1]/div[contains(@class, 'CatalogItem_item')]";
+const mobileCatalogSecondItems: string =
+  "//div[contains(@class, 'Catalog_container')]/div[contains(@class, 'Catalog_list')][3]/div[contains(@class, 'CatalogItem_item')]";
 const headerLoginBtn: string =
   "//div[contains(@class, 'NavbarAuthBlock_buttonEnter')]";
 const navbarUserIcon: string = "//div[@data-testid='avatarBlock']";
@@ -46,6 +53,19 @@ class HeaderPage extends BasePage {
     await super.tap(mobileNavbarBtn);
   }
 
+  public async tapMobileNavbarOnce(): Promise<void> {
+    await super.tap(mobileNavbarBtn);
+  }
+
+  public async closeMobileNavbar(): Promise<void> {
+    await super.tap(mobileNavbarClose);
+    await super.waitForTimeout(2000);
+  }
+
+  public async closeMobileNavbarCatalog(): Promise<void> {
+    await super.tap(mobileNavbarCatalogClose);
+  }
+
   public async clickUnitsLink(): Promise<void> {
     await super.click(unitLink);
     await super.waitForLoad();
@@ -57,6 +77,14 @@ class HeaderPage extends BasePage {
 
   public async clickCatalogBtn(): Promise<void> {
     await super.click(catalogBtn);
+  }
+
+  public async tapCatalogBtn(): Promise<void> {
+    await super.tap(catalogBtn);
+  }
+
+  public async tapCatalogBackBtn(): Promise<void> {
+    await super.tap(mobileCatalogBackBtn);
   }
 
   public async areCatalogElementsDisplayed(
@@ -72,6 +100,10 @@ class HeaderPage extends BasePage {
 
   public async hoverCatalogSpecialMachinery(): Promise<void> {
     await super.hover(catalogSpecialMachinery);
+  }
+
+  public async tapCatalogSpecialMachinery(): Promise<void> {
+    await super.tap(catalogSpecialMachinery);
   }
 
   public async areCatalogSpecialMachineryItemsDisplayed(
@@ -99,6 +131,13 @@ class HeaderPage extends BasePage {
     await super.waitForLoad();
   }
 
+  public async tapCatalogSpecialMachineryItem(
+    countItem: number
+  ): Promise<void> {
+    await super.tap(catalogItems + `[${countItem + 1}]`);
+    await super.waitForLoad();
+  }
+
   public async hoverCatalogSpecialMachineryItem(
     countItem: number
   ): Promise<void> {
@@ -113,8 +152,19 @@ class HeaderPage extends BasePage {
     await super.waitForLoad();
   }
 
+  public async tapCatalogSpecialMachinerySecondItem(
+    countItem: number
+  ): Promise<void> {
+    await super.tap(mobileCatalogSecondItems + `[${countItem + 1}]`);
+    await super.waitForLoad();
+  }
+
   public async hoverCatalogServices(): Promise<void> {
     await super.hover(catalogServices);
+  }
+
+  public async clickCatalogServices(): Promise<void> {
+    await super.click(catalogServices);
   }
 
   public async areCatalogServicesItemsDisplayed(
@@ -128,6 +178,11 @@ class HeaderPage extends BasePage {
 
   public async hoverCatalogServicesItem(countItem: number): Promise<void> {
     await super.hover(catalogItems + `[${countItem + 1}]`);
+    await super.waitForLoad();
+  }
+
+  public async clickCatalogServicesItem(countItem: number): Promise<void> {
+    await super.click(catalogItems + `[${countItem + 1}]`);
     await super.waitForLoad();
   }
 
