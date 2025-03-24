@@ -1,0 +1,11 @@
+{
+  "name": "Sample name",
+  "description": "This is a sample sample sample sample sample sample tender created via API.",
+  "lat": 50.453,
+  "lng": 30.516,
+  "start_price": 10000,
+  "currency": "UAH",
+  "type_of_work": "HOUR",
+  "time_of_work": "EIGHT",
+  "services": [{ "name": "Асфальтування" }]
+}
